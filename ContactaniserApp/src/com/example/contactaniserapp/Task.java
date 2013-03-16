@@ -3,7 +3,7 @@ package com.example.contactaniserapp;
 import java.util.Date;
 
 public class Task {
-	private int tid;
+	private long tid;
 	private int pid;
 	private String taskName;
 	private String description;
@@ -17,11 +17,11 @@ public class Task {
 		return taskName;
 	}
 	
-	public int getTid() {
+	public long getTid() {
 		return tid;
 	}
 	
-	public void setTid(int tid) {
+	public void setTid(long tid) {
 		this.tid = tid;
 	}
 	

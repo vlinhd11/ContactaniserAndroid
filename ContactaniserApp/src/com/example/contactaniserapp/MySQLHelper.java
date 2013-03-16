@@ -9,6 +9,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 
 	  public static final String TABLE_TASKS = "tasks";
 	  public static final String COLUMN_ID = "_tid";
+	  //TODO Foreign key pid
 	  //public static final String COLUMN_PID = "pid";
 	  public static final String COLUMN_TASKNAME = "taskname";
 	  public static final String COLUMN_DESCRIPTION = "description";
