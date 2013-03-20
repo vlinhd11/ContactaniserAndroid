@@ -14,12 +14,13 @@ public class TaskDataSource {
 	// Database fields
 	private SQLiteDatabase database;
 	private MySQLHelper dbHelper;
-	private String[] allColumns = { MySQLHelper.COLUMN_ID, 
+	private String[] allColumns = { MySQLHelper.COLUMN_TID, 
+			MySQLHelper.COLUMN_TASKPID,
 			MySQLHelper.COLUMN_TASKNAME,
 			MySQLHelper.COLUMN_DESCRIPTION,
 			MySQLHelper.COLUMN_CREATOR,
-			MySQLHelper.COLUMN_DUEDATE,
-			MySQLHelper.COLUMN_DUEDATE};
+			MySQLHelper.COLUMN_TASKDUEDATE,
+			MySQLHelper.COLUMN_IMPORTANCELEVEL};
 
 	public TaskDataSource(Context context) {
 		dbHelper = new MySQLHelper(context);
@@ -39,18 +40,18 @@ public class TaskDataSource {
 	    long insertId = database.insert(MySQLHelper.TABLE_TASKS, null,
 	        values);
 	    Cursor cursor = database.query(MySQLHelper.TABLE_TASKS,
-	        allColumns, MySQLHelper.COLUMN_ID + " = " + insertId, null,
+	        allColumns, MySQLHelper.COLUMN_TID + " = " + insertId, null,
 	        null, null, null);
 	    cursor.moveToFirst();
 	    Task newTask = cursorToTask(cursor);
 	    cursor.close();
 	    return newTask;
 	}
-	////////////
+
 	public void deleteTask(Task task) {
 		long id = task.getTid();
-		System.out.println("Comment deleted with id: " + id);
-		database.delete(MySQLHelper.TABLE_TASKS, MySQLHelper.COLUMN_ID
+		System.out.println("Task deleted with id: " + id);
+		database.delete(MySQLHelper.TABLE_TASKS, MySQLHelper.COLUMN_TID
 		    + " = " + id, null);
 	}
 
@@ -74,9 +75,13 @@ public class TaskDataSource {
 	private Task cursorToTask(Cursor cursor) {
 		Task task = new Task();
 		task.setTid(cursor.getLong(0));
-		//task.setTaskName(cursor.getString(1));
+		task.setPid(cursor.getLong(1));
+		task.setTaskName(cursor.getString(2));
+		task.setDescription(cursor.getString(3));
+		task.setCreator(cursor.getString(4));
+		task.setDueDate(cursor.getString(5));
+		task.setPid(cursor.getInt(6));
 		return task;
 	}
 	
-	////////////
 }

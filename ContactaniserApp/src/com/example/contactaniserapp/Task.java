@@ -1,14 +1,12 @@
 package com.example.contactaniserapp;
 
-import java.util.Date;
-
 public class Task {
 	private long tid;
-	private int pid;
+	private long taskPid;
 	private String taskName;
 	private String description;
 	private String creator;
-	private Date dueDate;
+	private String dueDate;
 	private int importanceLevel;
 	
 	//Will be used by array adapter in the list view
@@ -25,12 +23,12 @@ public class Task {
 		this.tid = tid;
 	}
 	
-	public int getPid() {
-		return pid;
+	public long gettaskPid() {
+		return taskPid;
 	}
 	
-	public void setPid(int pid) {
-		this.pid = pid;
+	public void setPid(long taskPid) {
+		this.taskPid = taskPid;
 	}
 	
 	public String getTaskName() {
@@ -57,11 +55,11 @@ public class Task {
 		this.creator = creator;
 	}
 	
-	public Date getDueDate() {
+	public String getDueDate() {
 		return dueDate;
 	}
 	
-	public void setDueDate(Date dueDate) {
+	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
 	}
 	
