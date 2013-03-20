@@ -50,16 +50,17 @@ public class TaskDataSource {
 
 	public void deleteTask(Task task) {
 		long id = task.getTid();
-		System.out.println("Task deleted with id: " + id);
 		database.delete(MySQLHelper.TABLE_TASKS, MySQLHelper.COLUMN_TID
 		    + " = " + id, null);
 	}
 
-	public List<Task> getAllTasks() {
+
+	public List<Task> getAllTasks(String pid) {
 		List<Task> tasks = new ArrayList<Task>();
 
+		//Retrieve all tasks with the pid given
 		Cursor cursor = database.query(MySQLHelper.TABLE_TASKS,
-		    allColumns, null, null, null, null, null);
+		    allColumns, MySQLHelper.COLUMN_TASKPID + " = " + pid, null, null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
