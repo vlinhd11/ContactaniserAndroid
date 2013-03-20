@@ -23,12 +23,21 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_TASKDUEDATE = "duedate";
 	public static final String COLUMN_IMPORTANCELEVEL = "importancelevel";
 	
+	//Logs
+	
 	
 	private static final String DATABASE_NAME = "commments.db";
 	private static final int DATABASE_VERSION = 1;
 
 	// Database creation sql statement
-	private static final String DATABASE_CREATE = "create table "
+	
+	private static final String DATABASE_CREATE_PROJECTS = "create table "
+			+ TABLE_PROJECTS + "("
+	  		+ COLUMN_PID + " integer not null, "
+			+ COLUMN_STARTDATE + " text not null, " 
+			+ COLUMN_PROJECTDUEDATE + " text not null)";
+	
+	private static final String DATABASE_CREATE_TASKS = "create table "
 			+ TABLE_TASKS + "(" + COLUMN_TID + " integer primary key autoincrement, "
 			+ COLUMN_TASKPID + " integer not null, "
 			+ COLUMN_TASKNAME + " text not null, " 
@@ -36,15 +45,16 @@ public class MySQLHelper extends SQLiteOpenHelper {
 			+ COLUMN_CREATOR + "text not null, "
 			+ COLUMN_TASKDUEDATE + "text not null, "
 			+ COLUMN_IMPORTANCELEVEL + "text not null, "
-	  		+ COLUMN_IMPORTANCELEVEL + "text not null);";
-
+	  		+ COLUMN_IMPORTANCELEVEL + "text not null)";
+	
 	public MySQLHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-	    database.execSQL(DATABASE_CREATE);
+		database.execSQL(DATABASE_CREATE_PROJECTS);
+		database.execSQL(DATABASE_CREATE_TASKS);
 	}
 
 	@Override
@@ -53,6 +63,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 				"Upgrading database from version " + oldVersion + " to "
 	            + newVersion + ", which will destroy all old data");
 	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
+	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROJECTS);
 	    onCreate(db);
 	}
 }
