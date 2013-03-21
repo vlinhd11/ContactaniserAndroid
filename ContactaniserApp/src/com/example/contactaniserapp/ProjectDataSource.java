@@ -14,9 +14,11 @@ public class ProjectDataSource {
 	// Database fields
 	private SQLiteDatabase database;
 	private MySQLHelper dbHelper;
-	private String[] allColumns = { MySQLHelper.COLUMN_PID, 
-			MySQLHelper.COLUMN_STARTDATE,
-			MySQLHelper.COLUMN_PROJECTDUEDATE,};
+	private String[] allColumns = { MySQLHelper.COLUMN_PROJECTID, 
+			MySQLHelper.COLUMN_PROJECTNAME,
+			MySQLHelper.COLUMN_PROJECTDESCRIPTION,
+			MySQLHelper.COLUMN_PROJECTSTARTDATE,
+			MySQLHelper.COLUMN_PROJECTDUEDATE};
 
 	public ProjectDataSource(Context context) {
 		dbHelper = new MySQLHelper(context);
@@ -32,14 +34,28 @@ public class ProjectDataSource {
 
 	//TODO add create project
 	
+	public Project createProject(String project) {
+		ContentValues values = new ContentValues();
+		values.put(MySQLHelper.COLUMN_PROJECTNAME,project);
+	    long insertId = database.insert(MySQLHelper.TABLE_PROJECTS, null,
+	        values);
+	    Cursor cursor = database.query(MySQLHelper.TABLE_PROJECTS,
+	        allColumns, MySQLHelper.COLUMN_PROJECTID + " = " + insertId, null,
+	        null, null, null);
+	    cursor.moveToFirst();
+	    Project newProject = cursorToProject(cursor);
+	    cursor.close();
+	    return newProject;
+	}
+	
 	public void deleteProject(Project project) {
-		String id = project.getPid();
-		database.delete(MySQLHelper.TABLE_PROJECTS, MySQLHelper.COLUMN_PID
+		long id = project.getProjectid();
+		database.delete(MySQLHelper.TABLE_PROJECTS, MySQLHelper.COLUMN_PROJECTID
 		    + " = " + id, null);
 	}
 
 
-	public List<Project> getAllProjects(String pid) {
+	public List<Project> getAllProjects() {
 		List<Project> projects = new ArrayList<Project>();
 
 		//Retrieve all project
@@ -59,9 +75,11 @@ public class ProjectDataSource {
 
 	private Project cursorToProject(Cursor cursor) {
 		Project project = new Project();
-		project.setPid(cursor.getString(0));
-		project.setStartDate(cursor.getString(1));
-		project.setDueDate(cursor.getString(2));	
+		project.setProjectid(cursor.getInt(0));
+		project.setProjectName(cursor.getString(1));
+		project.setProjectDescription(cursor.getString(2));
+		project.setProjectStartDate(cursor.getString(3));
+		project.setProjectDueDate(cursor.getString(4));	
 		return project;
 	}
 }

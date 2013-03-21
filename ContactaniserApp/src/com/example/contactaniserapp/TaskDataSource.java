@@ -14,13 +14,15 @@ public class TaskDataSource {
 	// Database fields
 	private SQLiteDatabase database;
 	private MySQLHelper dbHelper;
-	private String[] allColumns = { MySQLHelper.COLUMN_TID, 
-			MySQLHelper.COLUMN_TASKPID,
+	private String[] allColumns = { MySQLHelper.COLUMN_TASKID, 
+			MySQLHelper.COLUMN_TASKPROJECTFID,
 			MySQLHelper.COLUMN_TASKNAME,
-			MySQLHelper.COLUMN_DESCRIPTION,
-			MySQLHelper.COLUMN_CREATOR,
+			MySQLHelper.COLUMN_TASKDESCRIPTION,
+			MySQLHelper.COLUMN_TASKIMPORTANCELEVEL,
 			MySQLHelper.COLUMN_TASKDUEDATE,
-			MySQLHelper.COLUMN_IMPORTANCELEVEL};
+			MySQLHelper.COLUMN_TASKCOMPLETION};
+	
+	
 
 	public TaskDataSource(Context context) {
 		dbHelper = new MySQLHelper(context);
@@ -40,7 +42,7 @@ public class TaskDataSource {
 	    long insertId = database.insert(MySQLHelper.TABLE_TASKS, null,
 	        values);
 	    Cursor cursor = database.query(MySQLHelper.TABLE_TASKS,
-	        allColumns, MySQLHelper.COLUMN_TID + " = " + insertId, null,
+	        allColumns, MySQLHelper.COLUMN_TASKID + " = " + insertId, null,
 	        null, null, null);
 	    cursor.moveToFirst();
 	    Task newTask = cursorToTask(cursor);
@@ -49,8 +51,8 @@ public class TaskDataSource {
 	}
 
 	public void deleteTask(Task task) {
-		long id = task.getTid();
-		database.delete(MySQLHelper.TABLE_TASKS, MySQLHelper.COLUMN_TID
+		long id = task.getTaskid();
+		database.delete(MySQLHelper.TABLE_TASKS, MySQLHelper.COLUMN_TASKID
 		    + " = " + id, null);
 	}
 
@@ -60,7 +62,7 @@ public class TaskDataSource {
 
 		//Retrieve all tasks with the pid given
 		Cursor cursor = database.query(MySQLHelper.TABLE_TASKS,
-		    allColumns, MySQLHelper.COLUMN_TASKPID + " = " + pid, null, null, null, null);
+		    allColumns, MySQLHelper.COLUMN_TASKPROJECTFID + " = " + pid, null, null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -75,13 +77,14 @@ public class TaskDataSource {
 
 	private Task cursorToTask(Cursor cursor) {
 		Task task = new Task();
-		task.setTid(cursor.getLong(0));
-		task.setPid(cursor.getLong(1));
+		task.setTaskid(cursor.getInt(0));
+		task.setTaskProjectid(cursor.getInt(1));
 		task.setTaskName(cursor.getString(2));
-		task.setDescription(cursor.getString(3));
-		task.setCreator(cursor.getString(4));
-		task.setDueDate(cursor.getString(5));
-		task.setPid(cursor.getInt(6));
+		task.setTaskDescription(cursor.getString(3));
+		task.setTaskImportanceLevel(cursor.getInt(4));
+		task.setTaskDueDate(cursor.getString(5));
+		task.setTaskCompletion(cursor.getString(6));
+		
 		return task;
 	}
 	

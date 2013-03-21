@@ -1,13 +1,13 @@
 package com.example.contactaniserapp;
 
 public class Task {
-	private long tid;
-	private long taskPid;
+	private int taskid;
+	private int taskProjectid;
 	private String taskName;
-	private String description;
-	private String creator;
-	private String dueDate;
-	private int importanceLevel;
+	private String taskdescription;
+	private int taskimportancelevel;
+	private String taskdueDate;
+	private String taskcompletion;
 	
 	//Will be used by array adapter in the list view
 	@Override
@@ -15,20 +15,20 @@ public class Task {
 		return taskName;
 	}
 	
-	public long getTid() {
-		return tid;
+	public long getTaskid() {
+		return taskid;
 	}
 	
-	public void setTid(long tid) {
-		this.tid = tid;
+	public void setTaskid(int taskid) {
+		this.taskid = taskid;
 	}
 	
-	public long gettaskPid() {
-		return taskPid;
+	public long getTaskProjectid() {
+		return taskProjectid;
 	}
 	
-	public void setPid(long taskPid) {
-		this.taskPid = taskPid;
+	public void setTaskProjectid(int taskProjectid) {
+		this.taskProjectid = taskProjectid;
 	}
 	
 	public String getTaskName() {
@@ -39,36 +39,36 @@ public class Task {
 		this.taskName = taskName;
 	}
 	
-	public String getDescription() {
-		return description;
+	public String getTaskDescription() {
+		return taskdescription;
 	}
 	
-	public void setDescription(String description) {
-		this.description = description;
+	public void setTaskDescription(String taskdescription) {
+		this.taskdescription = taskdescription;
 	}
 	
-	public String getCreator() {
-		return creator;
+	public int getTaskImportanceLevel() {
+		return taskimportancelevel;
 	}
 	
-	public void setCreator(String creator) {
-		this.creator = creator;
+	public void setTaskImportanceLevel(int taskimportancelevel){
+		this.taskimportancelevel = taskimportancelevel;
 	}
 	
-	public String getDueDate() {
-		return dueDate;
+	public String getTaskDueDate() {
+		return taskdueDate;
 	}
 	
-	public void setDueDate(String dueDate) {
-		this.dueDate = dueDate;
+	public void setTaskDueDate(String taskdueDate) {
+		this.taskdueDate = taskdueDate;
 	}
 	
-	public int getImportanceLevel() {
-		return importanceLevel;
+	public String getTaskCompletion() {
+		return taskcompletion;
 	}
 	
-	public void setImportanceLevel(int importanceLevel) {
-		this.importanceLevel = importanceLevel;
+	public void setTaskCompletion(String taskcompletion) {
+		this.taskcompletion = taskcompletion;
 	}
 
 	
