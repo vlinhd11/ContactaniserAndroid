@@ -34,9 +34,12 @@ public class LogsDataSource {
 			dbHelper.close();
 		}
 		
-		public Logs createLogs(String logs) {
-			ContentValues values = new ContentValues();
-			values.put(MySQLHelper.COLUMN_LOGDESCRIPTION,logs);
+		public Logs createLogs(int logtaskfid, int loguserfid, String datetime, String description) {
+			ContentValues values = new ContentValues(); 
+			values.put(MySQLHelper.COLUMN_LOGTASKFID, logtaskfid);
+			values.put(MySQLHelper.COLUMN_LOGUSERFID, loguserfid);
+			values.put(MySQLHelper.COLUMN_LOGDATETIME, datetime);
+			values.put(MySQLHelper.COLUMN_LOGDESCRIPTION, description);
 		    long insertId = database.insert(MySQLHelper.TABLE_LOGS, null,
 		        values);
 		    Cursor cursor = database.query(MySQLHelper.TABLE_LOGS,
@@ -83,4 +86,23 @@ public class LogsDataSource {
 		
 			return logs;
 		}
+		
+		/* if Logs have update use this
+		
+		public Logs updateLogs(long rowId, int logtaskfid, int loguserfid, String datetime, String description) {
+			ContentValues values = new ContentValues(); 
+			values.put(MySQLHelper.COLUMN_LOGTASKFID, logtaskfid);
+			values.put(MySQLHelper.COLUMN_LOGUSERFID, loguserfid);
+			values.put(MySQLHelper.COLUMN_LOGDATETIME, datetime);
+			values.put(MySQLHelper.COLUMN_LOGDESCRIPTION, description);
+			long insertId = database.update(MySQLHelper.TABLE_LOGS, values, MySQLHelper.COLUMN_LOGID + "=" + rowId,null);
+		    Cursor cursor = database.query(MySQLHelper.TABLE_LOGS,
+		        allColumns, MySQLHelper.COLUMN_LOGID + " = " + insertId, null,
+		        null, null, null);
+		    cursor.moveToFirst();
+		    Logs newLogs = cursorToLogs(cursor);
+		    cursor.close();
+		    return newLogs;
+	    } */
+
 }

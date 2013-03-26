@@ -34,9 +34,14 @@ public class ProjectDataSource {
 
 	//TODO add create project
 	
-	public Project createProject(String project) {
+	public Project createProject(String name, String description, String startdate, String duedate) {
 		ContentValues values = new ContentValues();
-		values.put(MySQLHelper.COLUMN_PROJECTNAME,project);
+		values.put(MySQLHelper.COLUMN_PROJECTNAME, name);
+		values.put(MySQLHelper.COLUMN_PROJECTDESCRIPTION, description);
+		values.put(MySQLHelper.COLUMN_PROJECTSTARTDATE, startdate);
+		values.put(MySQLHelper.COLUMN_PROJECTDUEDATE, duedate);
+		
+		
 	    long insertId = database.insert(MySQLHelper.TABLE_PROJECTS, null,
 	        values);
 	    Cursor cursor = database.query(MySQLHelper.TABLE_PROJECTS,
@@ -82,4 +87,21 @@ public class ProjectDataSource {
 		project.setProjectDueDate(cursor.getString(4));	
 		return project;
 	}
+	
+	public Project updateProject(long rowId, String name, String description, String startdate, String duedate) {
+		ContentValues values = new ContentValues();
+		values.put(MySQLHelper.COLUMN_PROJECTNAME, name);
+		values.put(MySQLHelper.COLUMN_PROJECTDESCRIPTION, description);
+		values.put(MySQLHelper.COLUMN_PROJECTSTARTDATE, startdate);
+		values.put(MySQLHelper.COLUMN_PROJECTDUEDATE, duedate);
+		
+	    long insertId = database.update(MySQLHelper.TABLE_PROJECTS, values, MySQLHelper.COLUMN_PROJECTID + "=" + rowId,null);
+	    Cursor cursor = database.query(MySQLHelper.TABLE_PROJECTS,
+	        allColumns, MySQLHelper.COLUMN_PROJECTID + " = " + insertId, null,
+	        null, null, null);
+	    cursor.moveToFirst();
+	    Project newProject = cursorToProject(cursor);
+	    cursor.close();
+	    return newProject;
+    }
 }

@@ -13,8 +13,8 @@ public class User_ProjectDataSource {
 	// Database fields
 				private SQLiteDatabase database;
 				private MySQLHelper dbHelper;
-				private String[] allColumns = { MySQLHelper.COLUMN_USERTASKUSERFID, 
-						MySQLHelper.COLUMN_USERTASKTASKFID};
+				private String[] allColumns = { MySQLHelper.COLUMN_USERPROJECTUSERFID, 
+						MySQLHelper.COLUMN_USERPROJECTPROJECTFID, MySQLHelper.COLUMN_ROLE};
 				
 
 				public User_ProjectDataSource(Context context) {
@@ -29,14 +29,17 @@ public class User_ProjectDataSource {
 					dbHelper.close();
 				}
 				
-				public User_Project createUser_Project(String user_project) {
+				public User_Project createUser_Project(int utufid, int uttfid, String role) {
 					ContentValues values = new ContentValues();
-					values.put(MySQLHelper.COLUMN_ROLE,user_project);
-				    long insertId = database.insert(MySQLHelper.TABLE_USER_TASK, null,
-				        values);
-				    Cursor cursor = database.query(MySQLHelper.TABLE_USER_TASK,
+					values.put(MySQLHelper.COLUMN_USERPROJECTUSERFID, utufid); 
+					values.put(MySQLHelper.COLUMN_USERPROJECTPROJECTFID, uttfid);
+					values.put(MySQLHelper.COLUMN_ROLE,role);
+				    long insertId = database.insert(MySQLHelper.TABLE_USER_PROJECT, null,
+					        values);
+				    Cursor cursor = database.query(MySQLHelper.TABLE_USER_PROJECT,
 				        allColumns, MySQLHelper.COLUMN_USERPROJECTUSERFID + " = " + insertId, null,
 				        null, null, null);
+				   
 				    cursor.moveToFirst();
 				    User_Project newUser_Project = cursorToUser_Project(cursor);
 				    cursor.close();
@@ -45,7 +48,7 @@ public class User_ProjectDataSource {
 
 				public void deleteUser_Task(Logs logs) {
 					long id = logs.getLogid();
-					database.delete(MySQLHelper.TABLE_USER_TASK, MySQLHelper.COLUMN_USERPROJECTUSERFID
+					database.delete(MySQLHelper.TABLE_USER_PROJECT, MySQLHelper.COLUMN_USERPROJECTUSERFID
 					    + " = " + id, null);
 				}
 
@@ -54,7 +57,7 @@ public class User_ProjectDataSource {
 					List<User_Project> User_Projects = new ArrayList<User_Project>();
 
 					//Retrieve all tasks with the tid and pid given
-					Cursor cursor = database.query(MySQLHelper.TABLE_LOGS,
+					Cursor cursor = database.query(MySQLHelper.TABLE_USER_PROJECT,
 					    allColumns, MySQLHelper.COLUMN_USERPROJECTUSERFID + " = " + uid + " AND " + MySQLHelper.COLUMN_USERPROJECTPROJECTFID + " = " + pid, null, null, null, null);
 
 					cursor.moveToFirst();

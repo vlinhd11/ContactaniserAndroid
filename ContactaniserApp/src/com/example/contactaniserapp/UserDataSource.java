@@ -33,9 +33,13 @@ public class UserDataSource {
 			dbHelper.close();
 		}
 		
-		public User createUser(String task) {
+		public User createUser(String user_username, String username, int phonenumber, String email, String password) {
 			ContentValues values = new ContentValues();
-			values.put(MySQLHelper.COLUMN_USERNAME,task);
+			values.put(MySQLHelper.COLUMN_USER_USERNAME, user_username);
+			values.put(MySQLHelper.COLUMN_USERNAME, username);
+			values.put(MySQLHelper.COLUMN_USERPHONENUMBER, phonenumber);
+			values.put(MySQLHelper.COLUMN_USEREMAIL, email);
+			values.put(MySQLHelper.COLUMN_USERPASSWORD, password);
 		    long insertId = database.insert(MySQLHelper.TABLE_USER, null,
 		        values);
 		    Cursor cursor = database.query(MySQLHelper.TABLE_USER,

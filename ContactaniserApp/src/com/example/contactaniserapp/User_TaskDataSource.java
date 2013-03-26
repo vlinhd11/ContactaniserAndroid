@@ -30,9 +30,10 @@ public class User_TaskDataSource {
 				dbHelper.close();
 			}
 			
-			public User_Task createUser_Task(String user_task) {
+			public User_Task createUser_Task(int user_task, int task_task) {
 				ContentValues values = new ContentValues();
 				values.put(MySQLHelper.COLUMN_USERTASKUSERFID,user_task);
+				values.put(MySQLHelper.COLUMN_USERTASKTASKFID, task_task);
 			    long insertId = database.insert(MySQLHelper.TABLE_USER_TASK, null,
 			        values);
 			    Cursor cursor = database.query(MySQLHelper.TABLE_USER_TASK,

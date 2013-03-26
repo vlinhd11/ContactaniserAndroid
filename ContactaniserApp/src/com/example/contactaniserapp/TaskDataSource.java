@@ -36,9 +36,14 @@ public class TaskDataSource {
 		dbHelper.close();
 	}
 	
-	public Task createTask(String task) {
+	public Task createTask(int projectfid, String name, String description, int importancelevel, String duedate, String completion) {
 		ContentValues values = new ContentValues();
-		values.put(MySQLHelper.COLUMN_TASKNAME,task);
+		values.put(MySQLHelper.COLUMN_TASKPROJECTFID, projectfid);
+		values.put(MySQLHelper.COLUMN_TASKNAME, name);
+		values.put(MySQLHelper.COLUMN_TASKDESCRIPTION, description);
+		values.put(MySQLHelper.COLUMN_TASKIMPORTANCELEVEL, importancelevel);
+		values.put(MySQLHelper.COLUMN_TASKDUEDATE, duedate);
+		values.put(MySQLHelper.COLUMN_TASKCOMPLETION, completion);
 	    long insertId = database.insert(MySQLHelper.TABLE_TASKS, null,
 	        values);
 	    Cursor cursor = database.query(MySQLHelper.TABLE_TASKS,
@@ -87,5 +92,23 @@ public class TaskDataSource {
 		
 		return task;
 	}
+	
+	public Task updateTask(long rowId, int projectfid, String name, String description, int importancelevel, String duedate, String completion) {
+		ContentValues values = new ContentValues();
+		values.put(MySQLHelper.COLUMN_TASKPROJECTFID, projectfid);
+		values.put(MySQLHelper.COLUMN_TASKNAME, name);
+		values.put(MySQLHelper.COLUMN_TASKDESCRIPTION, description);
+		values.put(MySQLHelper.COLUMN_TASKIMPORTANCELEVEL, importancelevel);
+		values.put(MySQLHelper.COLUMN_TASKDUEDATE, duedate);
+		values.put(MySQLHelper.COLUMN_TASKCOMPLETION, completion);
+		long insertId = database.update(MySQLHelper.TABLE_TASKS, values, MySQLHelper.COLUMN_TASKID + "=" + rowId,null);
+	    Cursor cursor = database.query(MySQLHelper.TABLE_TASKS,
+	        allColumns, MySQLHelper.COLUMN_TASKID + " = " + insertId, null,
+	        null, null, null);
+	    cursor.moveToFirst();
+	    Task newTask = cursorToTask(cursor);
+	    cursor.close();
+	    return newTask;
+    }
 	
 }
