@@ -26,7 +26,7 @@ public class LoginActivity extends Activity {
 	 * TODO: remove after connecting to a real authentication system.
 	 */
 	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world" };
+			"a:b", "c:d" };
 
 	/**
 	 * The default email to populate the email field with.
@@ -201,7 +201,9 @@ public class LoginActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
-
+			
+			boolean pwMatch = false;
+			
 			try {
 				// Simulate network access.
 				Thread.sleep(2000);
@@ -213,12 +215,13 @@ public class LoginActivity extends Activity {
 				String[] pieces = credential.split(":");
 				if (pieces[0].equals(mUsername)) {
 					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
+					if (pieces[1].equals(mPassword)){
+						pwMatch = true;
+					}
 				}
 			}
-
-			// TODO: register the new account here.
-			return true;
+			
+			return pwMatch;
 		}
 
 		@Override
@@ -227,6 +230,7 @@ public class LoginActivity extends Activity {
 			showProgress(false);
 
 			if (success) {
+				ContinueToProjects();
 				finish();
 			} else {
 				mPasswordView
@@ -240,5 +244,9 @@ public class LoginActivity extends Activity {
 			mAuthTask = null;
 			showProgress(false);
 		}
+	}
+	
+	private void ContinueToProjects() {
+		startActivity(new Intent(this, MainActivity.class));
 	}
 }

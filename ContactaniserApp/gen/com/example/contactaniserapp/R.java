@@ -24,7 +24,6 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_forgot_password=0x7f08000e;
         public static final int action_settings=0x7f08000d;
         public static final int btnChange=0x7f080002;
         public static final int login=0x7f080009;
@@ -32,7 +31,7 @@ public final class R {
         public static final int login_status=0x7f080004;
         public static final int login_status_message=0x7f080005;
         public static final int menu_change_password=0x7f08000c;
-        public static final int menu_settings=0x7f08000b;
+        public static final int menu_logoff=0x7f08000b;
         public static final int password=0x7f080008;
         public static final int sign_in_button=0x7f08000a;
         public static final int txtConfirmPwd=0x7f080003;
@@ -61,9 +60,13 @@ public final class R {
         public static final int error_incorrect_password=0x7f050014;
         public static final int error_invalid_email=0x7f050012;
         public static final int error_invalid_password=0x7f050013;
+        public static final int exit=0x7f05001d;
+        public static final int exit_confirmation=0x7f05001a;
         public static final int hello_world=0x7f050001;
         public static final int login_progress_signing_in=0x7f050011;
+        public static final int menu_logoff=0x7f050019;
         public static final int menu_settings=0x7f050002;
+        public static final int no=0x7f05001c;
         public static final int ok=0x7f050008;
         public static final int password_no_match=0x7f050016;
         public static final int password_not_new=0x7f050017;
@@ -76,6 +79,7 @@ public final class R {
         public static final int pwd_old=0x7f050004;
         public static final int title_activity_change_password=0x7f05000a;
         public static final int title_activity_login=0x7f050018;
+        public static final int yes=0x7f05001b;
     }
     public static final class style {
         /** 

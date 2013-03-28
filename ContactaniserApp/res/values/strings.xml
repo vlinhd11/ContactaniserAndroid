@@ -27,6 +27,11 @@
     <string name="password_no_match">Confirmation doesn\'t match.</string>
     <string name="password_not_new">New password is the same as the old one!</string>
     <string name="title_activity_login">Login</string>
+    <string name="menu_logoff">Log Off</string>
+    <string name="exit_confirmation">Exit Contactaniser?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="exit">Exit</string>
     
 
 </resources>

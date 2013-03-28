@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -93,7 +94,7 @@ public class ChangePassword extends Activity {
 		InfoDialog feedback = new InfoDialog();
 		feedback.dialogMessage = "Password sucessfully changed.";
 		feedback.show(getFragmentManager(), WINDOW_SERVICE);
-//		startActivity(new Intent(this, MainActivity.class));
+		startActivity(new Intent(this, MainActivity.class));
 	}
 
 }
