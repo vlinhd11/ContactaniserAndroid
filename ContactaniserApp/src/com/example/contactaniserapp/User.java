@@ -6,7 +6,6 @@ public class User {
 	private String username;
 	private int userphonenumber;
 	private String useremail;
-	private String userpassword;
 	
 	//Will be used by array adapter in the list view
 	@Override
@@ -54,12 +53,5 @@ public class User {
 		this.useremail = useremail;
 	}
 	
-	public String getUserPassword() {
-		return userpassword;
-	}
-	
-	public void setUserPassword(String userpassword) {
-		this.userpassword = userpassword;
-	}
 }
 

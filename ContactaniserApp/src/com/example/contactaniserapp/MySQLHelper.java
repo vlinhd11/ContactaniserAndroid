@@ -32,7 +32,6 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_USERNAME ="username";
 	public static final String COLUMN_USERPHONENUMBER ="userphonenumber";
 	public static final String COLUMN_USEREMAIL ="useremail";
-	public static final String COLUMN_USERPASSWORD ="userpassword";
 	
 	//Logs
 	public static final String TABLE_LOGS = "logs";
@@ -81,8 +80,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 			+ COLUMN_USER_USERNAME + " text not null, " 
 			+ COLUMN_USERNAME + " text not null, " 
 			+ COLUMN_USERPHONENUMBER + "integer not null, "
-			+ COLUMN_USEREMAIL + "text not null, "
-			+ COLUMN_USERPASSWORD + "text not null);"
+			+ COLUMN_USEREMAIL + "text not null);"
 	  	;
 	
 	private static final String DATABASE_CREATE_LOGS = "create table "

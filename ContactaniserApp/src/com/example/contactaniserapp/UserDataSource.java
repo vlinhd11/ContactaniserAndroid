@@ -18,7 +18,6 @@ public class UserDataSource {
 				MySQLHelper.COLUMN_USERNAME,
 				MySQLHelper.COLUMN_USERPHONENUMBER,
 				MySQLHelper.COLUMN_USEREMAIL,
-				MySQLHelper.COLUMN_USERPASSWORD
 				};
 
 		public UserDataSource(Context context) {
@@ -39,7 +38,6 @@ public class UserDataSource {
 			values.put(MySQLHelper.COLUMN_USERNAME, username);
 			values.put(MySQLHelper.COLUMN_USERPHONENUMBER, phonenumber);
 			values.put(MySQLHelper.COLUMN_USEREMAIL, email);
-			values.put(MySQLHelper.COLUMN_USERPASSWORD, password);
 		    long insertId = database.insert(MySQLHelper.TABLE_USER, null,
 		        values);
 		    Cursor cursor = database.query(MySQLHelper.TABLE_USER,
@@ -83,7 +81,6 @@ public class UserDataSource {
 			user.setUserName(cursor.getString(2));
 			user.setUserPhoneNumber(cursor.getInt(3));
 			user.setUserEmail(cursor.getString(4));
-			user.setUserPassword(cursor.getString(5));
 			
 			return user;
 		}
