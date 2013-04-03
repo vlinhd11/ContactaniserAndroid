@@ -1,10 +1,10 @@
 package csse3005.contactaniser.datasource;
+import csse3005.contactaniser.models.MySQLHelper;
+import csse3005.contactaniser.models.Logs;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
-import csse3005.contactaniser.models.Logs;
-import csse3005.contactaniser.models.MySQLHelper;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -21,7 +21,8 @@ public class LogsDataSource {
 				MySQLHelper.COLUMN_LOGTASKFID,
 				MySQLHelper.COLUMN_LOGUSERFID,
 				MySQLHelper.COLUMN_LOGDATETIME,
-				MySQLHelper.COLUMN_LOGDESCRIPTION};
+				MySQLHelper.COLUMN_LOGDESCRIPTION,
+				MySQLHelper.COLUMN_LOGLASTUPDATE};
 		
 		
 
@@ -37,12 +38,13 @@ public class LogsDataSource {
 			dbHelper.close();
 		}
 		
-		public Logs createLogs(int logtaskfid, int loguserfid, String datetime, String description) {
+		public Logs createLogs(int logtaskfid, int loguserfid, Date datetime, String description, Date lastupdate) {
 			ContentValues values = new ContentValues(); 
 			values.put(MySQLHelper.COLUMN_LOGTASKFID, logtaskfid);
 			values.put(MySQLHelper.COLUMN_LOGUSERFID, loguserfid);
-			values.put(MySQLHelper.COLUMN_LOGDATETIME, datetime);
+			values.put(MySQLHelper.COLUMN_LOGDATETIME, datetime.toString());
 			values.put(MySQLHelper.COLUMN_LOGDESCRIPTION, description);
+			values.put(MySQLHelper.COLUMN_LOGLASTUPDATE, lastupdate.toString());
 		    long insertId = database.insert(MySQLHelper.TABLE_LOGS, null,
 		        values);
 		    Cursor cursor = database.query(MySQLHelper.TABLE_LOGS,
@@ -84,8 +86,11 @@ public class LogsDataSource {
 			logs.setLogid(cursor.getInt(0));
 			logs.setLogTaskid(cursor.getInt(1));
 			logs.setLogUserid(cursor.getInt(2));
-			logs.setLogDateTime(cursor.getString(3));
+			Date dt = Date.valueOf(cursor.getString(3));
+			logs.setLogDateTime(dt);
 			logs.setLogDescription(cursor.getString(4));
+			Date lu = Date.valueOf(cursor.getString(5));
+			logs.setLogLastUpdate(lu);
 		
 			return logs;
 		}

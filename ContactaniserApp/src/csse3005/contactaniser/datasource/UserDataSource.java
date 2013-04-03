@@ -1,10 +1,10 @@
 package csse3005.contactaniser.datasource;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.User;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -21,6 +21,7 @@ public class UserDataSource {
 				MySQLHelper.COLUMN_USERNAME,
 				MySQLHelper.COLUMN_USERPHONENUMBER,
 				MySQLHelper.COLUMN_USEREMAIL,
+				MySQLHelper.COLUMN_USERLASTUPDATE
 				};
 
 		public UserDataSource(Context context) {
@@ -35,12 +36,13 @@ public class UserDataSource {
 			dbHelper.close();
 		}
 		
-		public User createUser(String user_username, String username, int phonenumber, String email, String password) {
+		public User createUser(String user_username, String username, int phonenumber, String email, Date lastupdate) {
 			ContentValues values = new ContentValues();
 			values.put(MySQLHelper.COLUMN_USER_USERNAME, user_username);
 			values.put(MySQLHelper.COLUMN_USERNAME, username);
 			values.put(MySQLHelper.COLUMN_USERPHONENUMBER, phonenumber);
 			values.put(MySQLHelper.COLUMN_USEREMAIL, email);
+			values.put(MySQLHelper.COLUMN_USERLASTUPDATE, lastupdate.toString());
 		    long insertId = database.insert(MySQLHelper.TABLE_USER, null,
 		        values);
 		    Cursor cursor = database.query(MySQLHelper.TABLE_USER,
@@ -84,6 +86,8 @@ public class UserDataSource {
 			user.setUserName(cursor.getString(2));
 			user.setUserPhoneNumber(cursor.getInt(3));
 			user.setUserEmail(cursor.getString(4));
+			Date lu = Date.valueOf(cursor.getString(5));
+			user.setUserLastUpdate(lu);
 			
 			return user;
 		}

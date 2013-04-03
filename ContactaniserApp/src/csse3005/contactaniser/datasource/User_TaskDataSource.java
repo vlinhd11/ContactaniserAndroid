@@ -1,11 +1,10 @@
 package csse3005.contactaniser.datasource;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import csse3005.contactaniser.models.Logs;
 import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.User_Task;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,7 +18,7 @@ public class User_TaskDataSource {
 			private SQLiteDatabase database;
 			private MySQLHelper dbHelper;
 			private String[] allColumns = { MySQLHelper.COLUMN_USERTASKUSERFID, 
-					MySQLHelper.COLUMN_USERTASKTASKFID};
+					MySQLHelper.COLUMN_USERTASKTASKFID, MySQLHelper.COLUMN_USERTASKLASTUPDATE};
 			
 
 			public User_TaskDataSource(Context context) {
@@ -34,10 +33,11 @@ public class User_TaskDataSource {
 				dbHelper.close();
 			}
 			
-			public User_Task createUser_Task(int user_task, int task_task) {
+			public User_Task createUser_Task(int user_task, int task_task, Date lastupdate) {
 				ContentValues values = new ContentValues();
 				values.put(MySQLHelper.COLUMN_USERTASKUSERFID,user_task);
 				values.put(MySQLHelper.COLUMN_USERTASKTASKFID, task_task);
+				values.put(MySQLHelper.COLUMN_USERTASKLASTUPDATE, lastupdate.toString());
 			    long insertId = database.insert(MySQLHelper.TABLE_USER_TASK, null,
 			        values);
 			    Cursor cursor = database.query(MySQLHelper.TABLE_USER_TASK,
@@ -49,8 +49,8 @@ public class User_TaskDataSource {
 			    return newUser_Task;
 			}
 
-			public void deleteUser_Task(Logs logs) {
-				long id = logs.getLogid();
+			public void deleteUser_Task(User_Task user_task) {
+				long id = user_task.getUTUid();
 				database.delete(MySQLHelper.TABLE_USER_TASK, MySQLHelper.COLUMN_USERTASKUSERFID
 				    + " = " + id, null);
 			}
@@ -78,7 +78,8 @@ public class User_TaskDataSource {
 				User_Task user_task = new User_Task();
 				user_task.setUTUid(cursor.getInt(0));
 				user_task.setUTTid(cursor.getInt(1));
-			
+				Date lu = Date.valueOf(cursor.getString(2));
+				user_task.setUTLastUpdate(lu);
 				return user_task;
 			}
 }

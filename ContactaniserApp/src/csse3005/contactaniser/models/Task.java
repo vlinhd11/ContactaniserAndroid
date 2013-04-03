@@ -1,13 +1,16 @@
 package csse3005.contactaniser.models;
 
+import java.sql.Date;
+
 public class Task {
 	private int taskid;
 	private int taskProjectid;
 	private String taskName;
 	private String taskdescription;
 	private int taskimportancelevel;
-	private String taskdueDate;
-	private String taskcompletion;
+	private Date taskdueDate;
+	private Date taskcompletion;
+	private Date tasklastupdate;
 	
 	//Will be used by array adapter in the list view
 	@Override
@@ -55,20 +58,28 @@ public class Task {
 		this.taskimportancelevel = taskimportancelevel;
 	}
 	
-	public String getTaskDueDate() {
+	public Date getTaskDueDate() {
 		return taskdueDate;
 	}
 	
-	public void setTaskDueDate(String taskdueDate) {
+	public void setTaskDueDate(Date taskdueDate) {
 		this.taskdueDate = taskdueDate;
 	}
 	
-	public String getTaskCompletion() {
+	public Date getTaskCompletion() {
 		return taskcompletion;
 	}
 	
-	public void setTaskCompletion(String taskcompletion) {
+	public void setTaskCompletion(Date taskcompletion) {
 		this.taskcompletion = taskcompletion;
+	}
+	
+	public Date getTaskLastUpdate() {
+		return tasklastupdate;
+	}
+	
+	public void setTaskLastUpdate(Date tasklastupdate) {
+		this.tasklastupdate = tasklastupdate;
 	}
 
 	

@@ -1,10 +1,11 @@
 package csse3005.contactaniser.datasource;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.Project;
+
+import java.util.ArrayList;
+import java.sql.Date;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,7 +14,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 public class ProjectDataSource {
-
 	// Database fields
 	private SQLiteDatabase database;
 	private MySQLHelper dbHelper;
@@ -21,7 +21,8 @@ public class ProjectDataSource {
 			MySQLHelper.COLUMN_PROJECTNAME,
 			MySQLHelper.COLUMN_PROJECTDESCRIPTION,
 			MySQLHelper.COLUMN_PROJECTSTARTDATE,
-			MySQLHelper.COLUMN_PROJECTDUEDATE};
+			MySQLHelper.COLUMN_PROJECTDUEDATE,
+			MySQLHelper.COLUMN_PROJECTLASTUPDATE};
 
 	public ProjectDataSource(Context context) {
 		dbHelper = new MySQLHelper(context);
@@ -35,14 +36,15 @@ public class ProjectDataSource {
 		dbHelper.close();
 	}
 
-	//TODO add create project
 	
-	public Project createProject(String name, String description, String startdate, String duedate) {
+	public Project createProject(String name, String description, Date startdate, Date duedate, Date lastupdate) {
 		ContentValues values = new ContentValues();
+		
 		values.put(MySQLHelper.COLUMN_PROJECTNAME, name);
 		values.put(MySQLHelper.COLUMN_PROJECTDESCRIPTION, description);
-		values.put(MySQLHelper.COLUMN_PROJECTSTARTDATE, startdate);
-		values.put(MySQLHelper.COLUMN_PROJECTDUEDATE, duedate);
+		values.put(MySQLHelper.COLUMN_PROJECTSTARTDATE, startdate.toString());
+		values.put(MySQLHelper.COLUMN_PROJECTDUEDATE, duedate.toString());
+		values.put(MySQLHelper.COLUMN_PROJECTLASTUPDATE, lastupdate.toString());
 		
 		
 	    long insertId = database.insert(MySQLHelper.TABLE_PROJECTS, null,
@@ -86,17 +88,22 @@ public class ProjectDataSource {
 		project.setProjectid(cursor.getInt(0));
 		project.setProjectName(cursor.getString(1));
 		project.setProjectDescription(cursor.getString(2));
-		project.setProjectStartDate(cursor.getString(3));
-		project.setProjectDueDate(cursor.getString(4));	
+		Date sd = Date.valueOf(cursor.getString(3));
+		Date dd = Date.valueOf(cursor.getString(4));
+		Date lu = Date.valueOf(cursor.getString(5));
+		project.setProjectStartDate(sd);
+		project.setProjectDueDate(dd);
+		project.setProjectLastUpdate(lu);
 		return project;
 	}
 	
-	public Project updateProject(long rowId, String name, String description, String startdate, String duedate) {
+	public Project updateProject(long rowId, String name, String description, Date startdate, Date duedate, Date lastupdate) {
 		ContentValues values = new ContentValues();
 		values.put(MySQLHelper.COLUMN_PROJECTNAME, name);
 		values.put(MySQLHelper.COLUMN_PROJECTDESCRIPTION, description);
-		values.put(MySQLHelper.COLUMN_PROJECTSTARTDATE, startdate);
-		values.put(MySQLHelper.COLUMN_PROJECTDUEDATE, duedate);
+		values.put(MySQLHelper.COLUMN_PROJECTSTARTDATE, startdate.toString());
+		values.put(MySQLHelper.COLUMN_PROJECTDUEDATE, duedate.toString());
+		values.put(MySQLHelper.COLUMN_PROJECTLASTUPDATE, lastupdate.toString());
 		
 	    long insertId = database.update(MySQLHelper.TABLE_PROJECTS, values, MySQLHelper.COLUMN_PROJECTID + "=" + rowId,null);
 	    Cursor cursor = database.query(MySQLHelper.TABLE_PROJECTS,

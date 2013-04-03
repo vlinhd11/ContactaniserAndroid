@@ -1,11 +1,14 @@
 package csse3005.contactaniser.models;
 
+import java.sql.Date;
+
 public class User {
 	private int userid;
 	private String user_username;
 	private String username;
 	private int userphonenumber;
 	private String useremail;
+	private Date userlastupdate;
 	
 	//Will be used by array adapter in the list view
 	@Override
@@ -51,6 +54,14 @@ public class User {
 	
 	public void setUserEmail(String useremail) {
 		this.useremail = useremail;
+	}
+	
+	public Date getUserLastUpdate() {
+		return userlastupdate;
+	}
+	
+	public void setUserLastUpdate(Date userlastupdate){
+		this.userlastupdate = userlastupdate;
 	}
 	
 }

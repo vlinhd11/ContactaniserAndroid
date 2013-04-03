@@ -1,11 +1,10 @@
 package csse3005.contactaniser.datasource;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import csse3005.contactaniser.models.Logs;
 import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.User_Project;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,7 +17,7 @@ public class User_ProjectDataSource {
 				private SQLiteDatabase database;
 				private MySQLHelper dbHelper;
 				private String[] allColumns = { MySQLHelper.COLUMN_USERPROJECTUSERFID, 
-						MySQLHelper.COLUMN_USERPROJECTPROJECTFID, MySQLHelper.COLUMN_ROLE};
+						MySQLHelper.COLUMN_USERPROJECTPROJECTFID, MySQLHelper.COLUMN_ROLE, MySQLHelper.COLUMN_USERPROJECTLASTUPDATE};
 				
 
 				public User_ProjectDataSource(Context context) {
@@ -33,11 +32,12 @@ public class User_ProjectDataSource {
 					dbHelper.close();
 				}
 				
-				public User_Project createUser_Project(int utufid, int uttfid, String role) {
+				public User_Project createUser_Project(int upufid, int uppfid, String role, Date uplastupdate) {
 					ContentValues values = new ContentValues();
-					values.put(MySQLHelper.COLUMN_USERPROJECTUSERFID, utufid); 
-					values.put(MySQLHelper.COLUMN_USERPROJECTPROJECTFID, uttfid);
+					values.put(MySQLHelper.COLUMN_USERPROJECTUSERFID, upufid); 
+					values.put(MySQLHelper.COLUMN_USERPROJECTPROJECTFID, uppfid);
 					values.put(MySQLHelper.COLUMN_ROLE,role);
+					values.put(MySQLHelper.COLUMN_USERPROJECTLASTUPDATE, uplastupdate.toString());
 				    long insertId = database.insert(MySQLHelper.TABLE_USER_PROJECT, null,
 					        values);
 				    Cursor cursor = database.query(MySQLHelper.TABLE_USER_PROJECT,
@@ -50,8 +50,8 @@ public class User_ProjectDataSource {
 				    return newUser_Project;
 				}
 
-				public void deleteUser_Task(Logs logs) {
-					long id = logs.getLogid();
+				public void deleteUser_Project(User_Project user_project) {
+					long id = user_project.getUPUid();
 					database.delete(MySQLHelper.TABLE_USER_PROJECT, MySQLHelper.COLUMN_USERPROJECTUSERFID
 					    + " = " + id, null);
 				}
@@ -80,6 +80,8 @@ public class User_ProjectDataSource {
 					user_project.setUPUid(cursor.getInt(0));
 					user_project.setUPPid(cursor.getInt(1));
 					user_project.setUserProjectRole(cursor.getString(2));
+					Date lu = Date.valueOf(cursor.getString(3));
+					user_project.setUserProjectLastUpdate(lu);
 				
 					return user_project;
 				}

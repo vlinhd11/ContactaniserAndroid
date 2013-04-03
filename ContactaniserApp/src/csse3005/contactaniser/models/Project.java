@@ -1,12 +1,14 @@
 package csse3005.contactaniser.models;
 
+import java.sql.Date;
+
 public class Project {
 	private int pid;
 	private String pName;
 	private String pDescription;
-	private String startDate;
-	private String dueDate;
-	
+	private Date startDate;
+	private Date dueDate;
+	private Date lastupdate;
 	
 	//Will be used by array adapter in the list view
 	@Override
@@ -38,20 +40,27 @@ public class Project {
 		this.pDescription = pDescription;
 	}
 
-	public String getProjectStartDate() {
+	public Date getProjectStartDate() {
 		return startDate;
 	}
 	
-	public void setProjectStartDate(String startDate) {
+	public void setProjectStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 	
-	public String getProjectDueDate() {
+	public Date getProjectDueDate() {
 		return dueDate;
 	}
 	
-	public void setProjectDueDate(String dueDate) {
+	public void setProjectDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
-
+	
+	public Date getProjectLastUpdate() {
+		return lastupdate;
+	}
+	
+	public void setProjectLastUpdate(Date dueDate) {
+		this.lastupdate = dueDate;
+	}
 }

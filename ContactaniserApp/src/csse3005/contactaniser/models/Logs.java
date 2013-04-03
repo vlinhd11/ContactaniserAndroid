@@ -1,12 +1,15 @@
 package csse3005.contactaniser.models;
 
+import java.sql.Date;
+
 public class Logs {
 
 	private int logid;
 	private int logtaskid;
 	private int loguserid;
-	private String logdatetime;
+	private Date logdatetime;
 	private String logdescription;
+	private Date loglastupdate;
 	//Will be used by array adapter in the list view
 	@Override
 	public String toString() {
@@ -37,11 +40,11 @@ public class Logs {
 		this.loguserid = loguserid;
 	}
 	
-	public String getLogDateTime() {
+	public Date getLogDateTime() {
 		return logdatetime;
 	}
 	
-	public void setLogDateTime(String logdatetime) {
+	public void setLogDateTime(Date logdatetime) {
 		this.logdatetime = logdatetime;
 	}
 	
@@ -51,6 +54,14 @@ public class Logs {
 	
 	public void setLogDescription(String logdescription){
 		this.logdescription = logdescription;
+	}
+	
+	public Date getLogLastUpdate() {
+		return loglastupdate;
+	}
+	
+	public void setLogLastUpdate(Date loglastupdate) {
+		this.loglastupdate = loglastupdate;
 	}
 	
 }
