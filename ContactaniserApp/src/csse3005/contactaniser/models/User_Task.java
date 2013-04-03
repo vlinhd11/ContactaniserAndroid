@@ -1,4 +1,4 @@
-package com.example.contactaniserapp;
+package csse3005.contactaniser.models;
 
 public class User_Task {
 

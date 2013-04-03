@@ -1,4 +1,6 @@
-package com.example.contactaniserapp;
+package csse3005.contactaniser.activities;
+
+import com.example.contactaniserapp.R;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

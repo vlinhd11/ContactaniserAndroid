@@ -1,4 +1,4 @@
-package com.example.contactaniserapp;
+package csse3005.contactaniser.activities;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
@@ -98,7 +98,7 @@ public class ChangePassword extends Activity {
 		new AlertDialog.Builder(this)
 	    .setTitle(R.string.success)
 	    .setMessage(R.string.password_change_success)
-	    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+	    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 //	        	exitChangePassword();
 	        	finish();

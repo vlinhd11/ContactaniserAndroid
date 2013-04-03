@@ -14,15 +14,15 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.contactaniserapp.MainActivity"
+            android:name="csse3005.contactaniser.activities.MainActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.example.contactaniserapp.ChangePassword"
+            android:name="csse3005.contactaniser.activities.ChangePassword"
             android:label="@string/title_activity_change_password" >
         </activity>
         <activity
-            android:name="com.example.contactaniserapp.LoginActivity"
+            android:name="csse3005.contactaniser.activities.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <intent-filter>

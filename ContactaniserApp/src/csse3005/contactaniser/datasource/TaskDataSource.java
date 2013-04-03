@@ -1,7 +1,10 @@
-package com.example.contactaniserapp;
+package csse3005.contactaniser.datasource;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import csse3005.contactaniser.models.MySQLHelper;
+import csse3005.contactaniser.models.Task;
 
 import android.content.ContentValues;
 import android.content.Context;
