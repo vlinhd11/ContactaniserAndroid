@@ -32,6 +32,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="exit">Exit</string>
+    <string name="success">Success</string>
+    <string name="password_change_success">Password was successfully changed.</string>
     
 
 </resources>

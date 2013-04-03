@@ -2,13 +2,13 @@ package com.example.contactaniserapp;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-import com.example.contactaniserapp.InfoDialog;
 import com.example.contactaniserapp.R;
 import android.os.Build;
 import android.os.Bundle;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -91,10 +91,24 @@ public class ChangePassword extends Activity {
 		// TODO: some function to send off new hashed password
 		// error check here
 
-		InfoDialog feedback = new InfoDialog();
-		feedback.dialogMessage = "Password sucessfully changed.";
-		feedback.show(getFragmentManager(), WINDOW_SERVICE);
-		startActivity(new Intent(this, MainActivity.class));
+//		InfoDialog feedback = new InfoDialog();
+//		feedback.dialogMessage = "Password sucessfully changed.";
+//		feedback.show(getFragmentManager(), WINDOW_SERVICE);
+		
+		new AlertDialog.Builder(this)
+	    .setTitle(R.string.success)
+	    .setMessage(R.string.password_change_success)
+	    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+//	        	exitChangePassword();
+	        	finish();
+	        }
+	     })
+	     .show();
 	}
+	
+//	private void exitChangePassword() {
+//		startActivity(new Intent(this, MainActivity.class));
+//	}
 
 }

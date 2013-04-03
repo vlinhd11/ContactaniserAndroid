@@ -68,6 +68,7 @@ public final class R {
         public static final int menu_settings=0x7f050002;
         public static final int no=0x7f05001c;
         public static final int ok=0x7f050008;
+        public static final int password_change_success=0x7f05001f;
         public static final int password_no_match=0x7f050016;
         public static final int password_not_new=0x7f050017;
         public static final int password_reset=0x7f050003;
@@ -77,6 +78,7 @@ public final class R {
         public static final int pwd_confirm=0x7f050006;
         public static final int pwd_new=0x7f050005;
         public static final int pwd_old=0x7f050004;
+        public static final int success=0x7f05001e;
         public static final int title_activity_change_password=0x7f05000a;
         public static final int title_activity_login=0x7f050018;
         public static final int yes=0x7f05001b;
