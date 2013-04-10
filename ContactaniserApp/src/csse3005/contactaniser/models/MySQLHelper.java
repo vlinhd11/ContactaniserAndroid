@@ -14,6 +14,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_PROJECTDESCRIPTION = "pdescription";
 	public static final String COLUMN_PROJECTSTARTDATE = "startdate";
 	public static final String COLUMN_PROJECTDUEDATE = "duedate";
+	public static final String COLUMN_PROJECTCOMPLETION = "projectcompletion";
 	public static final String COLUMN_PROJECTLASTUPDATE = "projectlastupdate";
 	
 	//Task
@@ -70,6 +71,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 			+ COLUMN_PROJECTDESCRIPTION + " text not null, "
 			+ COLUMN_PROJECTSTARTDATE + " text not null, "
 			+ COLUMN_PROJECTDUEDATE + " text not null, "
+			+ COLUMN_PROJECTCOMPLETION + " integer not null, "
 			+ COLUMN_PROJECTLASTUPDATE + " text not null);";
 	
 	private static final String DATABASE_CREATE_TASKS = "create table "
@@ -79,7 +81,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 			+ COLUMN_TASKDESCRIPTION + " text not null, "
 			+ COLUMN_TASKIMPORTANCELEVEL + " integer not null, "
 			+ COLUMN_TASKDUEDATE + " text not null, " 
-			+ COLUMN_TASKCOMPLETION + " text not null, " 
+			+ COLUMN_TASKCOMPLETION + " integer not null, " 
 			+ COLUMN_TASKLASTUPDATE + " text not null);";
 	
 	private static final String DATABASE_CREATE_USER = "create table "

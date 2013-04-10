@@ -9,7 +9,7 @@ public class Task {
 	private String taskdescription;
 	private int taskimportancelevel;
 	private Date taskdueDate;
-	private Date taskcompletion;
+	private int taskcompletion;
 	private Date tasklastupdate;
 	
 	//Will be used by array adapter in the list view
@@ -66,11 +66,11 @@ public class Task {
 		this.taskdueDate = taskdueDate;
 	}
 	
-	public Date getTaskCompletion() {
+	public int getTaskCompletion() {
 		return taskcompletion;
 	}
 	
-	public void setTaskCompletion(Date taskcompletion) {
+	public void setTaskCompletion(int taskcompletion) {
 		this.taskcompletion = taskcompletion;
 	}
 	
