@@ -31,14 +31,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
         <uses-library android:name="android.test.runner" />
-        
+
+        <activity
+            android:name="csse3005.contactaniser.activities.TaskList"
+            android:label="@string/title_activity_task_list" >
+        </activity>
     </application>
-    
-	<instrumentation 
+
+    <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-    	android:targetPackage="com.example.ontactaniserapp"
-    	android:label="Contactaniserapp-Test" />
+        android:label="Contactaniserapp-Test"
+        android:targetPackage="com.example.ontactaniserapp" />
 
 </manifest>
