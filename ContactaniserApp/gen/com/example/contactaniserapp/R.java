@@ -30,7 +30,7 @@ public final class R {
         public static final int button2=0x7f050011;
         public static final int button3=0x7f050012;
         public static final int json=0x7f050005;
-        public static final int log=0x7f050006;
+        public static final int log=0x7f050008;
         public static final int login=0x7f05000e;
         public static final int login_form=0x7f05000b;
         public static final int login_status=0x7f050009;
@@ -41,7 +41,7 @@ public final class R {
         public static final int password=0x7f05000d;
         public static final int project=0x7f050007;
         public static final int sign_in_button=0x7f05000f;
-        public static final int task=0x7f050008;
+        public static final int task=0x7f050006;
         public static final int txtConfirmPwd=0x7f050004;
         public static final int txtNewPwd=0x7f050002;
         public static final int txtOldPwd=0x7f050001;
