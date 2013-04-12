@@ -76,7 +76,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	
 	private static final String DATABASE_CREATE_TASKS = "create table "
 			+ TABLE_TASKS + "(" + COLUMN_TASKID + " integer primary key autoincrement, "
-			+ COLUMN_TASKPROJECTFID + " integer, " + "FOREIGN KEY ("+ COLUMN_TASKPROJECTFID +") REFERENCES " + TABLE_PROJECTS + " ("+ COLUMN_PROJECTID +"), " //FOREIGN KEY TO PROJECT ID
+			+ COLUMN_TASKPROJECTFID + " integer, " 
 			+ COLUMN_TASKNAME + " text not null, " 
 			+ COLUMN_TASKDESCRIPTION + " text not null, "
 			+ COLUMN_TASKIMPORTANCELEVEL + " integer not null, "
@@ -94,21 +94,21 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	
 	private static final String DATABASE_CREATE_LOGS = "create table "
 			+ TABLE_LOGS + "(" + COLUMN_LOGID + " integer primary key autoincrement, "
-			+ COLUMN_LOGTASKFID + " integer, " + "FOREIGN KEY ("+ COLUMN_LOGTASKFID +") REFERENCES " + TABLE_TASKS + " ("+ COLUMN_TASKID +"), " //FOREIGN KEY TO TASK ID 
-			+ COLUMN_LOGUSERFID + " integer, " + "FOREIGN KEY ("+ COLUMN_LOGUSERFID +") REFERENCES " + TABLE_USER + " ("+ COLUMN_USERID +"), " //FOREIGN KEY TO USER ID 
+			+ COLUMN_LOGTASKFID + " integer, " 
+			+ COLUMN_LOGUSERFID + " integer, " 
 			+ COLUMN_LOGDATETIME + " text not null, "
 			+ COLUMN_LOGDESCRIPTION + " text not null, " 
 			+ COLUMN_LOGLASTUPDATE + "text not null);";
 	
 	private static final String DATABASE_CREATE_USER_PROJECT = "create table "
-			+ TABLE_USER_PROJECT + "(" + COLUMN_USERPROJECTUSERFID + " integer, " + "FOREIGN KEY ("+ COLUMN_USERPROJECTUSERFID +") REFERENCES " + TABLE_USER + " ("+ COLUMN_USERID +"), " //FOREIGN KEY TO USER ID
-			+ COLUMN_USERPROJECTPROJECTFID + " integer, " + "FOREIGN KEY ("+ COLUMN_USERPROJECTPROJECTFID +") REFERENCES " + TABLE_PROJECTS + " ("+ COLUMN_PROJECTID +"),  " //FOREIGN KEY TO PROJECT ID
+			+ TABLE_USER_PROJECT + "(" + COLUMN_USERPROJECTUSERFID + " integer, " 
+			+ COLUMN_USERPROJECTPROJECTFID + " integer, " 
 			+ COLUMN_ROLE + " string not null, " 
 			+ COLUMN_USERPROJECTLASTUPDATE + " text not null);";
 	
 	private static final String DATABASE_CREATE_USER_TASK = "create table "
-			+ TABLE_USER_TASK + "(" + COLUMN_USERTASKUSERFID + " integer, " + "FOREIGN KEY ("+ COLUMN_USERTASKUSERFID +") REFERENCES " + TABLE_USER + " ("+ COLUMN_USERID +"), " //FOREIGN KEY TO USER	 ID
-			+ COLUMN_USERTASKTASKFID + " integer, " + "FOREIGN KEY ("+ COLUMN_USERTASKTASKFID +") REFERENCES " + TABLE_TASKS + " ("+ COLUMN_TASKID +"),  " 
+			+ TABLE_USER_TASK + "(" + COLUMN_USERTASKUSERFID + " integer, "
+			+ COLUMN_USERTASKTASKFID + " integer, "
 			+ COLUMN_USERTASKLASTUPDATE + " text not null);";
 				
 	

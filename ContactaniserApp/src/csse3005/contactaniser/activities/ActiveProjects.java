@@ -2,6 +2,7 @@ package csse3005.contactaniser.activities;
 
 import java.util.List;
 
+
 import csse3005.contactaniser.datasource.ProjectDataSource;
 import csse3005.contactaniser.models.Project;
 import android.content.Intent;
@@ -28,19 +29,19 @@ public class ActiveProjects extends ListFragment {
 		
 		projectdatasource = new ProjectDataSource(getActivity());
         projectdatasource.open();
-		
-        List<Project> values = projectdatasource.getAllProjects(0);
+
+		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+	
+	
+	private void fillData() {
 		/** Creating array adapter to set data in listview */
-//       
+        List<Project> values = projectdatasource.getAllProjects(0);  
         /** Setting the array adapter to the listview */
         ArrayAdapter<Project> adapter = new ArrayAdapter<Project>(getActivity(),
                 android.R.layout.simple_list_item_1, values);
             setListAdapter(adapter);
-
-
-		
-		return super.onCreateView(inflater, container, savedInstanceState);
-	}
+    }
 	
 	@Override
     public void onStart() {
@@ -56,5 +57,13 @@ public class ActiveProjects extends ListFragment {
 		startActivity(pIntent);
 		
 	}
+
+	@Override
+	public void onResume() {
+		fillData();
+		super.onResume();
+	}
+	
+	
 	
 }
