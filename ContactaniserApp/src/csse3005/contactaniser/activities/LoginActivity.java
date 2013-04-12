@@ -63,7 +63,10 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-
+			
+		// TODO: test code, comment below line out
+//		startActivity(new Intent(this, MainActivity.class));
+		
 		// Set up the login form.
 		mUsername = getIntent().getStringExtra(EXTRA_EMAIL);
 		mUsernameView = (EditText) findViewById(R.id.username);

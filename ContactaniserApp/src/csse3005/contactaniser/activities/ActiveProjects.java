@@ -11,6 +11,12 @@ import android.widget.ListView;
 
 public class ActiveProjects extends ListFragment {
 	
+//	boolean ProjectActive;
+//	
+//	public ActiveProjects(boolean active) {
+//		ProjectActive = active;
+//	}
+	
     // TODO: replace this dummy array with info from database
     String projectList[] = new String[]{
             "Active Project one",
@@ -25,7 +31,6 @@ public class ActiveProjects extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		/** Creating array adapter to set data in listview */
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_multiple_choice, android_versions);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, projectList);
 
         /** Setting the array adapter to the listview */
@@ -38,10 +43,6 @@ public class ActiveProjects extends ListFragment {
 	@Override
     public void onStart() {
             super.onStart();
-
-            /** Setting the multiselect choice mode for the listview */
-//            getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-            
     }
 	
 	@Override

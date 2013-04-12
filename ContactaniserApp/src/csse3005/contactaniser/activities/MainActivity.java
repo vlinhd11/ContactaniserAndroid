@@ -1,7 +1,6 @@
 package csse3005.contactaniser.activities;
 
 import java.util.ArrayList;
-
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -11,13 +10,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
+
 
 import com.example.contactaniserapp.R;
 
@@ -45,6 +46,7 @@ public class MainActivity extends FragmentActivity {
 	 
 	        //Attach the Tabs to the fragment classes and set the tab title.
 	        TabsAdapter = new TabsAdapter(this, ViewPager);
+	        
 	        TabsAdapter.addTab(bar.newTab().setText("Active Projects"), ActiveProjects.class, null);
 	        TabsAdapter.addTab(bar.newTab().setText("Completed Projects"), CompletedProjects.class, null);
 	 
@@ -62,8 +64,7 @@ public class MainActivity extends FragmentActivity {
 	 }
 	
 	 // create TabsAdapter to create tabs and behavior
-	 public static class TabsAdapter extends FragmentPagerAdapter
-	 implements ActionBar.TabListener, ViewPager.OnPageChangeListener {
+	 public static class TabsAdapter extends FragmentPagerAdapter implements ActionBar.TabListener, ViewPager.OnPageChangeListener {
 	 
 	  private final Context mContext;
 		private final ActionBar mActionBar;
@@ -101,19 +102,18 @@ public class MainActivity extends FragmentActivity {
 	 
 	  @Override
 	  public void onPageSelected(int position) {
-	   // TODO Auto-generated method stub
 	   mActionBar.setSelectedNavigationItem(position);
 	  }
 	 
-	  public void onTabSelected(Tab tab, FragmentTransaction ft) {
-	   Object tag = tab.getTag();
-	            for (int i=0; i<mTabs.size(); i++) {
-	                if (mTabs.get(i) == tag) {
-	                    mViewPager.setCurrentItem(i);
-	                }
-	            }
+	  @Override
+	  public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
+		  Object tag = tab.getTag();
+		  for (int i=0; i<mTabs.size(); i++) {
+			  if (mTabs.get(i) == tag) {
+				  mViewPager.setCurrentItem(i);
+			  }
+		  }
 	  }
-	 
 	 
 	  	@Override
 	  	public Fragment getItem(int position) {
@@ -129,11 +129,6 @@ public class MainActivity extends FragmentActivity {
 	  
 		@Override
 		public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
-			// TODO Auto-generated method stub
-		}
-	
-		@Override
-		public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
 			// TODO Auto-generated method stub
 		}
 	
@@ -177,7 +172,7 @@ public class MainActivity extends FragmentActivity {
 	        	openPasswordActivity();
 	            return true;
 	        case R.id.menu_logoff:
-	        	// log off action - save info to db, etc
+	        	// log off action here - save info to db, etc
 	        	startActivity(new Intent(this, LoginActivity.class));
 	        	return true;
 	        default:
