@@ -36,7 +36,7 @@ public class TaskDataSource {
 		dbHelper.close();
 	}
 	
-	public Task createTask(int projectfid, String name, String description, int importancelevel, Date duedate, Date completion, Date lastupdate) {
+	public Task createTask(int projectfid, String name, String description, String importancelevel, Date duedate, Date completion, Date lastupdate) {
 		ContentValues values = new ContentValues();
 		values.put(MySQLHelper.COLUMN_TASKPROJECTFID, projectfid);
 		values.put(MySQLHelper.COLUMN_TASKNAME, name);
@@ -89,7 +89,7 @@ public class TaskDataSource {
 		task.setTaskDescription(cursor.getString(3));
 		task.setTaskImportanceLevel(cursor.getInt(4));
 		Date dd = Date.valueOf(cursor.getString(5));
-		task.setTaskCompletion(cursor.getInt(6));
+		task.setTaskCompletion(cursor.getString(6));
 		Date lu = Date.valueOf(cursor.getString(7));
 		task.setTaskDueDate(dd);
 		
@@ -98,7 +98,7 @@ public class TaskDataSource {
 		return task;
 	}
 	
-	public Task updateTask(long rowId, int projectfid, String name, String description, int importancelevel, Date duedate, int completion, Date lastupdate) {
+	public Task updateTask(long rowId, int projectfid, String name, String description, String importancelevel, Date duedate, int completion, Date lastupdate) {
 		ContentValues values = new ContentValues();
 		values.put(MySQLHelper.COLUMN_TASKPROJECTFID, projectfid);
 		values.put(MySQLHelper.COLUMN_TASKNAME, name);

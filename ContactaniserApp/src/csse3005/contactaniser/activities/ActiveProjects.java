@@ -1,5 +1,9 @@
 package csse3005.contactaniser.activities;
 
+import java.util.List;
+
+import csse3005.contactaniser.datasource.ProjectDataSource;
+import csse3005.contactaniser.models.Project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -16,25 +20,23 @@ public class ActiveProjects extends ListFragment {
 //	public ActiveProjects(boolean active) {
 //		ProjectActive = active;
 //	}
-	
-    // TODO: replace this dummy array with info from database
-    String projectList[] = new String[]{
-            "Active Project one",
-            "Active Project two",
-            "Active Project three",
-            "Active Project four",
-            "Active Project five"
-    };
 
-    	
+	private ProjectDataSource projectdatasource;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
+		projectdatasource = new ProjectDataSource(getActivity());
+        projectdatasource.open();
+		
+        List<Project> values = projectdatasource.getAllProjects(0);
 		/** Creating array adapter to set data in listview */
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, projectList);
-
+//       
         /** Setting the array adapter to the listview */
-        setListAdapter(adapter);
+        ArrayAdapter<Project> adapter = new ArrayAdapter<Project>(getActivity(),
+                android.R.layout.simple_list_item_1, values);
+            setListAdapter(adapter);
+
 
 		
 		return super.onCreateView(inflater, container, savedInstanceState);

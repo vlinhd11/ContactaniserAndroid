@@ -1,5 +1,9 @@
 package csse3005.contactaniser.activities;
 
+import java.util.List;
+
+import csse3005.contactaniser.datasource.ProjectDataSource;
+import csse3005.contactaniser.models.Project;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -12,26 +16,25 @@ import android.widget.ListView;
 
 public class CompletedProjects extends ListFragment{
 	
-    // TODO: replace this dummy array with info from database
-    String projectList[] = new String[]{
-            "Finished Project one",
-            "Finished Project two",
-            "Finished Project three",
-            "Finished Project four",
-    };
+	private ProjectDataSource projectdatasource;
 
     	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-		/** Creating array adapter to set data in listview */
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_multiple_choice, android_versions);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, projectList);
 
-        /** Setting the array adapter to the listview */
-        setListAdapter(adapter);
-
+		/** Open the Project's Data Source */
+		projectdatasource = new ProjectDataSource(getActivity());
+        projectdatasource.open();
 		
+        /** Creating array adapter to set data in listview */
+        List<Project> values = projectdatasource.getAllProjects(1);
+		       
+        /** Setting the array adapter to the listview */
+        ArrayAdapter<Project> adapter = new ArrayAdapter<Project>(getActivity(),
+                android.R.layout.simple_list_item_1, values);
+            setListAdapter(adapter);
+            
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 	

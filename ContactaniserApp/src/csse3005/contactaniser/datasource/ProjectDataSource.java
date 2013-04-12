@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+
 public class ProjectDataSource {
 	// Database fields
 	private SQLiteDatabase database;
@@ -38,7 +39,7 @@ public class ProjectDataSource {
 	}
 
 	
-	public Project createProject(String name, String description, Date startdate, Date duedate,int completion, Date lastupdate) {
+	public Project createProject(String name, String description, Date startdate, Date duedate,String completion, Date lastupdate) {
 		ContentValues values = new ContentValues();
 		
 		values.put(MySQLHelper.COLUMN_PROJECTNAME, name);
@@ -92,17 +93,16 @@ public class ProjectDataSource {
 		project.setProjectName(cursor.getString(1));
 		project.setProjectDescription(cursor.getString(2));
 		Date sd = Date.valueOf(cursor.getString(3));
-		project.setProjectStartDate(sd);
-		project.setProjectCompletion(cursor.getInt(4));
-		Date dd = Date.valueOf(cursor.getString(5));
+		Date dd = Date.valueOf(cursor.getString(4));
+		project.setProjectDueDate(sd);
+		project.setProjectStartDate(dd);
+		project.setProjectCompletion(cursor.getString(5));
 		Date lu = Date.valueOf(cursor.getString(6));
-		
-		project.setProjectDueDate(dd);
-		project.setProjectLastUpdate(lu);
+	    project.setProjectLastUpdate(lu);
 		return project;
 	}
 	
-	public Project updateProject(long rowId, String name, String description, Date startdate, Date duedate, int completion, Date lastupdate) {
+	public Project updateProject(long rowId, String name, String description, Date startdate, Date duedate, String completion, Date lastupdate) {
 		ContentValues values = new ContentValues();
 		values.put(MySQLHelper.COLUMN_PROJECTNAME, name);
 		values.put(MySQLHelper.COLUMN_PROJECTDESCRIPTION, description);

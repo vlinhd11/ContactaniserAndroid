@@ -8,7 +8,7 @@ public class Project {
 	private String pDescription;
 	private Date startDate;
 	private Date dueDate;
-	private int completion;
+	private String completion;
 	private Date lastupdate;
 	
 	//Will be used by array adapter in the list view
@@ -57,11 +57,11 @@ public class Project {
 		this.dueDate = dueDate;
 	}
 	
-	public int getProjectCompletion() {
+	public String getProjectCompletion() {
 		return completion;
 	}
 	
-	public void setProjectCompletion(int completion) {
+	public void setProjectCompletion(String completion) {
 		this.completion = completion;
 	}
 	
