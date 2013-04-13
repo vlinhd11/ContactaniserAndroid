@@ -20,7 +20,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 
 
-import com.example.contactaniserapp.R;
+import csse3005.contactaniserapp.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MainActivity extends FragmentActivity {

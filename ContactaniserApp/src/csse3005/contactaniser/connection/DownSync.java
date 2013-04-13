@@ -12,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.example.contactaniserapp.R;
+import csse3005.contactaniserapp.R;
 
 import csse3005.contactaniser.datasource.TaskDataSource;
 

@@ -1,8 +1,8 @@
 package csse3005.contactaniser.activities;
 
-import com.example.contactaniserapp.R;
-import com.example.contactaniserapp.R.layout;
-import com.example.contactaniserapp.R.menu;
+import csse3005.contactaniserapp.R;
+import csse3005.contactaniserapp.R.layout;
+import csse3005.contactaniserapp.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;

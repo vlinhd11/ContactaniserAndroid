@@ -2,7 +2,7 @@ package csse3005.contactaniser.activities;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-import com.example.contactaniserapp.R;
+import csse3005.contactaniserapp.R;
 import android.os.Build;
 import android.os.Bundle;
 import android.annotation.TargetApi;

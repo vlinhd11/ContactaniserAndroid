@@ -1,6 +1,6 @@
 package csse3005.contactaniser.models;
 
-import com.example.contactaniserapp.R;
+import csse3005.contactaniserapp.R;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;

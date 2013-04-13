@@ -11,7 +11,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.example.contactaniserapp.R;
+import csse3005.contactaniserapp.R;
 
 import android.os.Bundle;
 import android.app.Activity;
