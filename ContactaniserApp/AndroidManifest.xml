@@ -34,17 +34,10 @@
             </intent-filter>
         </activity>
 
-        <uses-library android:name="android.test.runner" />
-
         <activity
             android:name="csse3005.contactaniser.activities.TaskList"
             android:label="@string/title_activity_task_list" >
         </activity>
     </application>
-
-    <instrumentation
-        android:name="android.test.InstrumentationTestRunner"
-        android:label="Contactaniserapp-Test"
-        android:targetPackage="com.example.ontactaniserapp" />
 
 </manifest>
