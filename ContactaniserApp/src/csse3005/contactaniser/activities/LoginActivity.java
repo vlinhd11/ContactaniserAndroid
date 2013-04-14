@@ -1,6 +1,19 @@
 package csse3005.contactaniser.activities;
 
-import csse3005.contactaniserapp.R;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -17,18 +30,13 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import csse3005.contactaniserapp.R;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
  * well.
  */
 public class LoginActivity extends Activity {
-	/**
-	 * A dummy authentication store containing known user names and passwords.
-	 * TODO: remove after connecting to a real authentication system.
-	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"a:b", "c:d" };
 
 	/**
 	 * The default email to populate the email field with.
@@ -208,22 +216,32 @@ public class LoginActivity extends Activity {
 			
 			boolean pwMatch = false;
 			
-			try {
-				// Simulate network access.
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				return false;
-			}
+			HttpPost httpRequest = new HttpPost("http://triple11.com/BlueTeam/android/login.php");
+	    	List<NameValuePair> nvp = new ArrayList<NameValuePair>(2);
+	    	nvp.add(new BasicNameValuePair("username", mUsername));
+	    	nvp.add(new BasicNameValuePair("password", mPassword));
+	    	
+	    	try
+	        {
+	            httpRequest.setEntity(new UrlEncodedFormEntity(nvp));
+	            HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequest);
 
-			for (String credential : DUMMY_CREDENTIALS) {
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mUsername)) {
-					// Account exists, return true if the password matches.
-					if (pieces[1].equals(mPassword)){
-						pwMatch = true;
-					}
-				}
-			}
+	            if (httpResponse.getStatusLine().getStatusCode() == 200)
+	            {
+	                String strResult = EntityUtils.toString(httpResponse.getEntity());
+	                JSONObject json;
+	                try {
+	                	json = new JSONObject(strResult);
+	                	if (json.get("Result").equals("Success")) pwMatch = true;
+	                } catch (JSONException e) {
+	        			e.printStackTrace();
+	        		}
+	            }
+	        } catch (ClientProtocolException e){
+	        	e.printStackTrace();
+	        } catch (IOException e){
+	        	e.printStackTrace();
+	        }
 			
 			return pwMatch;
 		}
