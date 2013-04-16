@@ -19,7 +19,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
@@ -150,9 +152,16 @@ public class LoginActivity extends Activity {
 				mAuthTask.execute((Void) null);
 			}
 			else {
+				new AlertDialog.Builder(this)
+			    .setTitle(R.string.network_error)
+			    .setMessage(R.string.network_error_message)
+			    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+			            // do nothing
+			        }
+			     })
+			     .show();
 				showProgress(false);
-				mPasswordView.setError("No connection found... Please turn on networking and try again");
-				focusView = mPasswordView;
 			}
 		}
 	}	
