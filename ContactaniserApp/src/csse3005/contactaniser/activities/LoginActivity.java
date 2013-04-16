@@ -150,8 +150,9 @@ public class LoginActivity extends Activity {
 				mAuthTask.execute((Void) null);
 			}
 			else {
-				Toast.makeText(this, "Unable to connect... Please switch on your wireless connection and try again.", Toast.LENGTH_LONG).show();
 				showProgress(false);
+				mPasswordView.setError("No connection found... Please turn on networking and try again");
+				focusView = mPasswordView;
 			}
 		}
 	}	
