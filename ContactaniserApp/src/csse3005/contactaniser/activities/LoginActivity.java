@@ -19,7 +19,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import csse3005.contactaniserapp.R;
 
 /**
@@ -57,6 +60,7 @@ public class LoginActivity extends Activity {
 	private EditText mPasswordView;
 	private View mLoginFormView;
 	private View mLoginStatusView;
+	private View focusView;
 	private TextView mLoginStatusMessageView;
 
 	@Override
@@ -71,43 +75,11 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-			
 		// TODO: test code, comment below line out
 //		startActivity(new Intent(this, MainActivity.class));
-		
-		// Set up the login form.
-		mUsername = getIntent().getStringExtra(EXTRA_EMAIL);
-		mUsernameView = (EditText) findViewById(R.id.username);
-		mUsernameView.setText(mUsername);
-
-		mPasswordView = (EditText) findViewById(R.id.password);
-		mPasswordView
-				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(TextView textView, int id,
-							KeyEvent keyEvent) {
-						if (id == R.id.login || id == EditorInfo.IME_NULL) {
-							attemptLogin();
-							return true;
-						}
-						return false;
-					}
-				});
-
-		mLoginFormView = findViewById(R.id.login_form);
-		mLoginStatusView = findViewById(R.id.login_status);
-		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-
-		findViewById(R.id.sign_in_button).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						attemptLogin();
-					}
-				});
-		mUsernameView.requestFocus();
+		setupLogin();
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -128,13 +100,13 @@ public class LoginActivity extends Activity {
 		// Reset errors.
 		mUsernameView.setError(null);
 		mPasswordView.setError(null);
-
+		
 		// Store values at the time of the login attempt.
 		mUsername = mUsernameView.getText().toString();
 		mPassword = mPasswordView.getText().toString();
 
 		boolean cancel = false;
-		View focusView = null;
+		
 
 		// Check for a valid password.
 		if (TextUtils.isEmpty(mPassword)) {
@@ -142,10 +114,23 @@ public class LoginActivity extends Activity {
 			focusView = mPasswordView;
 			cancel = true;
 		}
+		
+		//check for valid length of password
+		if (mPassword.length() != 0 && mPassword.length() < 6) {
+			mPasswordView.setError("Min. of 6 characters required");
+			focusView = mPasswordView;
+			cancel = true;
+		}
 
 		// Check for a valid username.
 		if (TextUtils.isEmpty(mUsername)) {
 			mUsernameView.setError(getString(R.string.error_field_required));
+			focusView = mUsernameView;
+			cancel = true;
+		}
+		
+		if (mUsername.length() != 0 && mUsername.length() < 6) {
+			mUsernameView.setError("Min. of 6 characters required");
 			focusView = mUsernameView;
 			cancel = true;
 		}
@@ -159,11 +144,19 @@ public class LoginActivity extends Activity {
 			// perform the user login attempt.
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
-			mAuthTask = new UserLoginTask();
-			mAuthTask.execute((Void) null);
+			
+			if (internetOn()) {
+				mAuthTask = new UserLoginTask();
+				mAuthTask.execute((Void) null);
+			}
+			else {
+				Toast.makeText(this, "Unable to connect... Please switch on your wireless connection and try again.", Toast.LENGTH_LONG).show();
+				showProgress(false);
+			}
 		}
-	}
-
+	}	
+	
+	
 	/**
 	 * Shows the progress UI and hides the login form.
 	 */
@@ -212,38 +205,8 @@ public class LoginActivity extends Activity {
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			// TODO: attempt authentication against a network service.
-			
-			boolean pwMatch = false;
-			
-			HttpPost httpRequest = new HttpPost("http://triple11.com/BlueTeam/android/login.php");
-	    	List<NameValuePair> nvp = new ArrayList<NameValuePair>(2);
-	    	nvp.add(new BasicNameValuePair("username", mUsername));
-	    	nvp.add(new BasicNameValuePair("password", mPassword));
-	    	
-	    	try
-	        {
-	            httpRequest.setEntity(new UrlEncodedFormEntity(nvp));
-	            HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequest);
-
-	            if (httpResponse.getStatusLine().getStatusCode() == 200)
-	            {
-	                String strResult = EntityUtils.toString(httpResponse.getEntity());
-	                JSONObject json;
-	                try {
-	                	json = new JSONObject(strResult);
-	                	if (json.get("Result").equals("Success")) pwMatch = true;
-	                } catch (JSONException e) {
-	        			e.printStackTrace();
-	        		}
-	            }
-	        } catch (ClientProtocolException e){
-	        	e.printStackTrace();
-	        } catch (IOException e){
-	        	e.printStackTrace();
-	        }
-			
-			return pwMatch;
+				boolean pwMatch = authPass();
+		return pwMatch;
 		}
 
 		@Override
@@ -255,8 +218,8 @@ public class LoginActivity extends Activity {
 				ContinueToProjects();
 				finish();
 			} else {
-				mPasswordView
-						.setError(getString(R.string.error_incorrect_password));
+				mPasswordView.setError(getString(R.string.error_incorrect_password));
+				mPasswordView.setText(null);
 				mPasswordView.requestFocus();
 			}
 		}
@@ -268,7 +231,86 @@ public class LoginActivity extends Activity {
 		}
 	}
 	
+	private void setupLogin() {
+		// Set up the login form.
+		mUsername = getIntent().getStringExtra(EXTRA_EMAIL);
+		mUsernameView = (EditText) findViewById(R.id.username);
+		mUsernameView.setText(mUsername);
+
+		mPasswordView = (EditText) findViewById(R.id.password);
+		mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+							@Override
+							public boolean onEditorAction(TextView textView, int id,
+									KeyEvent keyEvent) {
+								if (id == R.id.login || id == EditorInfo.IME_NULL) {
+									attemptLogin();
+									return true;
+								}
+								return false;
+							}
+						});
+
+		mLoginFormView = findViewById(R.id.login_form);
+		mLoginStatusView = findViewById(R.id.login_status);
+		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
+
+		findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
+							@Override
+							public void onClick(View view) {
+								attemptLogin();
+							}
+						});
+		mUsernameView.requestFocus();
+	}
+	
+	
+	private boolean authPass() {
+		// attempt authentication against a network service.
+		HttpPost httpRequest = new HttpPost("http://triple11.com/BlueTeam/android/login.php");
+    	List<NameValuePair> nvp = new ArrayList<NameValuePair>(2);
+    	nvp.add(new BasicNameValuePair("username", mUsername));
+    	nvp.add(new BasicNameValuePair("password", mPassword));
+    	
+    	try
+        {
+            httpRequest.setEntity(new UrlEncodedFormEntity(nvp));
+            HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequest);
+
+            if (httpResponse.getStatusLine().getStatusCode() == 200)
+            {
+                String strResult = EntityUtils.toString(httpResponse.getEntity());
+                JSONObject json;
+                try {
+                	json = new JSONObject(strResult);
+                	if (json.get("Result").equals("Success")) return true;
+                } catch (JSONException e) {
+        			e.printStackTrace();
+        		}
+            }
+        } catch (ClientProtocolException e){
+        	e.printStackTrace();
+        } catch (IOException e){
+        	e.printStackTrace();
+        }
+    	return false;
+	}
+	
 	private void ContinueToProjects() {
-		startActivity(new Intent(this, MainActivity.class));
+		// if the login is successful go to the next activity
+		Intent i = new Intent(this, MainActivity.class);
+		i.putExtra("username", mUsername);
+		startActivity(i);
+	}
+	
+	private boolean internetOn() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		android.net.NetworkInfo datac = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		if ((wifi != null & datac != null) && (wifi.isConnected() | datac.isConnected())) {
+			return true;
+		}else{
+            //no connection 
+            return false;
+        }
 	}
 }
