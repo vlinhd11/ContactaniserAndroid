@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 import csse3005.contactaniser.library.PasswordValidator;
 import csse3005.contactaniserapp.R;
 
@@ -116,10 +117,11 @@ public class ChangePassword extends Activity {
 			return;
 		}
 		
-		findViewById(R.id.txtConfirmPwd).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.btnChange).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				changeNewPwd();
+//				changeNewPwd();
+				Toast.makeText(getApplicationContext(), "Test connection to the PHP Server", Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -128,7 +130,7 @@ public class ChangePassword extends Activity {
 //		startActivity(new Intent(this, MainActivity.class));
 //	}
 	
-	private boolean changeNewPwd() {
+	private void changeNewPwd() {
 		// attempt authentication against a network service.
 		HttpPost httpRequest = new HttpPost("http://triple11.com/BlueTeam/android/change_password.php");
     	List<NameValuePair> nvp = new ArrayList<NameValuePair>(3);
@@ -161,7 +163,7 @@ public class ChangePassword extends Activity {
                 	else
                 	{
                 		new AlertDialog.Builder(this)
-        			    .setTitle(R.string.change_password_fail)
+        			    .setTitle(R.string.password_change_success)
         			    .setMessage(R.string.change_password_fail)
         			    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
         			        public void onClick(DialogInterface dialog, int which) { 
@@ -180,6 +182,5 @@ public class ChangePassword extends Activity {
         } catch (IOException e){
         	e.printStackTrace();
         }
-    	return false;
 	}
 }

@@ -269,6 +269,14 @@ public class LoginActivity extends Activity {
 								attemptLogin();
 							}
 						});
+		
+//		findViewById(R.id.change_password).setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View view) {
+//				ContinueToChangePassword();
+//			}
+//		});
+			
 		mUsernameView.requestFocus();
 	}
 	
@@ -307,6 +315,13 @@ public class LoginActivity extends Activity {
 	private void ContinueToProjects() {
 		// if the login is successful go to the next activity
 		Intent i = new Intent(this, MainActivity.class);
+		i.putExtra("username", mUsername);
+		startActivity(i);
+	}
+	
+	private void ContinueToChangePassword() {
+		// if the login is successful go to the next activity
+		Intent i = new Intent(this, ChangePassword.class);
 		i.putExtra("username", mUsername);
 		startActivity(i);
 	}
