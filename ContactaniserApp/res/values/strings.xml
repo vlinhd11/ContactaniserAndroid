@@ -39,5 +39,8 @@
     <string name="title_activity_project">ProjectActivity</string>
     <string name="title_activity_project_info">ProjectInfoActivity</string>
     <string name="title_activity_task">TaskActivity</string>
-
+	<string name="change_password">Change Password</string>
+    <string name="change_password_success">Password updated successfully</string>
+    <string name="change_password_fail">Incorrect password</string>
+    <string name="string_requirement">Must contain upper &amp; lowercase characters, numbers, special chars. Min. of 8 characters</string>
 </resources>

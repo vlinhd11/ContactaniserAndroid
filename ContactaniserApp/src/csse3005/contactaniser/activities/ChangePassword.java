@@ -1,25 +1,43 @@
 package csse3005.contactaniser.activities;
 
-import org.jasypt.util.password.StrongPasswordEncryptor;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import csse3005.contactaniserapp.R;
-import android.os.Build;
-import android.os.Bundle;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import csse3005.contactaniser.library.PasswordValidator;
+import csse3005.contactaniserapp.R;
 
 public class ChangePassword extends Activity {
+	private EditText username;
+	private EditText txtOldPwd;
+	private EditText txtNewPwd;
+	private EditText txtConfPwd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_change_password);
-		findViewById(R.id.txtOldPwd).requestFocus();
+		findViewById(R.id.username).requestFocus();
 	}
 
 	@Override
@@ -31,10 +49,12 @@ public class ChangePassword extends Activity {
 	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void changePassword(View view) {
-		EditText txtOldPwd = (EditText) findViewById(R.id.txtOldPwd);
-		EditText txtNewPwd = (EditText) findViewById(R.id.txtNewPwd);
-		EditText txtConfPwd = (EditText) findViewById(R.id.txtConfirmPwd);
+		username = (EditText) findViewById(R.id.username);
+		txtOldPwd = (EditText) findViewById(R.id.txtOldPwd);
+		txtNewPwd = (EditText) findViewById(R.id.txtNewPwd);
+		txtConfPwd = (EditText) findViewById(R.id.txtConfirmPwd);
 		
+		username.setError(null);
 		txtOldPwd.setError(null);
 		txtNewPwd.setError(null);
 		txtConfPwd.setError(null);
@@ -42,16 +62,37 @@ public class ChangePassword extends Activity {
 		boolean cancel = false;
 		
 		
+		// check for empty username
+		if (username.getText().toString().equals("")) {
+			username.setError(getText(R.string.error_field_required));
+			cancel = true;
+			focusView = username;
+		}
+		
+		// check for empty pwd
 		if (txtConfPwd.getText().toString().equals("")) {
 			txtConfPwd.setError(getText(R.string.error_field_required));
 			cancel = true;
 			focusView = txtConfPwd;
 		}
+		
+		
+		PasswordValidator check = new PasswordValidator();
+		if (!check.validate(txtNewPwd.getText().toString())) {
+			txtNewPwd.setError(getText(R.string.string_requirement));
+			cancel = true;
+			focusView = txtNewPwd;
+		}
+		
+		
+		// check for empty pwd
 		if (txtNewPwd.getText().toString().equals("")) {
 			txtNewPwd.setError(getText(R.string.error_field_required));
 			cancel = true;
 			focusView = txtNewPwd;
 		}
+		
+		
 		if (txtOldPwd.getText().toString().equals("")) {
 			txtOldPwd.setError(getText(R.string.error_field_required));
 			cancel = true;
@@ -75,40 +116,70 @@ public class ChangePassword extends Activity {
 			return;
 		}
 		
-//		StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
-//		String oldPwdEncrypted = encryptor.encryptPassword(txtOldPwd.getText().toString());
-//		String newPwdEncrypted = encryptor.encryptPassword(txtNewPwd.getText().toString());
-//		
-//		// TODO: some function to retrieve encrypted password? or do that at start
-//		String serverPwd = SOMETHING;
-//		
-//		if (!serverPwd.equals(oldPwdEncrypted)) {
-//			txtOldPwd.setError(getText(R.string.error_incorrect_password));
-//			txtOldPwd.requestFocus();
-//			return;
-//		}
-		
-		// TODO: some function to send off new hashed password
-		// error check here
-
-//		InfoDialog feedback = new InfoDialog();
-//		feedback.dialogMessage = "Password sucessfully changed.";
-//		feedback.show(getFragmentManager(), WINDOW_SERVICE);
-		
-		new AlertDialog.Builder(this)
-	    .setTitle(R.string.success)
-	    .setMessage(R.string.password_change_success)
-	    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int which) { 
-//	        	exitChangePassword();
-	        	finish();
-	        }
-	     })
-	     .show();
+		findViewById(R.id.txtConfirmPwd).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				changeNewPwd();
+			}
+		});
 	}
 	
 //	private void exitChangePassword() {
 //		startActivity(new Intent(this, MainActivity.class));
 //	}
+	
+	private boolean changeNewPwd() {
+		// attempt authentication against a network service.
+		HttpPost httpRequest = new HttpPost("http://triple11.com/BlueTeam/android/change_password.php");
+    	List<NameValuePair> nvp = new ArrayList<NameValuePair>(3);
+    	nvp.add(new BasicNameValuePair("username", "blueteam"));
+    	nvp.add(new BasicNameValuePair("oldpwd", txtOldPwd.getText().toString()));
+    	nvp.add(new BasicNameValuePair("newpwd", txtNewPwd.getText().toString()));
+    	
+    	try
+        {
+            httpRequest.setEntity(new UrlEncodedFormEntity(nvp));
+            HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequest);
 
+            if (httpResponse.getStatusLine().getStatusCode() == 200)
+            {
+                String strResult = EntityUtils.toString(httpResponse.getEntity());
+                JSONObject json;
+                try {
+                	json = new JSONObject(strResult);
+                	if (json.get("Result").equals("Success")) {
+                		new AlertDialog.Builder(this)
+        			    .setTitle(R.string.password_change_success)
+        			    .setMessage(R.string.password_change_success)
+        			    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+        			        public void onClick(DialogInterface dialog, int which) { 
+        			            // do nothing
+        			        }
+        			     })
+        			     .show();
+                	}
+                	else
+                	{
+                		new AlertDialog.Builder(this)
+        			    .setTitle(R.string.change_password_fail)
+        			    .setMessage(R.string.change_password_fail)
+        			    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+        			        public void onClick(DialogInterface dialog, int which) { 
+        			            // do nothing
+        			        }
+        			     })
+        			     .show();
+                	}
+                	
+                } catch (JSONException e) {
+        			e.printStackTrace();
+        		}
+            }
+        } catch (ClientProtocolException e){
+        	e.printStackTrace();
+        } catch (IOException e){
+        	e.printStackTrace();
+        }
+    	return false;
+	}
 }
