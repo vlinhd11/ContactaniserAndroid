@@ -29,7 +29,7 @@ public class ProjectActivity extends FragmentActivity {
 	        final ActionBar bar = getActionBar();
 	        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	        // TODO: replace with resource
-	        bar.setTitle("Project Home");
+	        bar.setTitle(getIntent().getStringExtra("projName"));
 	 
 	        //Attach the Tabs to the fragment classes and set the tab title.
 	        TabsAdapter = new TabsAdapter(this, ViewPager);

@@ -9,7 +9,7 @@
    <item 
        android:id="@+id/menu_change_password"
        android:title="@string/password_reset" />
-   <item android:id="@+id/menu_demo_project"
-       android:title="Dummy Project Home" />
+   <!-- <item android:id="@+id/menu_demo_project"
+       android:title="Dummy Project Home" /> -->
 
 </menu>

@@ -73,9 +73,9 @@ public class MainActivity extends FragmentActivity {
 	        	// log off action here - save info to db, etc
 	        	startActivity(new Intent(this, LoginActivity.class));
 	        	return true;
-	        case R.id.menu_demo_project:
-	        	startActivity(new Intent(this, ProjectActivity.class));
-	        	return true;
+//	        case R.id.menu_demo_project:
+//	        	startActivity(new Intent(this, ProjectActivity.class));
+//	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
