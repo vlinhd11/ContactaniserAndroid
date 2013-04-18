@@ -1,4 +1,5 @@
 package csse3005.contactaniser.activities;
+
 import csse3005.contactaniserapp.R;
 
 import android.annotation.TargetApi;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.TabsAdapter;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -15,7 +17,7 @@ public class ProjectActivity extends FragmentActivity {
 
 	ViewPager ViewPager;
 	 TabsAdapter TabsAdapter;
-	 
+	 Long mRowId;
 		@Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -29,6 +31,8 @@ public class ProjectActivity extends FragmentActivity {
 	        final ActionBar bar = getActionBar();
 	        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	        // TODO: replace with resource
+	        
+	        
 	        bar.setTitle(getIntent().getStringExtra("projName"));
 	 
 	        //Attach the Tabs to the fragment classes and set the tab title.

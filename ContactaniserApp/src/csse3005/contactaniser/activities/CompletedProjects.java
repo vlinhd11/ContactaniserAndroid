@@ -55,10 +55,12 @@ public class CompletedProjects extends ListFragment{
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
 		String itemtext = l.getItemAtPosition(position).toString(); 
-		
+		Project itemId = (Project) getListAdapter().getItem(position);
 		Intent pIntent = new Intent(getActivity(), ProjectActivity.class);
 		pIntent.putExtra("projName", itemtext);
+		pIntent.putExtra("projId", itemId.getProjectid());
 		startActivity(pIntent);
 		
 	}
