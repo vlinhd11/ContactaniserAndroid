@@ -3,10 +3,10 @@
     package="csse3005.contactaniserapp"
     android:versionCode="1"
     android:versionName="1.0" >
-	
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
+
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
@@ -34,10 +34,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="csse3005.contactaniser.activities.TaskList"
             android:label="@string/title_activity_task_list" >
+        </activity>
+        <activity
+            android:name="csse3005.contactaniser.activities.ProjectActivity"
+            android:label="@string/title_activity_project" >
+        </activity>
+        <activity
+            android:name="csse3005.contactaniser.activities.ProjectInfoActivity"
+            android:label="@string/title_activity_project_info" >
+        </activity>
+        <activity
+            android:name="csse3005.contactaniser.activities.TaskActivity"
+            android:label="@string/title_activity_task" >
         </activity>
     </application>
 

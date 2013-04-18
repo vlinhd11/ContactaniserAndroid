@@ -36,5 +36,8 @@
     <string name="title_activity_task_list">TaskList</string>
     <string name="network_error">Network Error</string>
     <string name="network_error_message">No network connection detected. Please connect your device and retry.</string>
+    <string name="title_activity_project">ProjectActivity</string>
+    <string name="title_activity_project_info">ProjectInfoActivity</string>
+    <string name="title_activity_task">TaskActivity</string>
 
 </resources>
