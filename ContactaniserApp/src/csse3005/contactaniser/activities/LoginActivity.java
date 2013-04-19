@@ -130,11 +130,6 @@ public class LoginActivity extends Activity {
 			cancel = true;
 		}
 		
-		if (mUsername.length() != 0 && mUsername.length() < 6) {
-			mUsernameView.setError("Min. of 6 characters required");
-			focusView = mUsernameView;
-			cancel = true;
-		}
 
 		if (cancel) {
 			// There was an error; don't attempt login and focus the first
