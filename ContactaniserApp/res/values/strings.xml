@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Contactaniser</string>
+    <string name="app_name">Protivity</string>
     <string name="hello_world">Project lists go in this screen.</string>
     <string name="menu_settings">Settings</string>
     <string name="password_reset">Change password</string>
@@ -43,4 +43,6 @@
     <string name="change_password_success">Password updated successfully</string>
     <string name="change_password_fail">Incorrect password</string>
     <string name="string_requirement">Must contain upper &amp; lowercase characters, numbers, special chars. Min. of 8 characters</string>
+    <string name="menu_sync">Sync</string>
+    
 </resources>

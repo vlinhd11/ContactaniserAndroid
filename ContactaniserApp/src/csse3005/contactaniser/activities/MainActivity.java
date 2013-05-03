@@ -1,16 +1,19 @@
 package csse3005.contactaniser.activities;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import csse3005.contactaniser.models.TabsAdapter;
 import csse3005.contactaniserapp.R;
 
@@ -18,7 +21,8 @@ import csse3005.contactaniserapp.R;
 public class MainActivity extends FragmentActivity {
 	
 	ViewPager ViewPager;
-	 TabsAdapter TabsAdapter;
+	TabsAdapter TabsAdapter;
+	private MenuItem menuItem; //menu item used by sync refresh
 	 
 	    /** Called when the activity is first created. */
 		@Override
@@ -63,9 +67,19 @@ public class MainActivity extends FragmentActivity {
 		return true;
 	}
 	
+	@SuppressLint("NewApi")
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
+
+        	case R.id.menu_refresh:
+        	    menuItem = item;
+        	    menuItem.setActionView(R.layout.progressbar);
+        	    menuItem.expandActionView();
+        	    SyncProgress task = new SyncProgress();
+        	    task.execute();
+        		return true;
+
 	        case R.id.menu_change_password:
 	        	openPasswordActivity();
 	            return true;
@@ -73,14 +87,34 @@ public class MainActivity extends FragmentActivity {
 	        	// log off action here - save info to db, etc
 	        	startActivity(new Intent(this, LoginActivity.class));
 	        	return true;
-//	        case R.id.menu_demo_project:
-//	        	startActivity(new Intent(this, ProjectActivity.class));
-//	        	return true;
+
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
 	
+	private class SyncProgress extends AsyncTask<String, Void, String> {
+
+	    @Override
+	    protected String doInBackground(String... params) {
+	    	///////////Dummy Simulate something long running
+	    	try {
+	    		Thread.sleep(2000);
+	    	} catch (InterruptedException e) {
+	    		e.printStackTrace();
+	    	}
+	    	///////////
+	    	return null;
+	    }
+
+	    @SuppressLint("NewApi")
+		@Override
+	    protected void onPostExecute(String result) {
+	    	menuItem.collapseActionView();
+	    	menuItem.setActionView(null);
+	    }
+	};
+		  
 	@Override
 	public void onBackPressed() {		
 		exitAppConfirmation();

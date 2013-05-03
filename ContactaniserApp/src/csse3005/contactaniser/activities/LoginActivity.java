@@ -79,6 +79,7 @@ public class LoginActivity extends Activity {
 		// TODO: test code, comment below line out
 //		startActivity(new Intent(this, MainActivity.class));
 		setupLogin();
+		
 	}
 	
 	@Override
