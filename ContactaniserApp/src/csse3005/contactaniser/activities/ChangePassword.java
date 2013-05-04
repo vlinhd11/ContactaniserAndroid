@@ -17,8 +17,8 @@ import org.json.JSONObject;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -29,16 +29,22 @@ import csse3005.contactaniser.library.PasswordValidator;
 import csse3005.contactaniserapp.R;
 
 public class ChangePassword extends Activity {
-	private EditText username;
+	private String username;
 	private EditText txtOldPwd;
 	private EditText txtNewPwd;
 	private EditText txtConfPwd;
-
+	private ChangePasswordTask changePwdTask = null;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_change_password);
-		findViewById(R.id.username).requestFocus();
+		findViewById(R.id.txtOldPwd).requestFocus();
+		Intent receivedIntent = getIntent();
+        username = receivedIntent.getStringExtra("username");
+        //To be removed
+        Toast.makeText(getApplicationContext(), "Welcome "+username, Toast.LENGTH_LONG).show();
 	}
 
 	@Override
@@ -50,25 +56,16 @@ public class ChangePassword extends Activity {
 	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void changePassword(View view) {
-		username = (EditText) findViewById(R.id.username);
+		
 		txtOldPwd = (EditText) findViewById(R.id.txtOldPwd);
 		txtNewPwd = (EditText) findViewById(R.id.txtNewPwd);
 		txtConfPwd = (EditText) findViewById(R.id.txtConfirmPwd);
 		
-		username.setError(null);
 		txtOldPwd.setError(null);
 		txtNewPwd.setError(null);
 		txtConfPwd.setError(null);
 		View focusView = null;
 		boolean cancel = false;
-		
-		
-		// check for empty username
-		if (username.getText().toString().equals("")) {
-			username.setError(getText(R.string.error_field_required));
-			cancel = true;
-			focusView = username;
-		}
 		
 		// check for empty pwd
 		if (txtConfPwd.getText().toString().equals("")) {
@@ -76,7 +73,6 @@ public class ChangePassword extends Activity {
 			cancel = true;
 			focusView = txtConfPwd;
 		}
-		
 		
 		PasswordValidator check = new PasswordValidator();
 		if (!check.validate(txtNewPwd.getText().toString())) {
@@ -116,26 +112,19 @@ public class ChangePassword extends Activity {
 			focusView.requestFocus();
 			return;
 		}
-		
-		findViewById(R.id.btnChange).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-//				changeNewPwd();
-				Toast.makeText(getApplicationContext(), "Test connection to the PHP Server", Toast.LENGTH_LONG).show();
-			}
-		});
+		else {
+			changePwdTask = new ChangePasswordTask();
+			changePwdTask.execute((Void) null);
+		}
 	}
-	
-//	private void exitChangePassword() {
-//		startActivity(new Intent(this, MainActivity.class));
-//	}
-	
-	private void changeNewPwd() {
+		
+	private boolean changeNewPwd() {
+		
 		// attempt authentication against a network service.
-		HttpPost httpRequest = new HttpPost("http://triple11.com/BlueTeam/android/change_password.php");
+		HttpPost httpRequest = new HttpPost("http://triple11.com/BlueTeam/android/login.php"); // To be changed to change_password.php
     	List<NameValuePair> nvp = new ArrayList<NameValuePair>(3);
-    	nvp.add(new BasicNameValuePair("username", "blueteam"));
-    	nvp.add(new BasicNameValuePair("oldpwd", txtOldPwd.getText().toString()));
+    	nvp.add(new BasicNameValuePair("username", username));
+    	nvp.add(new BasicNameValuePair("password", txtOldPwd.getText().toString()));
     	nvp.add(new BasicNameValuePair("newpwd", txtNewPwd.getText().toString()));
     	
     	try
@@ -150,29 +139,8 @@ public class ChangePassword extends Activity {
                 try {
                 	json = new JSONObject(strResult);
                 	if (json.get("Result").equals("Success")) {
-                		new AlertDialog.Builder(this)
-        			    .setTitle(R.string.password_change_success)
-        			    .setMessage(R.string.password_change_success)
-        			    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-        			        public void onClick(DialogInterface dialog, int which) { 
-        			            // do nothing
-        			        }
-        			     })
-        			     .show();
+                		return true;
                 	}
-                	else
-                	{
-                		new AlertDialog.Builder(this)
-        			    .setTitle(R.string.password_change_success)
-        			    .setMessage(R.string.change_password_fail)
-        			    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-        			        public void onClick(DialogInterface dialog, int which) { 
-        			            // do nothing
-        			        }
-        			     })
-        			     .show();
-                	}
-                	
                 } catch (JSONException e) {
         			e.printStackTrace();
         		}
@@ -182,5 +150,39 @@ public class ChangePassword extends Activity {
         } catch (IOException e){
         	e.printStackTrace();
         }
+    	return false;
+	}
+	
+	
+	/**
+	 * Represents an asynchronous login/registration task used to authenticate
+	 * the user.
+	 */
+	public class ChangePasswordTask extends AsyncTask<Void, Void, Boolean> {
+		@Override
+		protected Boolean doInBackground(Void... params) {
+				boolean pwChange = changeNewPwd();
+		return pwChange;
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			changePwdTask = null;
+			
+			if (success) {
+				Toast.makeText(getApplicationContext(), "Success, Password changed", Toast.LENGTH_LONG).show();
+				finish();
+			} else {
+				Toast.makeText(getApplicationContext(), "Failed, Incorrect Password", Toast.LENGTH_LONG).show();
+				txtOldPwd.setError(getString(R.string.error_incorrect_password));
+				txtOldPwd.setText(null);
+				txtOldPwd.requestFocus();
+			}
+		}
+
+		@Override
+		protected void onCancelled() {
+			changePwdTask = null;
+		}
 	}
 }
