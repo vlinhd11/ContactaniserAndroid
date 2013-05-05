@@ -20,6 +20,7 @@ import csse3005.contactaniserapp.R;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MainActivity extends FragmentActivity {
 	
+	private String username;
 	ViewPager ViewPager;
 	TabsAdapter TabsAdapter;
 	private MenuItem menuItem; //menu item used by sync refresh
@@ -28,7 +29,13 @@ public class MainActivity extends FragmentActivity {
 		@Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-	 
+	        
+	        
+	        // retrieve username
+	        Intent receivedIntent = getIntent();
+	        username = receivedIntent.getStringExtra("username");
+	        Toast.makeText(getApplicationContext(), "Welcome "+username, Toast.LENGTH_LONG).show();
+	        
 	        //create a new ViewPager and set to the pager we have created in Ids.xml
 	        ViewPager = new ViewPager(this);
 	        ViewPager.setId(R.id.projectListPager);
@@ -121,7 +128,9 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	private void openPasswordActivity() {
-		startActivity(new Intent(this, ChangePassword.class));
+		Intent intent = new Intent(this, ChangePassword.class);
+		intent.putExtra("username", username);
+		startActivity(intent);
 	}
 	
 	private void exitAppConfirmation() {
