@@ -3,7 +3,8 @@ package csse3005.contactaniser.models;
 import java.sql.Date;
 
 /**
- * The Class Project.
+ * The Class Project is used as a model for projects retrieved from the
+ * database, which will then in turn be turned in an array to access.
  */
 public class Project {
 	

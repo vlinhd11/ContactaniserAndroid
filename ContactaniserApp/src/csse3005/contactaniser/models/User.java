@@ -2,9 +2,9 @@ package csse3005.contactaniser.models;
 
 import java.sql.Date;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class User.
+ * The Class User is used as a model for users retrieved from the
+ * database, which will then in turn be turned in an array to access.
  */
 public class User {
 	

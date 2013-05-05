@@ -2,9 +2,9 @@ package csse3005.contactaniser.models;
 
 import java.sql.Date;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Task.
+ * The Class Task is used as a model for tasks retrieved from the android
+ * 		database, which will be stored in an array.
  */
 public class Task {
 	

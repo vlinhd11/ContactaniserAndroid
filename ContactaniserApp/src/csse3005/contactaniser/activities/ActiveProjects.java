@@ -26,7 +26,6 @@ public class ActiveProjects extends ListFragment {
 		
 		projectdatasource = new ProjectDataSource(getActivity());
         projectdatasource.open();
-
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 	
@@ -46,7 +45,7 @@ public class ActiveProjects extends ListFragment {
 		fillData();
 //		genDummy();
     }
-	
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
