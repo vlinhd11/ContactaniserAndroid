@@ -1,5 +1,15 @@
 package csse3005.contactaniser.activities;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -14,12 +24,14 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import csse3005.contactaniser.datasource.ProjectDataSource;
 import csse3005.contactaniser.models.TabsAdapter;
 import csse3005.contactaniserapp.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MainActivity extends FragmentActivity {
 	
+	private ProjectDataSource projectdatasource;
 	private String username;
 	ViewPager ViewPager;
 	TabsAdapter TabsAdapter;
@@ -30,6 +42,8 @@ public class MainActivity extends FragmentActivity {
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        
+	        projectdatasource = new ProjectDataSource(this);
+	        projectdatasource.open();
 	        
 	        // retrieve username
 	        Intent receivedIntent = getIntent();
@@ -84,7 +98,7 @@ public class MainActivity extends FragmentActivity {
         	    menuItem.setActionView(R.layout.progressbar);
         	    menuItem.expandActionView();
         	    SyncProgress task = new SyncProgress();
-        	    task.execute();
+        	    task.execute("http://triple11.com/BlueTeam/android/syncDownProject.php");
         		return true;
 
 	        case R.id.menu_change_password:
@@ -105,13 +119,20 @@ public class MainActivity extends FragmentActivity {
 	    @Override
 	    protected String doInBackground(String... params) {
 	    	///////////Dummy Simulate something long running
-	    	try {
+	    	
+	    	return JSONParser.getJSONString(params[0]);
+	    	/*try {
+	    		DownSycnProject listProject = new DownSycnProject();
+	    		listProject.setContext(null);
+	    		HttpPost httpPost = new HttpPost("http://triple11.com/BlueTeam/android/syncDownProject.php");
+	            listProject.setHttpPost(httpPost);
+	            listProject.execute();
 	    		Thread.sleep(2000);
 	    	} catch (InterruptedException e) {
 	    		e.printStackTrace();
 	    	}
 	    	///////////
-	    	return null;
+	    	return null;*/
 	    }
 
 	    @SuppressLint("NewApi")
@@ -119,6 +140,50 @@ public class MainActivity extends FragmentActivity {
 	    protected void onPostExecute(String result) {
 	    	menuItem.collapseActionView();
 	    	menuItem.setActionView(null);
+	    	
+	    	try {
+	    		JSONObject mainJson = new JSONObject(result);
+				JSONArray jsonArray = mainJson.getJSONArray("projectList");
+					
+					// get the names that are in the JSON return
+	
+					int i;
+					for (i = 0; i < jsonArray.length(); i++) {
+							
+							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+							
+							JSONObject jsonObject = jsonArray.getJSONObject(i);
+							String Name = jsonObject.getString("Name");
+					
+							String Description = jsonObject.getString("Description");
+							String StartDateString = jsonObject.getString("StartDate");
+							java.util.Date StartDateUtil =  df.parse(StartDateString); 
+							java.sql.Date StartDate = new java.sql.Date(StartDateUtil.getTime());
+							String DueDateString = jsonObject.getString("DueDate");
+							java.util.Date DueDateUtil =  df.parse(DueDateString);
+							java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
+							String Completion = jsonObject.getString("Completion");
+							
+							Calendar CalNow = Calendar.getInstance();
+			        		Date DateNow = new Date(CalNow.getTimeInMillis());
+							
+							// open the staff dao and update/insert the staff information
+							
+							projectdatasource.createProject(Name,Description,StartDate,DueDate,Completion,DateNow);
+							
+
+						
+					}
+
+					
+				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    }
 	};
 		  
@@ -153,5 +218,55 @@ public class MainActivity extends FragmentActivity {
 	     })
 	     .show();
 	}
+	
+	/*private class DownSycnProject extends JSONParser {
+		JSONArray jsonArray = null;
+		@Override
+		public void processJSON(JSONObject json) {
+			try {
+
+				jsonArray = json.getJSONArray("projectList");
+					
+					// get the names that are in the JSON return
+	
+					int i;
+					for (i = 0; i < jsonArray.length(); i++) {
+							
+							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+							
+							JSONObject jsonObject = jsonArray.getJSONObject(i);
+							String Name = jsonObject.getString("Name");
+					
+							String Description = jsonObject.getString("Description");
+							String StartDateString = jsonObject.getString("StartDate");
+							java.util.Date StartDateUtil =  df.parse(StartDateString); 
+							java.sql.Date StartDate = new java.sql.Date(StartDateUtil.getTime());
+							String DueDateString = jsonObject.getString("DueDate");
+							java.util.Date DueDateUtil =  df.parse(DueDateString);
+							java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
+							String Completion = jsonObject.getString("Completion");
+							
+							Calendar CalNow = Calendar.getInstance();
+			        		Date DateNow = new Date(CalNow.getTimeInMillis());
+							
+							// open the staff dao and update/insert the staff information
+							
+							projectdatasource.createProject(Name,Description,StartDate,DueDate,Completion,DateNow);
+							
+
+						
+					}
+
+					
+				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+    }*/
 
 }

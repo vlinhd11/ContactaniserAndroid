@@ -41,7 +41,7 @@ public class ActiveProjects extends ListFragment {
     public void onStart() {
         super.onStart();
 		fillData();
-		genDummy();
+		//genDummy();
     }
 
 	@Override
