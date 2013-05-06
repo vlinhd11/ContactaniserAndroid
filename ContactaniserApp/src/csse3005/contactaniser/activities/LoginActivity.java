@@ -315,13 +315,6 @@ public class LoginActivity extends Activity {
 		startActivity(i);
 	}
 	
-	private void ContinueToChangePassword() {
-		// if the login is successful go to the next activity
-		Intent i = new Intent(this, ChangePassword.class);
-		i.putExtra("username", mUsername);
-		startActivity(i);
-	}
-	
 	private boolean internetOn() {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);

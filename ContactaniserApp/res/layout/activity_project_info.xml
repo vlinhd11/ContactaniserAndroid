@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Project Name"
+        android:text="@string/project_name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -32,7 +32,7 @@
         android:layout_alignLeft="@+id/textView2"
         android:layout_below="@+id/textView2"
         android:layout_marginTop="16dp"
-        android:text="Brief"
+        android:text="@string/project_brief"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -50,7 +50,7 @@
         android:layout_alignLeft="@+id/textView4"
         android:layout_below="@+id/textView4"
         android:layout_marginTop="16dp"
-        android:text="Date Created"
+        android:text="@string/project_date_created"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -76,7 +76,7 @@
         android:layout_alignLeft="@+id/textView6"
         android:layout_below="@+id/textView6"
         android:layout_marginTop="16dp"
-        android:text="Date Due"
+        android:text="@string/project_date_due"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

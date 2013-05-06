@@ -45,5 +45,10 @@
     <string name="string_requirement">Must contain upper &amp; lowercase characters, numbers, special chars. Min. of 8 characters</string>
     <string name="menu_sync">Sync</string>
     <string name="prompt_servername">Server</string>
+    <string name="title_image_description">This is the image for the logo</string>
+    <string name="project_name">Project Name</string>
+    <string name="project_brief">Brief</string>
+    <string name="project_date_created">Date Created</string>
+    <string name="project_date_due">Due Date</string>
     
 </resources>
