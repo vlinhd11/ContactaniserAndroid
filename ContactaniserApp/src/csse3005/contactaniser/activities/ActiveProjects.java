@@ -43,7 +43,7 @@ public class ActiveProjects extends ListFragment {
     public void onStart() {
         super.onStart();
 		fillData();
-//		genDummy();
+		genDummy();
     }
 
 	@Override
@@ -64,14 +64,14 @@ public class ActiveProjects extends ListFragment {
 		fillData();
 	}
 	
-	/**private void genDummy() {
+	private void genDummy() {
 		Calendar CalNow = Calendar.getInstance();
 		Date DateNow = new Date(CalNow.getTimeInMillis());
 		projectdatasource.createProject("Active Project 1", "Active Project 1", DateNow, DateNow, "0", DateNow);
 		projectdatasource.createProject("Active Project 2", "Active Project 2", DateNow, DateNow, "0", DateNow);
 		projectdatasource.createProject("Active Project 3", "Active Project 3", DateNow, DateNow, "0", DateNow);
 		projectdatasource.createProject("Active Project 4", "Active Project 4", DateNow, DateNow, "0", DateNow);
-	}*/
+	}
 	
 	
 }
