@@ -118,28 +118,14 @@ public class MainActivity extends FragmentActivity {
 
 	    @Override
 	    protected String doInBackground(String... params) {
-	    	///////////Dummy Simulate something long running
-	    	
+   	
 	    	return JSONParser.getJSONString(params[0]);
-	    	/*try {
-	    		DownSycnProject listProject = new DownSycnProject();
-	    		listProject.setContext(null);
-	    		HttpPost httpPost = new HttpPost("http://triple11.com/BlueTeam/android/syncDownProject.php");
-	            listProject.setHttpPost(httpPost);
-	            listProject.execute();
-	    		Thread.sleep(2000);
-	    	} catch (InterruptedException e) {
-	    		e.printStackTrace();
-	    	}
-	    	///////////
-	    	return null;*/
 	    }
 
 	    @SuppressLint("NewApi")
 		@Override
 	    protected void onPostExecute(String result) {
-	    	menuItem.collapseActionView();
-	    	menuItem.setActionView(null);
+	    	
 	    	
 	    	try {
 	    		JSONObject mainJson = new JSONObject(result);
@@ -170,12 +156,8 @@ public class MainActivity extends FragmentActivity {
 							// open the staff dao and update/insert the staff information
 							
 							projectdatasource.createProject(Name,Description,StartDate,DueDate,Completion,DateNow);
-							
-
 						
-					}
-
-					
+					}					
 				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -184,7 +166,11 @@ public class MainActivity extends FragmentActivity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	    	
+	    	menuItem.collapseActionView();
+	    	menuItem.setActionView(null);
 	    }
+	    
 	};
 		  
 	@Override
@@ -218,55 +204,5 @@ public class MainActivity extends FragmentActivity {
 	     })
 	     .show();
 	}
-	
-	/*private class DownSycnProject extends JSONParser {
-		JSONArray jsonArray = null;
-		@Override
-		public void processJSON(JSONObject json) {
-			try {
-
-				jsonArray = json.getJSONArray("projectList");
-					
-					// get the names that are in the JSON return
-	
-					int i;
-					for (i = 0; i < jsonArray.length(); i++) {
-							
-							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
-							
-							JSONObject jsonObject = jsonArray.getJSONObject(i);
-							String Name = jsonObject.getString("Name");
-					
-							String Description = jsonObject.getString("Description");
-							String StartDateString = jsonObject.getString("StartDate");
-							java.util.Date StartDateUtil =  df.parse(StartDateString); 
-							java.sql.Date StartDate = new java.sql.Date(StartDateUtil.getTime());
-							String DueDateString = jsonObject.getString("DueDate");
-							java.util.Date DueDateUtil =  df.parse(DueDateString);
-							java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
-							String Completion = jsonObject.getString("Completion");
-							
-							Calendar CalNow = Calendar.getInstance();
-			        		Date DateNow = new Date(CalNow.getTimeInMillis());
-							
-							// open the staff dao and update/insert the staff information
-							
-							projectdatasource.createProject(Name,Description,StartDate,DueDate,Completion,DateNow);
-							
-
-						
-					}
-
-					
-				
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-    }*/
 
 }
