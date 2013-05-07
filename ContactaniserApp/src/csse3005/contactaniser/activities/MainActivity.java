@@ -104,6 +104,15 @@ public class MainActivity extends FragmentActivity {
 	        case R.id.menu_change_password:
 	        	openPasswordActivity();
 	            return true;
+	        
+	        case R.id.menu_email:
+	        	openEmailActivity();
+	        	return true;
+	        	
+	        case R.id.menu_phone:
+	        	openPhoneActivity();
+	        	return true;
+	        
 	        case R.id.menu_logoff:
 	        	// log off action here - save info to db, etc
 	        	startActivity(new Intent(this, LoginActivity.class));
@@ -181,6 +190,16 @@ public class MainActivity extends FragmentActivity {
 	private void openPasswordActivity() {
 		Intent intent = new Intent(this, ChangePassword.class);
 		intent.putExtra("username", username);
+		startActivity(intent);
+	}
+	
+	private void openEmailActivity() {
+		Intent intent = new Intent(this, EmailActivity.class);
+		startActivity(intent);
+	}
+	
+	private void openPhoneActivity() {
+		Intent intent = new Intent(this, PhoneActivity.class);
 		startActivity(intent);
 	}
 	
