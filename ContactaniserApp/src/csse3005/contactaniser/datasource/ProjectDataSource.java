@@ -39,7 +39,7 @@ public class ProjectDataSource {
 	}
 
 	
-	public Project createProject(String name, String description, Date startdate, Date duedate,String completion, Date lastupdate) {
+	public Project createProject(String id, String name, String description, Date startdate, Date duedate,String completion, Date lastupdate) {
 		ContentValues values = new ContentValues();
 		
 		values.put(MySQLHelper.COLUMN_PROJECTNAME, name);
@@ -49,16 +49,37 @@ public class ProjectDataSource {
 		values.put(MySQLHelper.COLUMN_PROJECTCOMPLETION, completion);
 		values.put(MySQLHelper.COLUMN_PROJECTLASTUPDATE, lastupdate.toString());
 		
+		String[] str = {id};
 		
-	    long insertId = database.insert(MySQLHelper.TABLE_PROJECTS, null,
-	        values);
-	    Cursor cursor = database.query(MySQLHelper.TABLE_PROJECTS,
-	        allColumns, MySQLHelper.COLUMN_PROJECTID + " = " + insertId, null,
-	        null, null, null);
-	    cursor.moveToFirst();
-	    Project newProject = cursorToProject(cursor);
-	    cursor.close();
-	    return newProject;
+		// update the location row where locationid = input
+				int affectedRows = database.update(MySQLHelper.TABLE_PROJECTS,
+						values, MySQLHelper.COLUMN_PROJECTID + " = ?",
+						str);
+				
+				
+				if (affectedRows == 1) {
+					// if 1 row is affected then it existed before so get it
+					Cursor cursor = database.query(MySQLHelper.TABLE_PROJECTS,
+					        allColumns, MySQLHelper.COLUMN_PROJECTID + " = " + id, null,
+					        null, null, null);
+					    cursor.moveToFirst();
+					    Project newProject = cursorToProject(cursor);
+					    cursor.close();
+					    return newProject;
+				}
+				else
+				{
+				values.put(MySQLHelper.COLUMN_PROJECTID, id);
+			    long insertId = database.insert(MySQLHelper.TABLE_PROJECTS, null,
+			        values);
+			    Cursor cursor = database.query(MySQLHelper.TABLE_PROJECTS,
+			        allColumns, MySQLHelper.COLUMN_PROJECTID + " = " + insertId, null,
+			        null, null, null);
+			    cursor.moveToFirst();
+			    Project newProject = cursorToProject(cursor);
+			    cursor.close();
+			    return newProject;
+				}
 	}
 	
 	public void deleteProject(Project project) {
@@ -101,25 +122,6 @@ public class ProjectDataSource {
 	    project.setProjectLastUpdate(lu);
 		return project;
 	}
-	
-	public Project updateProject(long rowId, String name, String description, Date startdate, Date duedate, String completion, Date lastupdate) {
-		ContentValues values = new ContentValues();
-		values.put(MySQLHelper.COLUMN_PROJECTNAME, name);
-		values.put(MySQLHelper.COLUMN_PROJECTDESCRIPTION, description);
-		values.put(MySQLHelper.COLUMN_PROJECTSTARTDATE, startdate.toString());
-		values.put(MySQLHelper.COLUMN_PROJECTDUEDATE, duedate.toString());
-		values.put(MySQLHelper.COLUMN_PROJECTCOMPLETION, completion);
-		values.put(MySQLHelper.COLUMN_PROJECTLASTUPDATE, lastupdate.toString());
-		
-	    long insertId = database.update(MySQLHelper.TABLE_PROJECTS, values, MySQLHelper.COLUMN_PROJECTID + "=" + rowId,null);
-	    Cursor cursor = database.query(MySQLHelper.TABLE_PROJECTS,
-	        allColumns, MySQLHelper.COLUMN_PROJECTID + " = " + insertId, null,
-	        null, null, null);
-	    cursor.moveToFirst();
-	    Project newProject = cursorToProject(cursor);
-	    cursor.close();
-	    return newProject;
-    }
 	
 	public Cursor fetchProjectById(long rowId) throws SQLException {
 

@@ -36,13 +36,31 @@ public class UserDataSource {
 			dbHelper.close();
 		}
 		
-		public User createUser(String user_username, String username, int phonenumber, String email, Date lastupdate) {
+		public User createUser(String userid, String user_username, String username, int phonenumber, String email, Date lastupdate) {
 			ContentValues values = new ContentValues();
 			values.put(MySQLHelper.COLUMN_USER_USERNAME, user_username);
 			values.put(MySQLHelper.COLUMN_USERNAME, username);
 			values.put(MySQLHelper.COLUMN_USERPHONENUMBER, phonenumber);
 			values.put(MySQLHelper.COLUMN_USEREMAIL, email);
 			values.put(MySQLHelper.COLUMN_USERLASTUPDATE, lastupdate.toString());
+			
+			String[] str = {userid};
+			
+			int affectedRows = database.update(MySQLHelper.TABLE_USER,
+					values, MySQLHelper.COLUMN_USERID + " = ?",
+					str);
+			
+			if (affectedRows == 1) {
+				Cursor cursor = database.query(MySQLHelper.TABLE_USER,
+				        allColumns, MySQLHelper.COLUMN_USERID + " = " + userid, null,
+				        null, null, null);
+				    cursor.moveToFirst();
+				    User newUser = cursorToUser(cursor);
+				    cursor.close();
+				    return newUser;
+			}
+			else
+			{
 		    long insertId = database.insert(MySQLHelper.TABLE_USER, null,
 		        values);
 		    Cursor cursor = database.query(MySQLHelper.TABLE_USER,
@@ -52,6 +70,7 @@ public class UserDataSource {
 		    User newUser = cursorToUser(cursor);
 		    cursor.close();
 		    return newUser;
+			}
 		}
 
 		public void deleteUser(User user) {

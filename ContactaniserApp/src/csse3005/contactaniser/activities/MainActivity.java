@@ -148,6 +148,7 @@ public class MainActivity extends FragmentActivity {
 							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
 							
 							JSONObject jsonObject = jsonArray.getJSONObject(i);
+							String ID = jsonObject.getString("Id");
 							String Name = jsonObject.getString("Name");
 					
 							String Description = jsonObject.getString("Description");
@@ -164,7 +165,7 @@ public class MainActivity extends FragmentActivity {
 							
 							// open the staff dao and update/insert the staff information
 							
-							projectdatasource.createProject(Name,Description,StartDate,DueDate,Completion,DateNow);
+							projectdatasource.createProject(ID, Name,Description,StartDate,DueDate,Completion,DateNow);
 						
 					}					
 				
