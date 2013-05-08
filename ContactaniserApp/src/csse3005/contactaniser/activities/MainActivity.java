@@ -99,6 +99,29 @@ public class MainActivity extends FragmentActivity {
         	    menuItem.expandActionView();
         	    SyncProgress task = new SyncProgress();
         	    task.execute("http://triple11.com/BlueTeam/android/syncDownProject.php");
+        	    ActiveProjects fragment = (ActiveProjects) getSupportFragmentManager().findFragmentByTag(
+                        "android:switcher:"+R.id.projectListPager+":0");
+        	    CompletedProjects fragment2 = (CompletedProjects) getSupportFragmentManager().findFragmentByTag(
+                        "android:switcher:"+R.id.projectListPager+":1");
+        	    if(fragment != null)  // could be null if not instantiated yet
+        	      {
+        	         if(fragment.getView() != null) 
+        	         {
+        	            // no need to call if fragment's onDestroyView() 
+        	            //has since been called.
+        	            fragment.fillData(); // do what updates are required
+        	         }
+        	      }
+        	    
+        	    if(fragment2 != null)  // could be null if not instantiated yet
+	      	      {
+	      	         if(fragment2.getView() != null) 
+	      	         {
+	      	            // no need to call if fragment's onDestroyView() 
+	      	            //has since been called.
+	      	            fragment2.fillData(); // do what updates are required
+	      	         }
+	      	      }
         		return true;
 
 	        case R.id.menu_change_password:
@@ -224,5 +247,8 @@ public class MainActivity extends FragmentActivity {
 	     })
 	     .show();
 	}
+	
+	
+	
 
 }

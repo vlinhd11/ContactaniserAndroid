@@ -27,13 +27,15 @@ public class ActiveProjects extends ListFragment {
 	}
 	
 	
-	private void fillData() {
+	public void fillData() {
 		/** Creating array adapter to set data in listview */
         List<Project> values = projectdatasource.getAllProjects(0);  
         /** Setting the array adapter to the listview using the custom xml layout */
         ArrayAdapter<Project> adapter = new ArrayAdapter<Project>(getActivity(),
                 R.layout.active_row, R.id.label, values);
-            setListAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        setListAdapter(adapter);
+            
     }
 	
 	@Override
@@ -59,5 +61,11 @@ public class ActiveProjects extends ListFragment {
 		super.onResume();
 		fillData();
 	}
+	
+	
+	
+	
+	
+	
 	
 }
