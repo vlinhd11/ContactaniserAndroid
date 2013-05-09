@@ -27,6 +27,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_TASKDUEDATE = "taskduedate";
 	public static final String COLUMN_TASKCOMPLETION = "taskcompletion";
 	public static final String COLUMN_TASKLASTUPDATE = "tasklastupdate";
+	public static final String COLUMN_TASKCATEGORY = "taskcategory";
 	
 	//User
 	public static final String TABLE_USER = "user";
@@ -82,7 +83,8 @@ public class MySQLHelper extends SQLiteOpenHelper {
 			+ COLUMN_TASKIMPORTANCELEVEL + " integer not null, "
 			+ COLUMN_TASKDUEDATE + " text not null, " 
 			+ COLUMN_TASKCOMPLETION + " integer not null, " 
-			+ COLUMN_TASKLASTUPDATE + " text not null);";
+			+ COLUMN_TASKLASTUPDATE + " text not null, "
+			+ COLUMN_TASKCATEGORY + " integer not null);";
 	
 	private static final String DATABASE_CREATE_USER = "create table "
 			+ TABLE_USER + "(" + COLUMN_USERID + " integer primary key autoincrement, "
@@ -94,21 +96,21 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	
 	private static final String DATABASE_CREATE_LOGS = "create table "
 			+ TABLE_LOGS + "(" + COLUMN_LOGID + " integer primary key autoincrement, "
-			+ COLUMN_LOGTASKFID + " integer, " 
-			+ COLUMN_LOGUSERFID + " integer, " 
+			+ COLUMN_LOGTASKFID + " integer not null, " 
+			+ COLUMN_LOGUSERFID + " integer not null, " 
 			+ COLUMN_LOGDATETIME + " text not null, "
 			+ COLUMN_LOGDESCRIPTION + " text not null, " 
 			+ COLUMN_LOGLASTUPDATE + "text not null);";
 	
 	private static final String DATABASE_CREATE_USER_PROJECT = "create table "
 			+ TABLE_USER_PROJECT + "(" + COLUMN_USERPROJECTUSERFID + " integer, " 
-			+ COLUMN_USERPROJECTPROJECTFID + " integer, " 
+			+ COLUMN_USERPROJECTPROJECTFID + " integer not null, " 
 			+ COLUMN_ROLE + " string not null, " 
 			+ COLUMN_USERPROJECTLASTUPDATE + " text not null);";
 	
 	private static final String DATABASE_CREATE_USER_TASK = "create table "
-			+ TABLE_USER_TASK + "(" + COLUMN_USERTASKUSERFID + " integer, "
-			+ COLUMN_USERTASKTASKFID + " integer, "
+			+ TABLE_USER_TASK + "(" + COLUMN_USERTASKUSERFID + " integer not null, "
+			+ COLUMN_USERTASKTASKFID + " integer not null, "
 			+ COLUMN_USERTASKLASTUPDATE + " text not null);";
 				
 	

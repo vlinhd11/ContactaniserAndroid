@@ -94,7 +94,7 @@ public class ProjectDataSource {
 
 		//Retrieve all project
 		Cursor cursor = database.query(MySQLHelper.TABLE_PROJECTS,
-		    allColumns, MySQLHelper.COLUMN_PROJECTCOMPLETION + " = " + completion, null, null, null, null);
+		    allColumns, MySQLHelper.COLUMN_PROJECTCOMPLETION + " = " + completion, null, null, null, MySQLHelper.COLUMN_PROJECTDUEDATE + " ASC",null );
 		
 
 		cursor.moveToFirst();

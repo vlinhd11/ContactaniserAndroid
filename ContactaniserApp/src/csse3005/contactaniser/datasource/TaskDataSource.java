@@ -22,7 +22,9 @@ public class TaskDataSource {
 			MySQLHelper.COLUMN_TASKDESCRIPTION,
 			MySQLHelper.COLUMN_TASKIMPORTANCELEVEL,
 			MySQLHelper.COLUMN_TASKDUEDATE,
-			MySQLHelper.COLUMN_TASKLASTUPDATE};
+			MySQLHelper.COLUMN_TASKCOMPLETION,
+			MySQLHelper.COLUMN_TASKLASTUPDATE,
+			MySQLHelper.COLUMN_TASKCATEGORY};
 
 	public TaskDataSource(Context context) {
 		dbHelper = new MySQLHelper(context);
@@ -36,15 +38,16 @@ public class TaskDataSource {
 		dbHelper.close();
 	}
 	
-	public Task createTask(String taskid, int projectfid, String name, String description, String importancelevel, Date duedate, Date completion, Date lastupdate) {
+	public Task createTask(String taskid, int projectfid, String name, String description, String importancelevel, Date duedate, int completion, Date lastupdate , int category) {
 		ContentValues values = new ContentValues();
 		values.put(MySQLHelper.COLUMN_TASKPROJECTFID, projectfid);
 		values.put(MySQLHelper.COLUMN_TASKNAME, name);
 		values.put(MySQLHelper.COLUMN_TASKDESCRIPTION, description);
 		values.put(MySQLHelper.COLUMN_TASKIMPORTANCELEVEL, importancelevel);
 		values.put(MySQLHelper.COLUMN_TASKDUEDATE, duedate.toString());
-		values.put(MySQLHelper.COLUMN_TASKCOMPLETION, completion.toString());
+		values.put(MySQLHelper.COLUMN_TASKCOMPLETION, completion);
 		values.put(MySQLHelper.COLUMN_TASKLASTUPDATE, lastupdate.toString());
+		values.put(MySQLHelper.COLUMN_TASKCATEGORY, category);
 		
 		String[] str = {taskid};
 		int affectedRows = database.update(MySQLHelper.TABLE_TASKS,
@@ -81,13 +84,13 @@ public class TaskDataSource {
 	}
 
 
-	public List<Task> getAllTasks(String pid) {
+	public List<Task> getAllTasks(String pid, int completion) {
 		List<Task> tasks = new ArrayList<Task>();
 
 		//Retrieve all tasks with the pid given
 		Cursor cursor = database.query(MySQLHelper.TABLE_TASKS,
-		    allColumns, MySQLHelper.COLUMN_TASKPROJECTFID + " = " + pid, null, null, null, null);
-
+		    allColumns, MySQLHelper.COLUMN_TASKPROJECTFID + " = " + pid + " AND " + MySQLHelper.COLUMN_TASKCOMPLETION + " = " + completion, null, null, null , MySQLHelper.COLUMN_TASKDUEDATE + " ASC", null);
+		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			Task task = cursorToTask(cursor);
@@ -110,8 +113,8 @@ public class TaskDataSource {
 		task.setTaskCompletion(cursor.getString(6));
 		Date lu = Date.valueOf(cursor.getString(7));
 		task.setTaskDueDate(dd);
-		
 		task.setTaskLastUpdate(lu);
+		task.setTaskCategory(cursor.getInt(8));
 		
 		return task;
 	}

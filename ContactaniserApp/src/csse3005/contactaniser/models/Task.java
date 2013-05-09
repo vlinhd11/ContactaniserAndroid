@@ -32,6 +32,9 @@ public class Task {
 	/** The tasklastupdate. */
 	private Date tasklastupdate;
 	
+	/** The taskcategory. */
+	private int taskcategory;
+	
 	//Will be used by array adapter in the list view
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -183,6 +186,24 @@ public class Task {
 	 */
 	public void setTaskLastUpdate(Date tasklastupdate) {
 		this.tasklastupdate = tasklastupdate;
+	}
+	
+	/**
+	 * Gets the task category.
+	 *
+	 * @return the task category
+	 */
+	public int getTaskCategory() {
+		return taskcategory;
+	}
+	
+	/**
+	 * Sets the task category.
+	 *
+	 * @param taskcategory the new task category
+	 */
+	public void setTaskCategory(int taskcategory) {
+		this.taskcategory = taskcategory;
 	}
 
 	
