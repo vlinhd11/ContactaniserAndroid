@@ -4,6 +4,7 @@ import csse3005.contactaniserapp.R;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -75,8 +76,8 @@ public class ProjectActivity extends FragmentActivity {
 	}
 	
 	private void openNewTaskActivity() {
-		//Intent intent = new Intent(this, NewTaskActivity.class);
-		//startActivity(intent);
+		Intent intent = new Intent(this, CreateTaskActivity.class);
+		startActivity(intent);
 	}
 
 }
