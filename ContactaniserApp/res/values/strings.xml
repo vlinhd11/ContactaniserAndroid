@@ -52,5 +52,18 @@
     <string name="project_date_due">Due Date</string>
     <string name="new_task">Add New Task</string>
     <string name="title_activity_create_task">CreateTaskActivity</string>
+    <string name="create_task">Create Task</string>
+    <string name="task_name">Task Name</string>
+    <string name="task_description">Description</string>
+    <string name="task_due_date">Due Date:</string>
+    <string name="category_prompt">Category:</string>
+    <string-array name="category">
+        <item>TODO</item>
+        <item>Meeting</item>
+        <item>Contact</item>
+        <item>Other</item>
+    </string-array>
+    <string name="members_prompt">Members:</string>
+    <string name="importance_prompt">Importance:</string>
 
 </resources>
