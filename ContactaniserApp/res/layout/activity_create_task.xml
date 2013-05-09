@@ -29,37 +29,58 @@
                 android:maxLines="1"
                 android:singleLine="true" />
             
-			<TextView
-            	android:id="@+id/category_prompt"
-            	android:layout_width="230dp"
-            	android:layout_height="wrap_content"
-            	android:layout_gravity="center"
-            	android:layout_marginTop="18dp"
-            	android:singleLine="true"
-            	android:text="@string/category_prompt"
-            	android:textSize="18sp" />
+			<RelativeLayout 
+			    android:layout_width="230dp"
+			    android:layout_gravity="center"
+			    android:layout_marginTop="18dp"
+			    android:layout_height="wrap_content">
+			    
+				<TextView
+            		android:id="@+id/category_prompt"
+            		android:layout_width="wrap_content"
+            		android:layout_height="wrap_content"
+            		android:singleLine="true"
+            		android:text="@string/category_prompt"
+            		android:textSize="18sp" />
 			
-			<Spinner
-        		android:id="@+id/spinner"
-        		android:layout_width="250dp"
-        		android:layout_height="wrap_content"
-        		android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-        		android:entries="@array/category"
-        		android:prompt="@string/category_prompt" />
+				<Spinner
+        			android:id="@+id/spinner"
+        			android:layout_width="150dp"
+        			android:layout_height="wrap_content"
+        			android:paddingLeft="32dp"
+                	android:paddingRight="32dp"
+                	android:layout_marginLeft="15dp"
+                	android:layout_toRightOf="@+id/category_prompt"
+        			android:entries="@array/category"
+        			android:prompt="@string/category_prompt" />
+			
+			</RelativeLayout>
             
-            <TextView
-            	android:id="@+id/duedate_prompt"
-            	android:layout_width="230dp"
-            	android:layout_height="wrap_content"
-            	android:layout_gravity="center"
-            	android:layout_marginTop="18dp"
-            	android:singleLine="true"
-            	android:text="@string/task_due_date"
-            	android:textSize="18sp" />
-            
+			<RelativeLayout 
+			    android:layout_width="230dp"
+			    android:layout_gravity="center"
+			    android:layout_marginTop="18dp"
+			    android:layout_height="wrap_content">
+			
+				<TextView
+            		android:id="@+id/duedate_prompt"
+            		android:layout_width="wrap_content"
+            		android:layout_height="wrap_content"
+            		android:singleLine="true"
+            		android:text="@string/task_due_date"
+            		android:textSize="18sp" />
+
+				<Button
+				    android:id="@+id/btnChangeDate"
+				    android:layout_marginLeft="20dp"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:background="#5081b3"
+                	android:textColor="#FFF"
+				    android:layout_toRightOf="@+id/duedate_prompt"/>
+			
+			</RelativeLayout>
+			
             <TextView
             	android:id="@+id/members_prompt"
             	android:layout_width="230dp"
@@ -79,6 +100,7 @@
             	android:singleLine="true"
             	android:text="@string/importance_prompt"
             	android:textSize="18sp" />
+            
             <SeekBar android:id="@+id/seekbar"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
