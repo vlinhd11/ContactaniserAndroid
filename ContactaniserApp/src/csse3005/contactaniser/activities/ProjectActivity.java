@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.MenuItem;
 import csse3005.contactaniser.models.TabsAdapter;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -54,6 +55,28 @@ public class ProjectActivity extends FragmentActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.project, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+
+        	case R.id.add_task_bar: 
+        		openNewTaskActivity();
+        		return true;
+
+	        case R.id.add_task_menu:
+	        	openNewTaskActivity();
+	            return true;
+	        
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
+	private void openNewTaskActivity() {
+		//Intent intent = new Intent(this, NewTaskActivity.class);
+		//startActivity(intent);
 	}
 
 }

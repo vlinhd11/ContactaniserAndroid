@@ -61,6 +61,10 @@
             android:name="csse3005.contactaniser.activities.TaskActivity"
             android:label="@string/title_activity_task" >
         </activity>
+        <activity
+            android:name="csse3005.contactaniserapp.NewTask"
+            android:label="@string/title_activity_new_task" >
+        </activity>
     </application>
 
 </manifest>

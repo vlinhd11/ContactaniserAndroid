@@ -38,6 +38,7 @@ public class MainActivity extends FragmentActivity {
 	private MenuItem menuItem; //menu item used by sync refresh
 	 
 	    /** Called when the activity is first created. */
+		@SuppressLint("NewApi")
 		@Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -70,6 +71,13 @@ public class MainActivity extends FragmentActivity {
 	        if (savedInstanceState != null) {
 	            bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
 	        }
+	        
+	        //TODO sync on start up
+	        /*MenuItem sync = (MenuItem)findViewById(R.id.menu_refresh);
+	        sync.setActionView(R.layout.progressbar);
+    	    sync.expandActionView();
+    	    SyncProgress task = new SyncProgress();
+    	    task.execute("http://triple11.com/BlueTeam/android/syncDownProject.php");*/
 	 
 	    }
 	 
