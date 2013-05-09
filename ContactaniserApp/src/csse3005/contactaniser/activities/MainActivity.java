@@ -37,56 +37,63 @@ public class MainActivity extends FragmentActivity {
 	TabsAdapter TabsAdapter;
 	private MenuItem menuItem; //menu item used by sync refresh
 	 
-	    /** Called when the activity is first created. */
-		@SuppressLint("NewApi")
-		@Override
-	    public void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
-	        
-	        projectdatasource = new ProjectDataSource(this);
-	        projectdatasource.open();
-	        
-	        // retrieve username
-	        Intent receivedIntent = getIntent();
-	        username = receivedIntent.getStringExtra("username");
-	        Toast.makeText(getApplicationContext(), "Welcome "+username, Toast.LENGTH_LONG).show();
-	        
-	        //create a new ViewPager and set to the pager we have created in Ids.xml
-	        ViewPager = new ViewPager(this);
-	        ViewPager.setId(R.id.projectListPager);
-	        setContentView(ViewPager);
-	 
-	        //Create a new Action bar and set title to strings.xml
-	        final ActionBar bar = getActionBar();
-	        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-	        // TODO: replace with resource
-	        bar.setTitle("Projects");
-	 
-	        //Attach the Tabs to the fragment classes and set the tab title.
-	        TabsAdapter = new TabsAdapter(this, ViewPager);
-	        
-	        TabsAdapter.addTab(bar.newTab().setText("Active Projects"), ActiveProjects.class, null);
-	        TabsAdapter.addTab(bar.newTab().setText("Completed Projects"), CompletedProjects.class, null);
-	 
-	        if (savedInstanceState != null) {
-	            bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
-	        }
-	        
-	        //TODO sync on start up
-	        /*MenuItem sync = (MenuItem)findViewById(R.id.menu_refresh);
-	        sync.setActionView(R.layout.progressbar);
-    	    sync.expandActionView();
-    	    SyncProgress task = new SyncProgress();
-    	    task.execute("http://triple11.com/BlueTeam/android/syncDownProject.php");*/
-	 
-	    }
-	 
+	/** Called when the activity is first created. */
 	@Override
-	 protected void onSaveInstanceState(Bundle outState) {
-	  super.onSaveInstanceState(outState);
-	        outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+	public void onCreate(Bundle savedInstanceState) {
+	    super.onCreate(savedInstanceState);
+	        
+	    projectdatasource = new ProjectDataSource(this);
+	    projectdatasource.open();
+	        
+	    // retrieve username
+	    Intent receivedIntent = getIntent();
+	    username = receivedIntent.getStringExtra("username");
+	    Toast.makeText(getApplicationContext(), "Welcome "+username, Toast.LENGTH_LONG).show();
+	        
+	    //create a new ViewPager and set to the pager we have created in Ids.xml
+	    ViewPager = new ViewPager(this);
+	    ViewPager.setId(R.id.projectListPager);
+	    setContentView(ViewPager);
 	 
-	 }
+	    //Create a new Action bar and set title to strings.xml
+	    final ActionBar bar = getActionBar();
+	    bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	    // TODO: replace with resource
+	    bar.setTitle("Projects");
+	 
+	    //Attach the Tabs to the fragment classes and set the tab title.
+	    TabsAdapter = new TabsAdapter(this, ViewPager);
+	        
+	    TabsAdapter.addTab(bar.newTab().setText("Active Projects"), ActiveProjects.class, null);
+	    TabsAdapter.addTab(bar.newTab().setText("Completed Projects"), CompletedProjects.class, null);
+	 
+	    if (savedInstanceState != null) {
+	        bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
+	    }
+	    
+	        
+	}
+	 
+	@SuppressLint("NewApi")
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		//TODO sync on start up
+        /*menuItem = (MenuItem)findViewById(R.id.menu_refresh);
+        menuItem.setActionView(R.layout.progressbar);
+	    menuItem.expandActionView();
+	    SyncProgress task = new SyncProgress();
+	    task.execute("http://triple11.com/BlueTeam/android/syncDownProject.php");*/
+
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+	    outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+	 
+	}
 	
 
 	@Override
@@ -143,7 +150,6 @@ public class MainActivity extends FragmentActivity {
 		@Override
 	    protected void onPostExecute(String result) {
 	    	
-	    	
 	    	try {
 	    		JSONObject mainJson = new JSONObject(result);
 				JSONArray jsonArray = mainJson.getJSONArray("projectList");
@@ -153,27 +159,26 @@ public class MainActivity extends FragmentActivity {
 					int i;
 					for (i = 0; i < jsonArray.length(); i++) {
 							
-							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
 							
-							JSONObject jsonObject = jsonArray.getJSONObject(i);
-							String ID = jsonObject.getString("Id");
-							String Name = jsonObject.getString("Name");
+						JSONObject jsonObject = jsonArray.getJSONObject(i);
+						String ID = jsonObject.getString("Id");
+						String Name = jsonObject.getString("Name");
 					
-							String Description = jsonObject.getString("Description");
-							String StartDateString = jsonObject.getString("StartDate");
-							java.util.Date StartDateUtil =  df.parse(StartDateString); 
-							java.sql.Date StartDate = new java.sql.Date(StartDateUtil.getTime());
-							String DueDateString = jsonObject.getString("DueDate");
-							java.util.Date DueDateUtil =  df.parse(DueDateString);
-							java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
-							String Completion = jsonObject.getString("Completion");
+						String Description = jsonObject.getString("Description");
+						String StartDateString = jsonObject.getString("StartDate");
+						java.util.Date StartDateUtil =  df.parse(StartDateString); 
+						java.sql.Date StartDate = new java.sql.Date(StartDateUtil.getTime());
+						String DueDateString = jsonObject.getString("DueDate");
+						java.util.Date DueDateUtil =  df.parse(DueDateString);
+						java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
+						String Completion = jsonObject.getString("Completion");
 							
-							Calendar CalNow = Calendar.getInstance();
-			        		Date DateNow = new Date(CalNow.getTimeInMillis());
+						Calendar CalNow = Calendar.getInstance();
+			        	Date DateNow = new Date(CalNow.getTimeInMillis());
 							
-							// open the staff dao and update/insert the staff information
-							
-							projectdatasource.createProject(ID, Name,Description,StartDate,DueDate,Completion,DateNow);
+						// open the staff dao and update/insert the staff information
+						projectdatasource.createProject(ID, Name,Description,StartDate,DueDate,Completion,DateNow);
 						
 					}
 					
@@ -209,6 +214,7 @@ public class MainActivity extends FragmentActivity {
 				e.printStackTrace();
 			}
 	    	
+	    	//Stop the progress on the syncing icon
 	    	menuItem.collapseActionView();
 	    	menuItem.setActionView(null);
 	    }
@@ -257,7 +263,4 @@ public class MainActivity extends FragmentActivity {
 	     .show();
 	}
 	
-	
-	
-
 }
