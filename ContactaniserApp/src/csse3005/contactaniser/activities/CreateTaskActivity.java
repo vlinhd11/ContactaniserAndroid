@@ -23,10 +23,7 @@ import android.widget.Toast;
 
 public class CreateTaskActivity extends Activity {
 
-
-	private Button btnChangeDate;
-	
-	
+	private Button btnChangeDate;	
 	private long projectid;
 	private int year;
 	private int month;
@@ -40,12 +37,8 @@ public class CreateTaskActivity extends Activity {
 	private int taskcategoryindex;
 	private SeekBar taskimportance;
 	private int taskimportanceindex;
-	private Button taskcreatebutton;
-	
-	private TaskDataSource taskdatabase;
-	
-	
- 
+	private Button taskcreatebutton;	
+	private TaskDataSource taskdatabase;	
 	static final int DATE_DIALOG_ID = 999;
 	
 	@Override
@@ -78,21 +71,23 @@ public class CreateTaskActivity extends Activity {
         			 Toast.makeText(CreateTaskActivity.this, 
                      "You must fill the caption", Toast.LENGTH_LONG).show();
         			 
-        		}//if the caption is not null when the button click, get the values from the layout attributes and saved values from existing edit
-            	else
-            	{
-            		
+        		} else {
+        			
+        			//if the name is not null wh, get the values from the
+        			//layout attributes and saved values from existing edit
             		taskid = System.currentTimeMillis();
             		String taskidstring = String.valueOf(taskid);
             		Log.i("taskid", taskidstring);
             		projectid = getIntent().getExtras().getLong("projectid");
 
             		tasknamestring = taskname.getText().toString();
-            		taskdescriptionstring = taskdescription.getText().toString();
-            		taskcategoryindex = taskcategory.getSelectedItemPosition();
+            		taskdescriptionstring = 
+            				taskdescription.getText().toString();
+            		taskcategoryindex = 
+            				taskcategory.getSelectedItemPosition();
             		taskimportanceindex = taskimportance.getProgress();
             		
-            		            		Calendar cal = Calendar.getInstance();
+            		Calendar cal = Calendar.getInstance();
             		int calnow = (int) cal.getTimeInMillis();
             		Date datenow = new Date(calnow);
             		
@@ -102,24 +97,23 @@ public class CreateTaskActivity extends Activity {
             		int calDateSet = (int) cal.getTimeInMillis();
             		Date dateSet = new Date(calDateSet);
             		
-            		taskdatabase.createTask(taskidstring, projectid, tasknamestring, taskdescriptionstring, taskimportanceindex, dateSet, 0, datenow, taskcategoryindex);
+            		taskdatabase.createTask(taskidstring, projectid,
+            				tasknamestring, taskdescriptionstring,
+            				taskimportanceindex, dateSet, 0, datenow,
+            				taskcategoryindex);
             		
             		taskdatabase.close();
             		finish();
             	}
-            	
-        		
-                
             }
 
         });
-		
 		
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
+		// Adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_create_task, menu);
 		return true;
 	}
