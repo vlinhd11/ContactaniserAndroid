@@ -92,7 +92,7 @@ public class CreateTaskActivity extends Activity {
             		taskcategoryindex = taskcategory.getSelectedItemPosition();
             		taskimportanceindex = taskimportance.getProgress();
             		
-            		Calendar cal = Calendar.getInstance();
+            		            		Calendar cal = Calendar.getInstance();
             		int calnow = (int) cal.getTimeInMillis();
             		Date datenow = new Date(calnow);
             		
@@ -175,6 +175,11 @@ public class CreateTaskActivity extends Activity {
 				year = selectedYear;
 				month = selectedMonth;
 				day = selectedDay;
+				
+				Button p1_button = (Button)findViewById(R.id.btnChangeDate);
+				p1_button.setText(Integer.toString(day)
+						+ "/" + (Integer.toString(month+1)) + "/" + 
+						Integer.toString(year));
 	 
 			}
 		};
