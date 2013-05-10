@@ -51,7 +51,7 @@ public class Project {
 	 *
 	 * @param pid the new projectid
 	 */
-	public void setProjectid(int pid) {
+	public void setProjectid(long pid) {
 		this.pid = pid;
 	}
 	

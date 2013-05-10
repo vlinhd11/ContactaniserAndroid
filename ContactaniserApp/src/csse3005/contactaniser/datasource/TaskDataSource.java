@@ -38,8 +38,9 @@ public class TaskDataSource {
 		dbHelper.close();
 	}
 	
-	public Task createTask(String taskid, int projectfid, String name, String description, String importancelevel, Date duedate, int completion, Date lastupdate , int category) {
+	public Task createTask(String taskid, long projectfid, String name, String description, int importancelevel, Date duedate, int completion, Date lastupdate , int category) {
 		ContentValues values = new ContentValues();
+		
 		values.put(MySQLHelper.COLUMN_TASKPROJECTFID, projectfid);
 		values.put(MySQLHelper.COLUMN_TASKNAME, name);
 		values.put(MySQLHelper.COLUMN_TASKDESCRIPTION, description);
@@ -65,6 +66,7 @@ public class TaskDataSource {
 		}
 		else
 		{
+		values.put(MySQLHelper.COLUMN_TASKID, taskid);
 	    long insertId = database.insert(MySQLHelper.TABLE_TASKS, null,
 	        values);
 	    Cursor cursor = database.query(MySQLHelper.TABLE_TASKS,
@@ -89,7 +91,7 @@ public class TaskDataSource {
 
 		//Retrieve all tasks with the pid given
 		Cursor cursor = database.query(MySQLHelper.TABLE_TASKS,
-		    allColumns, MySQLHelper.COLUMN_TASKPROJECTFID + " = " + String.valueOf(pid) + " AND " + MySQLHelper.COLUMN_TASKCOMPLETION + " = " + completion, null, null, null , MySQLHelper.COLUMN_TASKDUEDATE + " ASC", null);
+		    allColumns, MySQLHelper.COLUMN_TASKPROJECTFID + " = " + pid + " AND " + MySQLHelper.COLUMN_TASKCOMPLETION + " = " + completion, null, null, null , MySQLHelper.COLUMN_TASKDUEDATE + " ASC", null);
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -104,8 +106,8 @@ public class TaskDataSource {
 
 	private Task cursorToTask(Cursor cursor) {
 		Task task = new Task();
-		task.setTaskid(cursor.getInt(0));
-		task.setTaskProjectid(cursor.getInt(1));
+		task.setTaskid(cursor.getLong(0));
+		task.setTaskProjectid(cursor.getLong(1));
 		task.setTaskName(cursor.getString(2));
 		task.setTaskDescription(cursor.getString(3));
 		task.setTaskImportanceLevel(cursor.getInt(4));

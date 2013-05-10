@@ -1,5 +1,10 @@
 package csse3005.contactaniser.activities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import csse3005.contactaniser.datasource.TaskDataSource;
+import csse3005.contactaniser.models.Task;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -12,13 +17,13 @@ import android.widget.ListView;
 
 public class ActiveTasks extends ListFragment {
 
-//	private ProjectDataSource projectdatasource;
+	private TaskDataSource taskdatabase;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-//		projectdatasource = new ProjectDataSource(getActivity());
-//        projectdatasource.open();
+		taskdatabase = new TaskDataSource(getActivity());
+		taskdatabase.open();
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -26,16 +31,11 @@ public class ActiveTasks extends ListFragment {
 	
 	private void fillData() {
 		/** Creating array adapter to set data in listview */
+		long pid = getActivity().getIntent().getExtras().getLong("projId");
 //        List<Project> values = projectdatasource.getAllProjects(0);
-		String values[] = new String[]{
-	            "Active Task one",
-	            "Active Task two",
-	            "Active Task three",
-	            "Active Task four",
-	            "Active Task five"
-	    };
+		ArrayList<Task> values = taskdatabase.getAllTasks(pid, 0);
         /** Setting the array adapter to the listview */
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(getActivity(),
                 android.R.layout.simple_list_item_1, values);
             setListAdapter(adapter);
     }
@@ -43,6 +43,7 @@ public class ActiveTasks extends ListFragment {
 	@Override
     public void onStart() {
             super.onStart();
+            fillData();
     }
 	
 	@Override
@@ -57,8 +58,9 @@ public class ActiveTasks extends ListFragment {
 
 	@Override
 	public void onResume() {
-		fillData();
+		
 		super.onResume();
+		fillData();
 	}
 	
 	

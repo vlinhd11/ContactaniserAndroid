@@ -9,10 +9,10 @@ import java.sql.Date;
 public class Task {
 	
 	/** The taskid. */
-	private int taskid;
+	private long taskid;
 	
 	/** The task projectid. */
-	private int taskProjectid;
+	private long taskProjectid;
 	
 	/** The task name. */
 	private String taskName;
@@ -58,7 +58,7 @@ public class Task {
 	 *
 	 * @param taskid the new taskid
 	 */
-	public void setTaskid(int taskid) {
+	public void setTaskid(long taskid) {
 		this.taskid = taskid;
 	}
 	
@@ -76,7 +76,7 @@ public class Task {
 	 *
 	 * @param taskProjectid the new task projectid
 	 */
-	public void setTaskProjectid(int taskProjectid) {
+	public void setTaskProjectid(long taskProjectid) {
 		this.taskProjectid = taskProjectid;
 	}
 	

@@ -110,7 +110,7 @@ public class ProjectDataSource {
 
 	private Project cursorToProject(Cursor cursor) {
 		Project project = new Project();
-		project.setProjectid(cursor.getInt(0));
+		project.setProjectid(cursor.getLong(0));
 		project.setProjectName(cursor.getString(1));
 		project.setProjectDescription(cursor.getString(2));
 		Date sd = Date.valueOf(cursor.getString(3));

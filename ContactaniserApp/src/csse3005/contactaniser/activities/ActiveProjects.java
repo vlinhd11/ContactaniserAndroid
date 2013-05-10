@@ -35,6 +35,7 @@ public class ActiveProjects extends ListFragment {
                 R.layout.active_row, R.id.label, values);
         adapter.notifyDataSetChanged();
         setListAdapter(adapter);
+        
             
     }
 	
