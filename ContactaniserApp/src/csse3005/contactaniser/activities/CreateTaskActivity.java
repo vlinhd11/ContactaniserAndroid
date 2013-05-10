@@ -38,7 +38,12 @@ public class CreateTaskActivity extends Activity {
 	private SeekBar taskimportance;
 	private int taskimportanceindex;
 	private Button taskcreatebutton;	
-	private TaskDataSource taskdatabase;	
+	private TaskDataSource taskdatabase;
+	private String datestring;
+	private Button p1_button;
+	private int duedateday;
+	private int duedatemonth;
+	private int duedateyear;
 	static final int DATE_DIALOG_ID = 999;
 	
 	@Override
@@ -60,6 +65,7 @@ public class CreateTaskActivity extends Activity {
 		taskcategory = (Spinner) findViewById(R.id.spinner);
 		taskimportance = (SeekBar) findViewById(R.id.seekbar);
 		taskcreatebutton = (Button) findViewById(R.id.create_task_button);
+		p1_button = (Button)findViewById(R.id.btnChangeDate);
 		
 		taskcreatebutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -92,10 +98,14 @@ public class CreateTaskActivity extends Activity {
             		Date datenow = new Date(calnow);
             		
             		//Get Date set
+            		datestring = p1_button.getText().toString();
+            		String[] daymonthyear = datestring.split("/");
+            		duedateday = Integer.parseInt(daymonthyear[0]);
+            		duedatemonth = Integer.parseInt(daymonthyear[1]);
+            		duedateyear = Integer.parseInt(daymonthyear[2]);
             		Calendar c1 = Calendar.getInstance();
-            		c1.set(year, month, day);
-            		int calDateSet = (int) cal.getTimeInMillis();
-            		Date dateSet = new Date(calDateSet);
+            		c1.set(duedateyear, duedatemonth, duedateday);
+            		Date dateSet = new Date(cal.getTimeInMillis());
             		
             		taskdatabase.createTask(taskidstring, projectid,
             				tasknamestring, taskdescriptionstring,
@@ -125,7 +135,7 @@ public class CreateTaskActivity extends Activity {
 			year = c.get(Calendar.YEAR);
 			month = c.get(Calendar.MONTH);
 			day = c.get(Calendar.DAY_OF_MONTH);
-			Button p1_button = (Button)findViewById(R.id.btnChangeDate);
+			p1_button = (Button)findViewById(R.id.btnChangeDate);
 			p1_button.setText(Integer.toString(day)
 					+ "/" + (Integer.toString(month+1)) + "/" + 
 					Integer.toString(year));
@@ -170,7 +180,7 @@ public class CreateTaskActivity extends Activity {
 				month = selectedMonth;
 				day = selectedDay;
 				
-				Button p1_button = (Button)findViewById(R.id.btnChangeDate);
+				p1_button = (Button)findViewById(R.id.btnChangeDate);
 				p1_button.setText(Integer.toString(day)
 						+ "/" + (Integer.toString(month+1)) + "/" + 
 						Integer.toString(year));
