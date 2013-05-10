@@ -55,6 +55,7 @@ public class LoginActivity extends Activity {
 	// Values for email and password at the time of the login attempt.
 	private String mUsername;
 	private String mPassword;
+	private int userID;
 
 	// UI references.
 	private EditText mUsernameView;
@@ -295,7 +296,11 @@ public class LoginActivity extends Activity {
                 JSONObject json;
                 try {
                 	json = new JSONObject(strResult);
-                	if (json.get("Result").equals("Success")) return true;
+                	if (json.get("Result").equals("Success")) 
+                		{
+                			setUserID(json.getInt("UserID"));
+                			return true;
+                		}
                 } catch (JSONException e) {
         			e.printStackTrace();
         		}
@@ -312,6 +317,7 @@ public class LoginActivity extends Activity {
 		// if the login is successful go to the next activity
 		Intent i = new Intent(this, MainActivity.class);
 		i.putExtra("username", mUsername);
+		i.putExtra("userID", userID);
 		startActivity(i);
 	}
 	
@@ -325,5 +331,9 @@ public class LoginActivity extends Activity {
             //no connection 
             return false;
         }
+	}
+	
+	private void setUserID(int userID){
+		this.userID = userID;
 	}
 }

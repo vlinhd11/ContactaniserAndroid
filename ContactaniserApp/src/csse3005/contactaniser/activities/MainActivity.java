@@ -32,11 +32,13 @@ import csse3005.contactaniserapp.R;
 public class MainActivity extends FragmentActivity {
 	
 	private ProjectDataSource projectdatasource;
+	private MenuItem menuItem; //menu item used by sync refresh
 	private String username;
+	private int userID;
+	
 	ViewPager ViewPager;
 	TabsAdapter TabsAdapter;
-	private MenuItem menuItem; //menu item used by sync refresh
-	 
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,10 +47,12 @@ public class MainActivity extends FragmentActivity {
 	    projectdatasource = new ProjectDataSource(this);
 	    projectdatasource.open();
 	        
-	    // retrieve username
+	    // retrieve username and userID
 	    Intent receivedIntent = getIntent();
-	    username = receivedIntent.getStringExtra("username");
-	    Toast.makeText(getApplicationContext(), "Welcome "+username, Toast.LENGTH_LONG).show();
+	    setUsername(receivedIntent.getStringExtra("username")); 
+	    setUserID(receivedIntent.getIntExtra("userID", 0));
+	    // to be removed
+	    Toast.makeText(getApplicationContext(), "Welcome "+userID, Toast.LENGTH_LONG).show();
 	        
 	    //create a new ViewPager and set to the pager we have created in Ids.xml
 	    ViewPager = new ViewPager(this);
@@ -69,9 +73,7 @@ public class MainActivity extends FragmentActivity {
 	 
 	    if (savedInstanceState != null) {
 	        bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
-	    }
-	    
-	        
+	    }   
 	}
 	 
 	@SuppressLint("NewApi")
@@ -85,14 +87,12 @@ public class MainActivity extends FragmentActivity {
 	    menuItem.expandActionView();
 	    SyncProgress task = new SyncProgress();
 	    task.execute("http://triple11.com/BlueTeam/android/syncDownProject.php");*/
-
 	}
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 	    outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
-	 
 	}
 	
 
@@ -120,10 +120,12 @@ public class MainActivity extends FragmentActivity {
 	        	openPasswordActivity();
 	            return true;
 	        
+	        // to be removed
 	        case R.id.menu_email:
 	        	openEmailActivity();
 	        	return true;
-	        	
+	        
+	        // to be removed
 	        case R.id.menu_phone:
 	        	openPhoneActivity();
 	        	return true;
@@ -228,7 +230,8 @@ public class MainActivity extends FragmentActivity {
 	
 	private void openPasswordActivity() {
 		Intent intent = new Intent(this, ChangePassword.class);
-		intent.putExtra("username", username);
+		intent.putExtra("username", getUsername());
+		intent.putExtra("userID", getUserID());
 		startActivity(intent);
 	}
 	
@@ -263,4 +266,19 @@ public class MainActivity extends FragmentActivity {
 	     .show();
 	}
 	
+	private void setUsername(String username) {
+		this.username = username;
+	}
+	
+	private String getUsername() {
+		return this.username;
+	}
+	
+	private void setUserID(int userID) {
+		this.userID = userID;
+	}
+	
+	private int getUserID() {
+		return this.userID;
+	}
 }
