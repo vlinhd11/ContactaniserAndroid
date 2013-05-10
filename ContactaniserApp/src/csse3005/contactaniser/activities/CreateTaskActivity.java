@@ -96,7 +96,13 @@ public class CreateTaskActivity extends Activity {
             		int calnow = (int) cal.getTimeInMillis();
             		Date datenow = new Date(calnow);
             		
-            		taskdatabase.createTask(taskidstring, projectid, tasknamestring, taskdescriptionstring, taskimportanceindex, datenow, 0, datenow, taskcategoryindex);
+            		//Get Date set
+            		Calendar c1 = Calendar.getInstance();
+            		c1.set(year, month, day);
+            		int calDateSet = (int) cal.getTimeInMillis();
+            		Date dateSet = new Date(calDateSet);
+            		
+            		taskdatabase.createTask(taskidstring, projectid, tasknamestring, taskdescriptionstring, taskimportanceindex, dateSet, 0, datenow, taskcategoryindex);
             		
             		taskdatabase.close();
             		finish();
