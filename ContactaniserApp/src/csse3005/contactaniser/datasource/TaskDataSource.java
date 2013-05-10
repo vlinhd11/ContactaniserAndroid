@@ -84,12 +84,12 @@ public class TaskDataSource {
 	}
 
 
-	public List<Task> getAllTasks(String pid, int completion) {
-		List<Task> tasks = new ArrayList<Task>();
+	public ArrayList<Task> getAllTasks(long pid, int completion) {
+		ArrayList<Task> tasks = new ArrayList<Task>();
 
 		//Retrieve all tasks with the pid given
 		Cursor cursor = database.query(MySQLHelper.TABLE_TASKS,
-		    allColumns, MySQLHelper.COLUMN_TASKPROJECTFID + " = " + pid + " AND " + MySQLHelper.COLUMN_TASKCOMPLETION + " = " + completion, null, null, null , MySQLHelper.COLUMN_TASKDUEDATE + " ASC", null);
+		    allColumns, MySQLHelper.COLUMN_TASKPROJECTFID + " = " + String.valueOf(pid) + " AND " + MySQLHelper.COLUMN_TASKCOMPLETION + " = " + completion, null, null, null , MySQLHelper.COLUMN_TASKDUEDATE + " ASC", null);
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {

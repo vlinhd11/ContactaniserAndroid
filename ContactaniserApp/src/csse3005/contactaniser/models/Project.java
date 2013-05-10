@@ -9,7 +9,7 @@ import java.sql.Date;
 public class Project {
 	
 	/** The ID for the project. */
-	private int pid;
+	private long pid;
 	
 	/** The project name. */
 	private String pName;
