@@ -108,10 +108,16 @@ public class PhoneActivity extends Activity {
 						Log.i(LOG_TAG, "restart app");
 	 
 						// restart app
-						Intent i = getBaseContext().getPackageManager()
-							.getLaunchIntentForPackage(
-								getBaseContext().getPackageName());
-						i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//						Intent i = getBaseContext().getPackageManager()
+//							.getLaunchIntentForPackage(
+//								getBaseContext().getPackageName());
+//						i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//						startActivity(i);
+						
+						// return to previous activity
+						Intent i = new Intent(PhoneActivity.this, PhoneActivity.class);
+						i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).listen(this, LISTEN_NONE);
 						startActivity(i);
 	 
 						isPhoneCalling = false;
