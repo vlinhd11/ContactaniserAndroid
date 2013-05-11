@@ -1,7 +1,6 @@
 package csse3005.contactaniser.activities;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniser.models.Task;

@@ -19,11 +19,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class CreateTaskActivity extends Activity {
 
-	private Button btnChangeDate;	
 	private long projectid;
 	private int year;
 	private int month;
@@ -31,6 +29,9 @@ public class CreateTaskActivity extends Activity {
 	private long taskid;
 	private String tasknamestring;
 	private String taskdescriptionstring;
+	
+	private Button btnChangeDate;	
+	private View focusView;
 	private EditText taskname;
 	private EditText taskdescription;
 	private Spinner taskcategory;
@@ -38,6 +39,7 @@ public class CreateTaskActivity extends Activity {
 	private SeekBar taskimportance;
 	private int taskimportanceindex;
 	private Button taskcreatebutton;	
+	
 	private TaskDataSource taskdatabase;
 	private String datestring;
 	private Button p1_button;
@@ -72,10 +74,10 @@ public class CreateTaskActivity extends Activity {
             
             	setResult(RESULT_OK);
             	
-            	if (taskname.getText().toString().equals(""))
-        		{
-        			 Toast.makeText(CreateTaskActivity.this, 
-                     "You must fill the caption", Toast.LENGTH_LONG).show();
+            	if (taskname.getText().toString().equals("")) {
+        			taskname.setError(getString(R.string.error_field_required));
+        			focusView = taskname;
+        			focusView.requestFocus();
         			 
         		} else {
         			
@@ -148,6 +150,7 @@ public class CreateTaskActivity extends Activity {
 	 
 			btnChangeDate.setOnClickListener(new OnClickListener() {
 	 
+				@SuppressWarnings("deprecation")
 				@Override
 				public void onClick(View v) {
 	 
