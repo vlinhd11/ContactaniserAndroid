@@ -4,11 +4,10 @@ import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniserapp.R;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Menu;
-
 import java.sql.Date;
 import java.util.Calendar;
+
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -85,7 +84,7 @@ public class CreateTaskActivity extends Activity {
         			//layout attributes and saved values from existing edit
             		taskid = System.currentTimeMillis();
             		String taskidstring = String.valueOf(taskid);
-            		Log.i("taskid", taskidstring);
+            		
             		projectid = getIntent().getExtras().getLong("projectid");
 
             		tasknamestring = taskname.getText().toString();
@@ -101,13 +100,17 @@ public class CreateTaskActivity extends Activity {
             		
             		//Get Date set
             		datestring = p1_button.getText().toString();
+            		
             		String[] daymonthyear = datestring.split("/");
             		duedateday = Integer.parseInt(daymonthyear[0]);
             		duedatemonth = Integer.parseInt(daymonthyear[1]);
             		duedateyear = Integer.parseInt(daymonthyear[2]);
             		Calendar c1 = Calendar.getInstance();
             		c1.set(duedateyear, duedatemonth, duedateday);
-            		Date dateSet = new Date(cal.getTimeInMillis());
+            		long duedateint = c1.getTimeInMillis();
+            		Date dateSet = new Date(duedateint);
+            	
+            		
             		
             		taskdatabase.createTask(taskidstring, projectid,
             				tasknamestring, taskdescriptionstring,

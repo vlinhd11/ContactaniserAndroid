@@ -48,9 +48,10 @@ public class ActiveTasks extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		String itemtext = l.getItemAtPosition(position).toString(); 
-		
+		Task itemId = (Task) getListAdapter().getItem(position);
 		Intent taskIntent = new Intent(getActivity(), TaskActivity.class);
 		taskIntent.putExtra("taskName", itemtext);
+		taskIntent.putExtra("taskid", itemId.getTaskid());
 		startActivity(taskIntent);
 		
 	}

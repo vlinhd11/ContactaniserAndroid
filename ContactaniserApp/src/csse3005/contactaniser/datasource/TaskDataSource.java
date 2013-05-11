@@ -120,4 +120,17 @@ public class TaskDataSource {
 		return task;
 	}
 	
+	public Cursor fetchTaskById(long rowId) throws SQLException {
+
+        Cursor mCursor =
+
+            database.query(true,MySQLHelper.TABLE_TASKS , allColumns, MySQLHelper.COLUMN_TASKID + "=" + rowId, null,
+                    null, null, null, null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+
+    }
+	
 }
