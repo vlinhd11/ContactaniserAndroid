@@ -62,8 +62,7 @@ public class MainActivity extends FragmentActivity {
 	    //Create a new Action bar and set title to strings.xml
 	    final ActionBar bar = getActionBar();
 	    bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-	    // TODO: replace with resource
-	    bar.setTitle("Projects");
+	    bar.setTitle(R.string.project_list_title);
 	 
 	    //Attach the Tabs to the fragment classes and set the tab title.
 	    TabsAdapter = new TabsAdapter(this, ViewPager);
@@ -251,11 +250,8 @@ public class MainActivity extends FragmentActivity {
 	    .setMessage(R.string.exit_confirmation)
 	    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
-	            // Do cleanup here!!
-	        	Intent intent = new Intent(Intent.ACTION_MAIN);
-	        	intent.addCategory(Intent.CATEGORY_HOME);
-	        	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	        	startActivity(intent);
+	            // TODO: Any cleanup (database, syncing etc) goes here!
+	        	System.exit(0);
 	        }
 	     })
 	    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -265,6 +261,7 @@ public class MainActivity extends FragmentActivity {
 	     })
 	     .show();
 	}
+
 	
 	private void setUsername(String username) {
 		this.username = username;
