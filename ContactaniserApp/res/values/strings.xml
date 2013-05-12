@@ -67,5 +67,6 @@
     <string name="importance_prompt">Importance:</string>
     <string name="no_tasks">No Tasks</string>
     <string name="project_list_title">Projects</string>
+    <string name="invalid_email">Incorrect email format</string>
 
 </resources>

@@ -3,6 +3,7 @@ package csse3005.contactaniser.activities;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -28,12 +29,14 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import csse3005.contactaniser.library.MCrypt;
 import csse3005.contactaniserapp.R;
 
 /**
@@ -110,7 +113,9 @@ public class LoginActivity extends Activity {
 
 		boolean cancel = false;
 		
-
+		
+		
+		
 		// Check for a valid password.
 		if (TextUtils.isEmpty(mPassword)) {
 			mPasswordView.setError(getString(R.string.error_field_required));
@@ -130,9 +135,15 @@ public class LoginActivity extends Activity {
 			mUsernameView.setError(getString(R.string.error_field_required));
 			focusView = mUsernameView;
 			cancel = true;
+		} else {
+		// Check for a vaild email.
+		if (!validEmail(mUsername)) {
+			mUsernameView.setError(getString(R.string.invalid_email));
+			focusView = mUsernameView;
+			cancel = true;
+			}		
 		}
 		
-
 		if (cancel) {
 			// There was an error; don't attempt login and focus the first
 			// form field with an error.
@@ -279,11 +290,25 @@ public class LoginActivity extends Activity {
 	
 	
 	private boolean authPass() {
+		
+		String eUsername = null;
+		String ePassword = null;
+		
 		// attempt authentication against a network service.
-		HttpPost httpRequest = new HttpPost("http://triple11.com/BlueTeam/android/login.php");
+		HttpPost httpRequest = new HttpPost("http://triple11.com/BlueTeam/android/login_decrypt.php");
+		
+		MCrypt mcrypt = new MCrypt();
+		try {
+			eUsername = MCrypt.bytesToHex( mcrypt.encrypt(mUsername));
+			ePassword = MCrypt.bytesToHex( mcrypt.encrypt(mPassword));
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		
     	List<NameValuePair> nvp = new ArrayList<NameValuePair>(2);
-    	nvp.add(new BasicNameValuePair("username", mUsername));
-    	nvp.add(new BasicNameValuePair("password", mPassword));
+    	nvp.add(new BasicNameValuePair("username", eUsername));
+    	nvp.add(new BasicNameValuePair("password", ePassword));
     	
     	try
         {
@@ -319,6 +344,11 @@ public class LoginActivity extends Activity {
 		i.putExtra("username", mUsername);
 		i.putExtra("userID", userID);
 		startActivity(i);
+	}
+	
+	private boolean validEmail(String email) {
+	    Pattern pattern = Patterns.EMAIL_ADDRESS;
+	    return pattern.matcher(email).matches();
 	}
 	
 	private boolean internetOn() {
