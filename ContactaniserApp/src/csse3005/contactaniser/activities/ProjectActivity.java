@@ -65,10 +65,6 @@ public class ProjectActivity extends FragmentActivity {
         	case R.id.add_task_bar: 
         		openNewTaskActivity();
         		return true;
-
-	        case R.id.add_task_menu:
-	        	openNewTaskActivity();
-	            return true;
 	        
 	        default:
 	            return super.onOptionsItemSelected(item);

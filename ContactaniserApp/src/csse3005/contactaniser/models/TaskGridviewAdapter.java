@@ -143,9 +143,9 @@ public class TaskGridviewAdapter extends BaseAdapter {
 	    	
 	    	// TODO: double check this is the correct order (lowest importance num first)
 	    	taskList.clear();
-	    	taskList.addAll(p0);
-	    	taskList.addAll(p1);
 	    	taskList.addAll(p2);
+	    	taskList.addAll(p1);
+	    	taskList.addAll(p0);
 	    }
     	
     	boolean replaceBlanks = false;
