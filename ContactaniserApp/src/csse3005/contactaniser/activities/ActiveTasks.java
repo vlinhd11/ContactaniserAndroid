@@ -2,67 +2,65 @@ package csse3005.contactaniser.activities;
 
 import java.util.ArrayList;
 
-import csse3005.contactaniser.datasource.TaskDataSource;
-import csse3005.contactaniser.models.Task;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-//import csse3005.contactaniser.datasource.ProjectDataSource;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
+import android.widget.TextView;
+import csse3005.contactaniser.datasource.TaskDataSource;
+import csse3005.contactaniser.models.Task;
+import csse3005.contactaniser.models.TaskGridviewAdapter;
+import csse3005.contactaniserapp.R;
 
-public class ActiveTasks extends ListFragment {
-
-	private TaskDataSource taskdatabase;
+public class ActiveTasks extends Fragment {
+    /** Called when the activity is first created. */
+	
+	private TaskGridviewAdapter mAdapter;
+	private ArrayList<Task> taskList;
+	private boolean byDate = false;
+	private TaskDataSource DatabaseHelper;
+	
+	private GridView gridView;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
-		taskdatabase = new TaskDataSource(getActivity());
-		taskdatabase.open();
-
-		return super.onCreateView(inflater, container, savedInstanceState);
+		return inflater.inflate(R.layout.task_grid, container, false);
 	}
 	
-	
-	private void fillData() {
-		/** Creating array adapter to set data in listview */
-		long pid = getActivity().getIntent().getExtras().getLong("projId");
-//        List<Project> values = projectdatasource.getAllProjects(0);
-		ArrayList<Task> values = taskdatabase.getAllTasks(pid, 0);
-        /** Setting the array adapter to the listview */
-        ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(getActivity(),
-                android.R.layout.simple_list_item_1, values);
-            setListAdapter(adapter);
-    }
-	
 	@Override
-    public void onStart() {
-            super.onStart();
-            fillData();
-    }
-	
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		String itemtext = l.getItemAtPosition(position).toString(); 
-		Task itemId = (Task) getListAdapter().getItem(position);
-		Intent taskIntent = new Intent(getActivity(), TaskActivity.class);
-		taskIntent.putExtra("taskName", itemtext);
-		taskIntent.putExtra("taskid", itemId.getTaskid());
-		startActivity(taskIntent);
+	public void onStart() {
 		
-	}
-
-	@Override
-	public void onResume() {
+		DatabaseHelper = new TaskDataSource(getActivity());
+		DatabaseHelper.open();
+		taskList = DatabaseHelper.getAllTasks(getActivity().getIntent().getLongExtra("projId", -1), 0);
+		DatabaseHelper.close();
 		
-		super.onResume();
-		fillData();
+        gridView = (GridView) getActivity().findViewById(R.id.task_grid_view);
+        
+        if (taskList.size() == 0) {
+        	TextView noTasks = (TextView) getActivity().findViewById(R.id.txtNoTasks);
+        	gridView.setVisibility(View.GONE);
+        	noTasks.setVisibility(View.VISIBLE);
+        } else {
+	        mAdapter = new TaskGridviewAdapter(getActivity(), taskList, byDate);
+	        gridView.setAdapter(mAdapter);
+	        
+	        // Implement On Item click listener
+	        gridView.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+					Intent pIntent = new Intent(getActivity(), TaskActivity.class);
+					pIntent.putExtra("taskID", mAdapter.getItem(position).getTaskID());
+					startActivity(pIntent);
+				}
+			});
+        }
+        super.onStart();
 	}
-	
-	
 	
 }
