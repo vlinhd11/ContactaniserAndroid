@@ -49,6 +49,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	
 	//User Project
 	public static final String TABLE_USER_PROJECT ="user_project";
+	public static final String COLUMN_USERPROJECTID = "userprojectid";
 	public static final String COLUMN_USERPROJECTUSERFID = "userprojectuserfid";
 	public static final String COLUMN_USERPROJECTPROJECTFID = "userprojectprojectfid";
 	public static final String COLUMN_ROLE = "userprojectrole";
@@ -103,7 +104,8 @@ public class MySQLHelper extends SQLiteOpenHelper {
 			+ COLUMN_LOGLASTUPDATE + "text not null);";
 	
 	private static final String DATABASE_CREATE_USER_PROJECT = "create table "
-			+ TABLE_USER_PROJECT + "(" + COLUMN_USERPROJECTUSERFID + " integer, " 
+			+ TABLE_USER_PROJECT + "("  + COLUMN_USERPROJECTID + " integer primary key autoincrement, "
+			+ COLUMN_USERPROJECTUSERFID + " integer, " 
 			+ COLUMN_USERPROJECTPROJECTFID + " integer not null, " 
 			+ COLUMN_ROLE + " string not null, " 
 			+ COLUMN_USERPROJECTLASTUPDATE + " text not null);";

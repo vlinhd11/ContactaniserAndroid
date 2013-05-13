@@ -33,7 +33,7 @@ public class TaskActivity extends Activity {
 		// Create text view
 		TextView textView = new TextView(this);
 		textView.setTextSize(20);
-		textView.setText("Name: " + getIntent().getStringExtra("taskName") + "\nDescription: " + 
+		textView.setText("Name: " + task.getString(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKNAME)) + "\nDescription: " + 
 		task.getString(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKDESCRIPTION)) + "\nCategory :" +
 				task.getInt(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKCATEGORY)) + "\nImportance :" +
 		task.getInt(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKIMPORTANCELEVEL)) + "\nDue Date :" +

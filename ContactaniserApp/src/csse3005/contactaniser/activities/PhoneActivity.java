@@ -19,6 +19,7 @@ import csse3005.contactaniserapp.R;
 public class PhoneActivity extends Activity {
 	
 	final Context context = this;
+	private String phonenumber;
 	private Button callButton;
 	private Button smsButton;
 	private EditText textPhoneNo;
@@ -35,6 +36,8 @@ public class PhoneActivity extends Activity {
 		textPhoneNo = (EditText) findViewById(R.id.editTextPhoneNo);
 		textSMS = (EditText) findViewById(R.id.editTextSMS);
 		
+		phonenumber = getIntent().getExtras().getString("userphone");
+		textPhoneNo.setText(phonenumber);
 		// add PhoneStateListener
 		PhoneCallListener phoneListener = new PhoneCallListener();
 		TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);

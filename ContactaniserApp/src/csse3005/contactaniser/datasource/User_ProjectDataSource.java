@@ -16,7 +16,7 @@ public class User_ProjectDataSource {
 	// Database fields
 				private SQLiteDatabase database;
 				private MySQLHelper dbHelper;
-				private String[] allColumns = { MySQLHelper.COLUMN_USERPROJECTUSERFID, 
+				private String[] allColumns = { MySQLHelper.COLUMN_USERPROJECTID, MySQLHelper.COLUMN_USERPROJECTUSERFID, 
 						MySQLHelper.COLUMN_USERPROJECTPROJECTFID, MySQLHelper.COLUMN_ROLE, MySQLHelper.COLUMN_USERPROJECTLASTUPDATE};
 				
 
@@ -32,22 +32,43 @@ public class User_ProjectDataSource {
 					dbHelper.close();
 				}
 				
-				public User_Project createUser_Project(int upufid, int uppfid, String role, Date uplastupdate) {
+				public User_Project createUser_Project(String upid, int upufid, int uppfid, String role, Date uplastupdate) {
 					ContentValues values = new ContentValues();
 					values.put(MySQLHelper.COLUMN_USERPROJECTUSERFID, upufid); 
 					values.put(MySQLHelper.COLUMN_USERPROJECTPROJECTFID, uppfid);
 					values.put(MySQLHelper.COLUMN_ROLE,role);
 					values.put(MySQLHelper.COLUMN_USERPROJECTLASTUPDATE, uplastupdate.toString());
+					
+					String[] str = {upid};
+					int affectedRows = database.update(MySQLHelper.TABLE_USER_PROJECT,
+							values, MySQLHelper.COLUMN_USERPROJECTID + " = ?",
+							str);
+					
+					if (affectedRows == 1)
+					{
+						 Cursor cursor = database.query(MySQLHelper.TABLE_USER_PROJECT,
+							        allColumns, MySQLHelper.COLUMN_USERPROJECTID + " = " + upid, null,
+							        null, null, null);
+							   
+							    cursor.moveToFirst();
+							    User_Project newUser_Project = cursorToUser_Project(cursor);
+							    cursor.close();
+							    return newUser_Project;
+					}
+					else
+					{
+					values.put(MySQLHelper.COLUMN_USERPROJECTID, upid);
 				    long insertId = database.insert(MySQLHelper.TABLE_USER_PROJECT, null,
 					        values);
 				    Cursor cursor = database.query(MySQLHelper.TABLE_USER_PROJECT,
-				        allColumns, MySQLHelper.COLUMN_USERPROJECTUSERFID + " = " + insertId, null,
+				        allColumns, MySQLHelper.COLUMN_USERPROJECTID + " = " + insertId, null,
 				        null, null, null);
 				   
 				    cursor.moveToFirst();
 				    User_Project newUser_Project = cursorToUser_Project(cursor);
 				    cursor.close();
 				    return newUser_Project;
+					}
 				}
 
 				public void deleteUser_Project(User_Project user_project) {
@@ -74,15 +95,67 @@ public class User_ProjectDataSource {
 					cursor.close();
 					return User_Projects;
 				}
+				
+				public ArrayList<User_Project> getAllProjectbyUserId(long uid) {
+					ArrayList<User_Project> User_Projects = new ArrayList<User_Project>();
+
+					//Retrieve all tasks with the tid and pid given
+					Cursor cursor = database.query(MySQLHelper.TABLE_USER_PROJECT,
+					    allColumns, MySQLHelper.COLUMN_USERPROJECTUSERFID + " = " + uid, null, null, null, null);
+					
+
+					cursor.moveToFirst();
+					while (!cursor.isAfterLast()) {
+						User_Project User_Project = cursorToUser_Project(cursor);
+					    User_Projects.add(User_Project);
+					    cursor.moveToNext();
+					}
+					// Make sure to close the cursor
+					cursor.close();
+					return User_Projects;
+				}
+				
+				public ArrayList<User_Project> getAllUserbyProjectId(long pid) {
+					
+					ArrayList<User_Project> User_Projects = new ArrayList<User_Project>();
+					//Retrieve all tasks with the tid and pid given
+					Cursor cursor = database.query(MySQLHelper.TABLE_USER_PROJECT,
+					    allColumns, MySQLHelper.COLUMN_USERPROJECTPROJECTFID + " = " + pid, null, null, null, null);
+					
+
+					cursor.moveToFirst();
+					while (!cursor.isAfterLast()) {
+						User_Project User_Project = cursorToUser_Project(cursor);
+					    User_Projects.add(User_Project);
+					    cursor.moveToNext();
+					}
+					// Make sure to close the cursor
+					cursor.close();
+					return User_Projects;
+				}
 
 				private User_Project cursorToUser_Project(Cursor cursor) {
 					User_Project user_project = new User_Project();
-					user_project.setUPUid(cursor.getInt(0));
-					user_project.setUPPid(cursor.getInt(1));
-					user_project.setUserProjectRole(cursor.getString(2));
-					Date lu = Date.valueOf(cursor.getString(3));
+					user_project.setUPid(cursor.getLong(0));
+					user_project.setUPUid(cursor.getInt(1));
+					user_project.setUPPid(cursor.getInt(2));
+					user_project.setUserProjectRole(cursor.getString(3));
+					Date lu = Date.valueOf(cursor.getString(4));
 					user_project.setUserProjectLastUpdate(lu);
 				
 					return user_project;
 				}
+				
+				public Cursor fetchUserProjectById(long upuid, long uppid) throws SQLException {
+
+			        Cursor mCursor =
+
+			            database.query(true,MySQLHelper.TABLE_USER_PROJECT , allColumns, MySQLHelper.COLUMN_USERPROJECTUSERFID + "=" + upuid + " AND " + MySQLHelper.COLUMN_USERPROJECTPROJECTFID + "=" + uppid, null,
+			                    null, null, null, null);
+			        if (mCursor != null) {
+			            mCursor.moveToFirst();
+			        }
+			        return mCursor;
+
+			    }
 }

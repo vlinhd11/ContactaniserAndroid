@@ -14,6 +14,7 @@ import csse3005.contactaniserapp.R;
 
 public class EmailActivity extends Activity {
 	
+	String useremail;
 	Button emailButton;
 	EditText textTo;
 	EditText textSubject;
@@ -23,12 +24,15 @@ public class EmailActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.email);
- 
+		
+		
 		emailButton = (Button) findViewById(R.id.buttonEmail);
 		textTo = (EditText) findViewById(R.id.editTextTo);
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
 		textMessage = (EditText) findViewById(R.id.editTextMessage);
- 
+		useremail = getIntent().getExtras().getString("useremail");
+		textTo.setText(useremail);
+		
 		emailButton.setOnClickListener(new OnClickListener() {
  
 			@Override

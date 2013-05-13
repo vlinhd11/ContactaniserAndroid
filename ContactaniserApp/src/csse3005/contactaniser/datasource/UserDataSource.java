@@ -110,4 +110,17 @@ public class UserDataSource {
 			
 			return user;
 		}
+		
+		public Cursor fetchUserById(long rowId) throws SQLException {
+
+	        Cursor mCursor =
+
+	            database.query(true,MySQLHelper.TABLE_USER , allColumns, MySQLHelper.COLUMN_USERID + "=" + rowId, null,
+	                    null, null, null, null);
+	        if (mCursor != null) {
+	            mCursor.moveToFirst();
+	        }
+	        return mCursor;
+
+	    }
 }

@@ -8,6 +8,9 @@ import java.sql.Date;
  */
 public class User_Project {
 	
+	/** The userprojectid. */
+	private long userprojectid;
+	
 	/** The userprojectuserid. */
 	private int userprojectuserid;
 	
@@ -27,6 +30,24 @@ public class User_Project {
 	@Override
 	public String toString() {
 		return userprojectrole;
+	}
+	
+	/**
+	 * Gets the uP id.
+	 *
+	 * @return the uP id
+	 */
+	public long getUPid() {
+		return userprojectid;
+	}
+	
+	/**
+	 * Sets the uP id.
+	 *
+	 * @param userprojectid the new uP id
+	 */
+	public void setUPid(long userprojectid) {
+		this.userprojectid = userprojectid;
 	}
 	
 	/**
