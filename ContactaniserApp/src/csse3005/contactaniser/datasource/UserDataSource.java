@@ -4,7 +4,6 @@ import csse3005.contactaniser.models.User;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
