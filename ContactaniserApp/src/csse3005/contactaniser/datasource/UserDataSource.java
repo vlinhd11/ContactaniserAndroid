@@ -80,8 +80,8 @@ public class UserDataSource {
 		}
 
 
-		public List<User> getAllUser(String pid) {
-			List<User> users = new ArrayList<User>();
+		public ArrayList<User> getAllUser(String pid) {
+			ArrayList<User> users = new ArrayList<User>();
 
 			//Retrieve all tasks with the pid given
 			Cursor cursor = database.query(MySQLHelper.TABLE_USER,

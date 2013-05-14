@@ -9,7 +9,7 @@ import java.sql.Date;
 public class User {
 	
 	/** The userid. */
-	private int userid;
+	private long userid;
 	
 	/** The user_username. */
 	private String user_username;
@@ -49,7 +49,7 @@ public class User {
 	 *
 	 * @param userid the new userid
 	 */
-	public void setUserid(int userid) {
+	public void setUserid(long userid) {
 		this.userid = userid;
 	}
 	
