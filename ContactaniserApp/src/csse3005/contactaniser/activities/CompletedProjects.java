@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import csse3005.contactaniser.datasource.ProjectDataSource;
 import csse3005.contactaniser.models.Project;
@@ -24,7 +25,6 @@ public class CompletedProjects extends ListFragment{
 		
 		projectdatasource = new ProjectDataSource(getActivity());
         projectdatasource.open();
-
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 	
@@ -33,10 +33,9 @@ public class CompletedProjects extends ListFragment{
 		/** Creating array adapter to set data in listview */
         List<Project> values = projectdatasource.getAllProjects(1);  
         /** Setting the array adapter to the listview */
-        ArrayAdapter<Project> adapter = new ArrayAdapter<Project>(getActivity(),
-                R.layout.completed_row, R.id.label, values);
+        ArrayAdapter<Project> adapter = new ArrayAdapter<Project>(getActivity(), R.layout.completed_row, R.id.label, values);
         adapter.notifyDataSetChanged();
-            setListAdapter(adapter);
+        setListAdapter(adapter);
     }
 	
 	@Override

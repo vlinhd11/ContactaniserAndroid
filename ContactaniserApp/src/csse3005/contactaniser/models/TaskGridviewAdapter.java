@@ -98,13 +98,17 @@ public class TaskGridviewAdapter extends BaseAdapter {
 				tileBackground = parent.getResources().getDrawable(R.drawable.tile_border_bottomleft);
 				break;
 			case TILE_BOTTOMRIGHT:
-				convertView = inflator.inflate(R.layout.task_grid_blank, null); // TODO: maybe change
+				convertView = inflator.inflate(R.layout.task_grid_blank, null); // TODO: maybe change - show catagory name?
 				tileBackground = parent.getResources().getDrawable(R.drawable.tile_border_bottomright);
+				break;
+			case TILE_BLANK:
+				convertView = inflator.inflate(R.layout.task_grid_blank, null);
+				tileBackground = parent.getResources().getDrawable(R.drawable.tile_border_blank);
 				break;
 			}
 			
 			// colour:
-			tileBackground.setColorFilter(tileList.get(position).getColor(), PorterDuff.Mode.DARKEN);
+			if (tileList.get(position).getType() != TILE_BLANK) tileBackground.setColorFilter(tileList.get(position).getColor(), PorterDuff.Mode.DARKEN);
 			// apply background to grid element
 			convertView.setBackground(tileBackground);
 			
