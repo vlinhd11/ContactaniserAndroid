@@ -15,13 +15,5 @@
    <item 
        android:id="@+id/menu_change_password"
        android:title="@string/password_reset" />
-   
-   <item 
-       android:id="@+id/menu_email"
-       android:title="Email" />
-   
-   <item 
-       android:id="@+id/menu_phone"
-       android:title="Phone" />
 
 </menu>

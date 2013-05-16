@@ -132,16 +132,6 @@ public class MainActivity extends FragmentActivity {
 	        	openPasswordActivity();
 	            return true;
 	        
-	        // to be removed
-	        case R.id.menu_email:
-	        	openEmailActivity();
-	        	return true;
-	        
-	        // to be removed
-	        case R.id.menu_phone:
-	        	openPhoneActivity();
-	        	return true;
-	        
 	        case R.id.menu_logoff:
 	        	// log off action here - save info to db, etc
 	        	startActivity(new Intent(this, LoginActivity.class));
@@ -394,16 +384,6 @@ public class MainActivity extends FragmentActivity {
 		startActivity(intent);
 	}
 	
-	private void openEmailActivity() {
-		Intent intent = new Intent(this, EmailActivity.class);
-		startActivity(intent);
-	}
-	
-	private void openPhoneActivity() {
-		Intent intent = new Intent(this, PhoneActivity.class);
-		startActivity(intent);
-	}
-	
 	private void exitAppConfirmation() {
 		new AlertDialog.Builder(this)
 	    .setTitle(R.string.exit)
@@ -422,7 +402,6 @@ public class MainActivity extends FragmentActivity {
 	     .show();
 	}
 
-	
 	private void setUsername(String username) {
 		this.username = username;
 	}

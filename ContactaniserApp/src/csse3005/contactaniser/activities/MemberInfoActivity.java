@@ -1,9 +1,14 @@
 package csse3005.contactaniser.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -60,27 +65,6 @@ public class MemberInfoActivity extends Activity {
 		userName.setText(user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERNAME)));
 		userRole.setText(role.getString(role.getColumnIndexOrThrow(MySQLHelper.COLUMN_ROLE)));
 		
-//		userPhone.setOnClickListener(new OnClickListener(){
-//		@Override
-//		public void onClick(View arg) {
-//			Intent pIntent = new Intent(getApplicationContext(),PhoneActivity.class);
-//			pIntent.putExtra("userphone",phonenumber);
-//			startActivity(pIntent);
-//
-//			}
-//		});
-		
-//		userEmail.setOnClickListener(new OnClickListener(){
-//		@Override
-//		public void onClick(View arg) {
-//			Intent pIntent = new Intent(getApplicationContext(),EmailActivity.class);
-//			pIntent.putExtra("useremail",phoneemail);
-//			startActivity(pIntent);
-//				
-//				
-//			}
-//		});
-		
 	}
 	
 	public void addListenerOnButton() {
@@ -90,7 +74,6 @@ public class MemberInfoActivity extends Activity {
 		callButton = (ImageButton) findViewById(R.id.callButton);
  
 		emailButton.setOnClickListener(new OnClickListener() {
- 
 			@Override
 			public void onClick(View arg0) {
 				ContinueToEmail();
@@ -98,7 +81,6 @@ public class MemberInfoActivity extends Activity {
 		});
 		
 		smsButton.setOnClickListener(new OnClickListener() {
-			 
 			@Override
 			public void onClick(View arg0) {
 				ContinueToSms();
@@ -106,7 +88,6 @@ public class MemberInfoActivity extends Activity {
 		});
 		
 		callButton.setOnClickListener(new OnClickListener() {
-			 
 			@Override
 			public void onClick(View arg0) {
 				PhoneCall();
@@ -116,9 +97,15 @@ public class MemberInfoActivity extends Activity {
 	}
 	
 	private void PhoneCall() {
-		Intent i = new Intent(this, CallActivity.class);
-		i.putExtra("phonenumber",phonenumber);
-		startActivity(i);
+		// add PhoneStateListener
+				PhoneCallListener phoneListener = new PhoneCallListener();
+				TelephonyManager telephonyManager = (TelephonyManager) this
+					.getSystemService(Context.TELEPHONY_SERVICE);
+				telephonyManager.listen(phoneListener,PhoneStateListener.LISTEN_CALL_STATE);
+
+		Intent callIntent = new Intent(Intent.ACTION_CALL);
+		callIntent.setData(Uri.parse("tel:"+phonenumber));
+		startActivity(callIntent);
 	}
 	
 	private void ContinueToEmail() {
@@ -132,4 +119,48 @@ public class MemberInfoActivity extends Activity {
 		i.putExtra("phonenumber",phonenumber);
 		startActivity(i);
 	}
+	
+	
+	//monitor phone call activities
+		private class PhoneCallListener extends PhoneStateListener {
+	 
+			private boolean isPhoneCalling = false;
+	 
+			String LOG_TAG = "LOGGING 123";
+	 
+			@Override
+			public void onCallStateChanged(int state, String incomingNumber) {
+	 
+				if (TelephonyManager.CALL_STATE_RINGING == state) {
+					// phone ringing
+					Log.i(LOG_TAG, "RINGING, number: " + incomingNumber);
+				}
+	 
+				if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
+					// active
+					Log.i(LOG_TAG, "OFFHOOK");
+	 
+					isPhoneCalling = true;
+				}
+	 
+				if (TelephonyManager.CALL_STATE_IDLE == state) {
+					// run when class initial and phone call ended, 
+					// need detect flag from CALL_STATE_OFFHOOK
+					Log.i(LOG_TAG, "IDLE");
+	 
+					if (isPhoneCalling) {
+						
+						Log.i(LOG_TAG, "restart app");
+						((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).listen(this, LISTEN_NONE);
+						Intent i = new Intent(MemberInfoActivity.this, MemberInfoActivity.class);
+						i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						i.putExtra("projectid", ProjectId);
+						i.putExtra("userid", UserId);
+						startActivity(i);
+						isPhoneCalling = false;
+					}
+	 
+				}
+			}
+		}
 }
