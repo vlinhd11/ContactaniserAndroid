@@ -30,8 +30,9 @@ public class EmailActivity extends Activity {
 		textTo = (EditText) findViewById(R.id.editTextTo);
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
 		textMessage = (EditText) findViewById(R.id.editTextMessage);
-		useremail = getIntent().getExtras().getString("useremail");
+		useremail = getIntent().getExtras().getString("email");
 		textTo.setText(useremail);
+		textSubject.requestFocus();
 		
 		emailButton.setOnClickListener(new OnClickListener() {
  
