@@ -24,7 +24,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 import csse3005.contactaniser.datasource.ProjectDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
@@ -62,8 +61,6 @@ public class MainActivity extends FragmentActivity {
 	    Intent receivedIntent = getIntent();
 	    setUsername(receivedIntent.getStringExtra("username")); 
 	    setUserID(receivedIntent.getIntExtra("userID", 0));
-	    // to be removed
-	    Toast.makeText(getApplicationContext(), "Welcome "+userID, Toast.LENGTH_LONG).show();
 	        
 	    //create a new ViewPager and set to the pager we have created in Ids.xml
 	    ViewPager = new ViewPager(this);

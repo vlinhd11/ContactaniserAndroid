@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import csse3005.contactaniser.datasource.ProjectDataSource;
 import csse3005.contactaniser.models.Project;

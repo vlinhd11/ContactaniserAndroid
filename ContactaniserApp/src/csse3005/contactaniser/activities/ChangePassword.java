@@ -43,8 +43,6 @@ public class ChangePassword extends Activity {
 		findViewById(R.id.txtOldPwd).requestFocus();
 		Intent receivedIntent = getIntent();
         username = receivedIntent.getStringExtra("username");
-        //To be removed
-        Toast.makeText(getApplicationContext(), "Welcome "+username, Toast.LENGTH_LONG).show();
 	}
 
 	@Override
