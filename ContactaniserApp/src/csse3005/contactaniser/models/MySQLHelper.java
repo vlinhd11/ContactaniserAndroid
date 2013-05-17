@@ -57,6 +57,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	
 	//User Task
 	public static final String TABLE_USER_TASK = "user_task";
+	public static final String COLUMN_USERTASKID = "usertaskid";
 	public static final String COLUMN_USERTASKUSERFID = "usertaskuserfid";
 	public static final String COLUMN_USERTASKTASKFID = "usertasktaskfid";
 	public static final String COLUMN_USERTASKLASTUPDATE = "usertasklastupdate";
@@ -111,7 +112,8 @@ public class MySQLHelper extends SQLiteOpenHelper {
 			+ COLUMN_USERPROJECTLASTUPDATE + " text not null);";
 	
 	private static final String DATABASE_CREATE_USER_TASK = "create table "
-			+ TABLE_USER_TASK + "(" + COLUMN_USERTASKUSERFID + " integer not null, "
+			+ TABLE_USER_TASK + "("+  COLUMN_USERTASKID + " integer primary key autoincrement, "
+			+ COLUMN_USERTASKUSERFID + " integer not null, "
 			+ COLUMN_USERTASKTASKFID + " integer not null, "
 			+ COLUMN_USERTASKLASTUPDATE + " text not null);";
 				

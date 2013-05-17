@@ -17,7 +17,8 @@ public class User_TaskDataSource {
 	// Database fields
 			private SQLiteDatabase database;
 			private MySQLHelper dbHelper;
-			private String[] allColumns = { MySQLHelper.COLUMN_USERTASKUSERFID, 
+			private String[] allColumns = { MySQLHelper.COLUMN_USERTASKID,
+					MySQLHelper.COLUMN_USERTASKUSERFID, 
 					MySQLHelper.COLUMN_USERTASKTASKFID, MySQLHelper.COLUMN_USERTASKLASTUPDATE};
 			
 
@@ -33,20 +34,42 @@ public class User_TaskDataSource {
 				dbHelper.close();
 			}
 			
-			public User_Task createUser_Task(int user_task, int task_task, Date lastupdate) {
+			public User_Task createUser_Task(String usertaskid, long user_task, long task_task, Date lastupdate) {
 				ContentValues values = new ContentValues();
 				values.put(MySQLHelper.COLUMN_USERTASKUSERFID,user_task);
 				values.put(MySQLHelper.COLUMN_USERTASKTASKFID, task_task);
 				values.put(MySQLHelper.COLUMN_USERTASKLASTUPDATE, lastupdate.toString());
-			    long insertId = database.insert(MySQLHelper.TABLE_USER_TASK, null,
-			        values);
-			    Cursor cursor = database.query(MySQLHelper.TABLE_USER_TASK,
-			        allColumns, MySQLHelper.COLUMN_USERTASKUSERFID + " = " + insertId, null,
-			        null, null, null);
-			    cursor.moveToFirst();
-			    User_Task newUser_Task = cursorToUser_Task(cursor);
-			    cursor.close();
-			    return newUser_Task;
+				
+				String[] str = {usertaskid};
+				
+				int affectedRows = database.update(MySQLHelper.TABLE_USER_TASK,
+						values, MySQLHelper.COLUMN_USERTASKID + " = ?",
+						str);
+				
+				if (affectedRows == 1)
+				{
+					Cursor cursor = database.query(MySQLHelper.TABLE_USER_TASK,
+					        allColumns, MySQLHelper.COLUMN_USERTASKUSERFID + " = " + usertaskid, null,
+					        null, null, null);
+					    cursor.moveToFirst();
+					    User_Task newUser_Task = cursorToUser_Task(cursor);
+					    cursor.close();
+					    return newUser_Task;
+			    
+				}
+				else
+				{
+					values.put(MySQLHelper.COLUMN_USERTASKID, usertaskid);
+					long insertId = database.insert(MySQLHelper.TABLE_USER_TASK, null,
+					        values);
+					    Cursor cursor = database.query(MySQLHelper.TABLE_USER_TASK,
+					        allColumns, MySQLHelper.COLUMN_USERTASKUSERFID + " = " + insertId, null,
+					        null, null, null);
+					    cursor.moveToFirst();
+					    User_Task newUser_Task = cursorToUser_Task(cursor);
+					    cursor.close();
+					    return newUser_Task;
+				}
 			}
 
 			public void deleteUser_Task(User_Task user_task) {
@@ -76,9 +99,10 @@ public class User_TaskDataSource {
 
 			private User_Task cursorToUser_Task(Cursor cursor) {
 				User_Task user_task = new User_Task();
-				user_task.setUTUid(cursor.getInt(0));
-				user_task.setUTTid(cursor.getInt(1));
-				Date lu = Date.valueOf(cursor.getString(2));
+				user_task.setUTid(cursor.getLong(0));
+				user_task.setUTUid(cursor.getInt(1));
+				user_task.setUTTid(cursor.getInt(2));
+				Date lu = Date.valueOf(cursor.getString(3));
 				user_task.setUTLastUpdate(lu);
 				return user_task;
 			}

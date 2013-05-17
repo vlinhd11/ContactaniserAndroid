@@ -98,6 +98,15 @@
             	android:singleLine="true"
             	android:text="@string/members_prompt"
             	android:textSize="18sp" />
+
+            <ListView
+                android:id="@+id/listMemberCreate"
+                android:layout_width="246dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="22dp" >
+
+            </ListView>
             
             <RelativeLayout 
 			    android:layout_width="230dp"

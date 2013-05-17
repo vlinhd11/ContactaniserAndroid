@@ -8,6 +8,9 @@ import java.sql.Date;
  */
 public class User_Task {
 
+	/** the usertaskid. */
+	private long usertaskid;
+	
 	/** The usertaskuserid. */
 	private int usertaskuserid;
 	
@@ -16,6 +19,25 @@ public class User_Task {
 	
 	/** The usertasklastupdate. */
 	private Date usertasklastupdate;
+	
+	
+	/**
+	 * Gets the uT id.
+	 *
+	 * @return the uT id
+	 */
+	public long getUTid() {
+		return usertaskid;
+	}
+	
+	/**
+	 * Sets the uT id.
+	 *
+	 * @param usertaskid the new uT id
+	 */
+	public void setUTid(long usertaskid) {
+		this.usertaskid = usertaskid;
+	}
 	
 	/**
 	 * Gets the uT uid.

@@ -1,23 +1,39 @@
 package csse3005.contactaniser.activities;
 
 import csse3005.contactaniser.datasource.TaskDataSource;
+import csse3005.contactaniser.datasource.UserDataSource;
+import csse3005.contactaniser.datasource.User_ProjectDataSource;
+import csse3005.contactaniser.datasource.User_TaskDataSource;
+import csse3005.contactaniser.models.User;
+import csse3005.contactaniser.models.User_Project;
 import csse3005.contactaniserapp.R;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.database.Cursor;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class CreateTaskActivity extends Activity {
 
@@ -47,6 +63,12 @@ public class CreateTaskActivity extends Activity {
 	private int duedateyear;
 	static final int DATE_DIALOG_ID = 999;
 	
+	private User_ProjectDataSource userprojectdatasource;
+	private UserDataSource userdatasource;
+	private User_TaskDataSource usertaskdatasource;
+	private ListView listviewmembercreate;
+	private ArrayList<User> userlistcreate;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,15 +80,51 @@ public class CreateTaskActivity extends Activity {
 		taskdatabase = new TaskDataSource(this);
 		taskdatabase.open();
 		
+		userdatasource = new UserDataSource(this);
+		userdatasource.open();
 		
+		userprojectdatasource = new User_ProjectDataSource(this);
+		userprojectdatasource.open();
+		
+		usertaskdatasource = new User_TaskDataSource(this);
+		usertaskdatasource.open();
+		
+		projectid = getIntent().getExtras().getLong("projectid");
 		//Log.i("taskid", String.valueOf(taskid));
-		
+		listviewmembercreate = (ListView) findViewById(R.id.listMemberCreate);
 		taskname = (EditText) findViewById(R.id.task_name);
 		taskdescription = (EditText) findViewById(R.id.task_description);
 		taskcategory = (Spinner) findViewById(R.id.spinner);
 		taskimportance = (SeekBar) findViewById(R.id.seekbar);
 		taskcreatebutton = (Button) findViewById(R.id.create_task_button);
 		p1_button = (Button)findViewById(R.id.btnChangeDate);
+		
+		ArrayList<User_Project> values = userprojectdatasource.getAllUserbyProjectId(projectid);
+        ArrayList<User> userlistcreate = new ArrayList<User>();
+        for (int i=0; i<values.size(); i++){
+        	
+        	User_Project  userproject = values.get(i);
+            long userid = userproject.getUPUid();
+            Cursor c = userdatasource.fetchUserById(userid);
+            
+            c.moveToFirst();
+			while (!c.isAfterLast()) {
+				User user = cursorToUser(c);
+				userlistcreate.add(user);
+			    c.moveToNext();
+			}
+			// Make sure to close the cursor
+			c.close();
+            
+         }
+        
+        
+        
+        final MyCustomAdapter adapter = new MyCustomAdapter(this,
+                R.layout.member_checkbox,  userlistcreate);
+        listviewmembercreate.setAdapter(adapter);
+        
+		
 		
 		taskcreatebutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -110,6 +168,18 @@ public class CreateTaskActivity extends Activity {
             		long duedateint = c1.getTimeInMillis();
             		Date dateSet = new Date(duedateint);
             	
+            		
+            		ArrayList<User> userLists = adapter.userList;
+            	    for(int i=0;i<userLists.size();i++){
+            	     User user = userLists.get(i);
+            	     if(user.isSelected()){
+            	    	 usertaskdatasource.createUser_Task(taskidstring, user.getUserid(), taskid, datenow);
+            	    	 Log.i("usertaskid", taskidstring);
+            	    	 Log.i("useridlist",String.valueOf(user.getUserid()));
+            	    	 Log.i("taskidstring", String.valueOf(taskid));
+            	      
+            	     }
+            	    }
             		
             		
             		taskdatabase.createTask(taskidstring, projectid,
@@ -193,5 +263,69 @@ public class CreateTaskActivity extends Activity {
 	 
 			}
 		};
+		
+		private User cursorToUser(Cursor cursor) {
+			User user = new User();
+			user.setUserid(cursor.getInt(0));
+			user.setUser_UserName(cursor.getString(1));
+			user.setUserName(cursor.getString(2));
+			user.setUserPhoneNumber(cursor.getInt(3));
+			user.setUserEmail(cursor.getString(4));
+			Date lu = Date.valueOf(cursor.getString(5));
+			user.setUserLastUpdate(lu);
+			user.setSelected(false);
+			
+			return user;
+		}
+		
+		private class MyCustomAdapter extends ArrayAdapter<User> {
+			 
+			  private ArrayList<User> userList;
+			 
+			  public MyCustomAdapter(Context context, int textViewResourceId, 
+			    ArrayList<User> countryList) {
+			   super(context, textViewResourceId, countryList);
+			   this.userList = new ArrayList<User>();
+			   this.userList.addAll(countryList);
+			  }
+			 
+			  private class ViewHolder {
+			  
+			   CheckBox membercheck;
+			  }
+			 
+			  @Override
+			  public View getView(int position, View convertView, ViewGroup parent) {
+			 
+			   ViewHolder holder = null;
+			   Log.v("ConvertView", String.valueOf(position));
+			 
+			   if (convertView == null) {
+			   LayoutInflater vi = (LayoutInflater)getSystemService(
+			     Context.LAYOUT_INFLATER_SERVICE);
+			   convertView = vi.inflate(R.layout.member_checkbox, null);
+			 
+			   holder = new ViewHolder();
+			   holder.membercheck = (CheckBox) convertView.findViewById(R.id.memberlistadd);
+			   convertView.setTag(holder);
+			 
+			    
+			   } 
+			   else {
+			    holder = (ViewHolder) convertView.getTag();
+			   }
+			 
+			   User users = userList.get(position);
+			   holder.membercheck.setText(users.getUserName());
+			   holder.membercheck.setChecked(users.isSelected());
+			   holder.membercheck.setTag(users);
+			 
+			   return convertView;
+			 
+			  }
+			 
+			 }
+		
+		
 
 }

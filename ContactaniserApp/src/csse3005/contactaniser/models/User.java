@@ -26,6 +26,9 @@ public class User {
 	/** The userlastupdate. */
 	private Date userlastupdate;
 	
+	/** the checkbox selected. */
+	private boolean selected;
+	
 	//Will be used by array adapter in the list view
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -141,6 +144,16 @@ public class User {
 	 */
 	public void setUserLastUpdate(Date userlastupdate){
 		this.userlastupdate = userlastupdate;
+	}
+	
+	public boolean isSelected() {
+		  return selected;
+	
+	}
+		 
+	public void setSelected(boolean selected) {
+		  this.selected = selected;
+		 
 	}
 	
 }
