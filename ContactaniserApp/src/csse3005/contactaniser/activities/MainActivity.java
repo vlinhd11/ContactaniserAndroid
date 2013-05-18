@@ -34,6 +34,7 @@ import android.view.MenuItem;
 import csse3005.contactaniser.datasource.ProjectDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
+import csse3005.contactaniser.library.InternetCheck;
 import csse3005.contactaniser.models.TabsAdapter;
 import csse3005.contactaniserapp.R;
 
@@ -124,9 +125,14 @@ public class MainActivity extends FragmentActivity {
 	    switch (item.getItemId()) {
 
         	case R.id.menu_refresh:
+        		
         	    menuItem = item;
         	    menuItem.setActionView(R.layout.progressbar);
         	    
+        	    InternetCheck interent = new InternetCheck();
+            	boolean internetOn = interent.internetOn(this);
+            	if (internetOn) 
+            	{
         	    
         	    DownSycnUserProject dsUP = new DownSycnUserProject();
         		dsUP.setContext(this);
@@ -186,9 +192,20 @@ public class MainActivity extends FragmentActivity {
             	dsU.setUserid(userid);
             	
             	dsU.execute();
-        	    
-
+        	 
         		return true;
+        	} else {
+        		new AlertDialog.Builder(this)
+			    .setTitle(R.string.network_error)
+			    .setMessage(R.string.network_error_message)
+			    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+			            // do nothing
+			        }
+			     })
+			     .show();
+        		return false;
+        	}
 
 	        case R.id.menu_change_password:
 	        	openPasswordActivity();

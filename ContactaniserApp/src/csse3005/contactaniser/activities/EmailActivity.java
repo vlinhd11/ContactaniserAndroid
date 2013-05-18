@@ -1,15 +1,13 @@
 package csse3005.contactaniser.activities;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import csse3005.contactaniser.library.InternetCheck;
 import csse3005.contactaniserapp.R;
 
 public class EmailActivity extends Activity {
@@ -25,8 +23,10 @@ public class EmailActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		useremail = getIntent().getExtras().getString("email");
-
-			if (internetOn()) { 
+			
+			InternetCheck internet = new InternetCheck();
+			boolean internetOn = internet.internetOn(this);
+			if (internetOn) { 
 			  Intent email = new Intent(Intent.ACTION_SEND);
 			  email.putExtra(Intent.EXTRA_EMAIL, new String[]{ useremail});
 			  
@@ -34,19 +34,16 @@ public class EmailActivity extends Activity {
 			  email.setType("message/rfc822");
 			  startActivity(Intent.createChooser(email, "Choose an Email client :"));
 			}
-			else Toast.makeText(getApplicationContext(), "No Internet Connection Aavailable", Toast.LENGTH_LONG).show();
+			else {
+				new AlertDialog.Builder(this)
+			    .setTitle(R.string.network_error)
+			    .setMessage(R.string.network_error_message)
+			    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+			            // do nothing
+			        }
+			     })
+			     .show();
+			}
 	} 
-			
-	
-	private boolean internetOn() {
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		android.net.NetworkInfo datac = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-		if ((wifi != null & datac != null) && (wifi.isConnected() | datac.isConnected())) {
-			return true;
-		}else{
-            //no connection 
-            return false;
-        }
-	}
 }

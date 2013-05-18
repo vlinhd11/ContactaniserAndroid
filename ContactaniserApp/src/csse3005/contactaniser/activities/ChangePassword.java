@@ -17,6 +17,8 @@ import org.json.JSONObject;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -25,11 +27,13 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import csse3005.contactaniser.library.InternetCheck;
 import csse3005.contactaniser.library.PasswordValidator;
 import csse3005.contactaniserapp.R;
 
 public class ChangePassword extends Activity {
 	private String username;
+	private int userID;
 	private EditText txtOldPwd;
 	private EditText txtNewPwd;
 	private EditText txtConfPwd;
@@ -43,6 +47,7 @@ public class ChangePassword extends Activity {
 		findViewById(R.id.txtOldPwd).requestFocus();
 		Intent receivedIntent = getIntent();
         username = receivedIntent.getStringExtra("username");
+        userID = receivedIntent.getIntExtra("userID", 0);
 	}
 
 	@Override
@@ -111,6 +116,21 @@ public class ChangePassword extends Activity {
 			return;
 		}
 		else {
+			InternetCheck internet = new InternetCheck();
+			boolean internetOn = internet.internetOn(this);
+			if (!internetOn) {
+				new AlertDialog.Builder(this)
+			    .setTitle(R.string.network_error)
+			    .setMessage(R.string.network_error_message)
+			    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+			            // do nothing
+			        }
+			     })
+			     .show();
+				return;
+			}
+			
 			changePwdTask = new ChangePasswordTask();
 			changePwdTask.execute((Void) null);
 		}
@@ -119,11 +139,13 @@ public class ChangePassword extends Activity {
 	private boolean changeNewPwd() {
 		
 		// attempt authentication against a network service.
-		HttpPost httpRequest = new HttpPost("http://triple11.com/BlueTeam/android/login.php"); // To be changed to change_password.php
-    	List<NameValuePair> nvp = new ArrayList<NameValuePair>(3);
+		HttpPost httpRequest = new HttpPost("http://protivity.triple11.com/android/changePassword.php");
+    	List<NameValuePair> nvp = new ArrayList<NameValuePair>(4);
+    	
+    	nvp.add(new BasicNameValuePair("id", Integer.toString(userID)));
     	nvp.add(new BasicNameValuePair("username", username));
     	nvp.add(new BasicNameValuePair("password", txtOldPwd.getText().toString()));
-    	nvp.add(new BasicNameValuePair("newpwd", txtNewPwd.getText().toString()));
+    	nvp.add(new BasicNameValuePair("newPassword", txtNewPwd.getText().toString()));
     	
     	try
         {
@@ -148,6 +170,7 @@ public class ChangePassword extends Activity {
         } catch (IOException e){
         	e.printStackTrace();
         }
+    
     	return false;
 	}
 	
@@ -169,9 +192,9 @@ public class ChangePassword extends Activity {
 			
 			if (success) {
 				Toast.makeText(getApplicationContext(), "Success, Password changed", Toast.LENGTH_LONG).show();
-				finish();
 			} else {
 				Toast.makeText(getApplicationContext(), "Failed, Incorrect Password", Toast.LENGTH_LONG).show();
+
 				txtOldPwd.setError(getString(R.string.error_incorrect_password));
 				txtOldPwd.setText(null);
 				txtOldPwd.requestFocus();

@@ -21,10 +21,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +34,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import csse3005.contactaniser.library.InternetCheck;
 import csse3005.contactaniser.library.MCrypt;
 import csse3005.contactaniserapp.R;
 
@@ -80,10 +79,7 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		// TODO: test code, comment below line out
-//		startActivity(new Intent(this, MainActivity.class));
 		setupLogin();
-		
 	}
 	
 	@Override
@@ -112,10 +108,7 @@ public class LoginActivity extends Activity {
 		mPassword = mPasswordView.getText().toString();
 
 		boolean cancel = false;
-		
-		
-		
-		
+	
 		// Check for a valid password.
 		if (TextUtils.isEmpty(mPassword)) {
 			mPasswordView.setError(getString(R.string.error_field_required));
@@ -154,7 +147,9 @@ public class LoginActivity extends Activity {
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
 			
-			if (internetOn()) {
+			InternetCheck internet = new InternetCheck();
+			boolean internetOn = internet.internetOn(this);
+			if (internetOn) {
 				mAuthTask = new UserLoginTask();
 				mAuthTask.execute((Void) null);
 			}
@@ -277,17 +272,8 @@ public class LoginActivity extends Activity {
 								attemptLogin();
 							}
 						});
-		
-//		findViewById(R.id.change_password).setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View view) {
-//				ContinueToChangePassword();
-//			}
-//		});
-			
 		mUsernameView.requestFocus();
 	}
-	
 	
 	private boolean authPass() {
 		
@@ -301,10 +287,9 @@ public class LoginActivity extends Activity {
 		try {
 			eUsername = MCrypt.bytesToHex( mcrypt.encrypt(mUsername));
 			ePassword = MCrypt.bytesToHex( mcrypt.encrypt(mPassword));
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
 		
     	List<NameValuePair> nvp = new ArrayList<NameValuePair>(2);
     	nvp.add(new BasicNameValuePair("username", eUsername));
@@ -349,18 +334,6 @@ public class LoginActivity extends Activity {
 	private boolean validEmail(String email) {
 	    Pattern pattern = Patterns.EMAIL_ADDRESS;
 	    return pattern.matcher(email).matches();
-	}
-	
-	private boolean internetOn() {
-		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		android.net.NetworkInfo datac = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-		if ((wifi != null & datac != null) && (wifi.isConnected() | datac.isConnected())) {
-			return true;
-		}else{
-            //no connection 
-            return false;
-        }
 	}
 	
 	private void setUserID(int userID){
