@@ -32,12 +32,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class CreateTaskActivity extends Activity {
 
 	private long projectid;
+	private int userid;
 	private int year;
 	private int month;
 	private int day;
@@ -67,7 +66,6 @@ public class CreateTaskActivity extends Activity {
 	private UserDataSource userdatasource;
 	private User_TaskDataSource usertaskdatasource;
 	private ListView listviewmembercreate;
-	private ArrayList<User> userlistcreate;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +142,7 @@ public class CreateTaskActivity extends Activity {
             		String taskidstring = String.valueOf(taskid);
             		
             		projectid = getIntent().getExtras().getLong("projectid");
-
+            		userid = getIntent().getExtras().getInt("userID");
             		tasknamestring = taskname.getText().toString();
             		taskdescriptionstring = 
             				taskdescription.getText().toString();
@@ -174,14 +172,12 @@ public class CreateTaskActivity extends Activity {
             	     User user = userLists.get(i);
             	     if(user.isSelected()){
             	    	 usertaskdatasource.createUser_Task(taskidstring, user.getUserid(), taskid, datenow);
-            	    	 Log.i("usertaskid", taskidstring);
-            	    	 Log.i("useridlist",String.valueOf(user.getUserid()));
-            	    	 Log.i("taskidstring", String.valueOf(taskid));
+            	    	 
             	      
             	     }
             	    }
             		
-            		
+            	    usertaskdatasource.createUser_Task(taskidstring,userid , taskid, datenow);
             		taskdatabase.createTask(taskidstring, projectid,
             				tasknamestring, taskdescriptionstring,
             				taskimportanceindex, dateSet, 0, datenow,

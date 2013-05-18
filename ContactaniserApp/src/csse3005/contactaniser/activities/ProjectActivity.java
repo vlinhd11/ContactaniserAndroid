@@ -74,6 +74,7 @@ public class ProjectActivity extends FragmentActivity {
 	private void openNewTaskActivity() {
 		Intent intent = new Intent(this, CreateTaskActivity.class);
 		intent.putExtra("projectid", getIntent().getExtras().getLong("projId"));
+		intent.putExtra("userid", getIntent().getIntExtra("userID", 0));
 		startActivity(intent);
 	}
 

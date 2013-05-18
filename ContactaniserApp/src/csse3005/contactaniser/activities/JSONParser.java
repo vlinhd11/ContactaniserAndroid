@@ -1,59 +1,109 @@
 package csse3005.contactaniser.activities;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-import android.app.Activity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.AsyncTask;
 
-public class JSONParser {
-	public static String getJSONString(String url) {
-		String jsonString = null;
-		HttpURLConnection linkConnection = null;
+/**
+ * 
+ * @author Jason
+ * 
+ * JSON abstract class for going to the cloud to get JSON response
+ *
+ */
+public abstract class JSONParser extends AsyncTask<String, Void, String> {
+
+	private ProgressDialog progressDialog;
+	protected Context context;
+	private HttpPost httpPost;
+	protected int userid;
+	
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
+	}
+	
+	public void setHttpPost(HttpPost httpPost) {
+		this.httpPost = httpPost;
+	}
+
+	/**
+	 * display the progress dialog
+	 */
+	@Override    
+    protected void onPreExecute() 
+    {       
+        super.onPreExecute();
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("... Loading ...");
+        progressDialog.show();
+    }
+	
+	/**
+	 * go to website and get the JSON
+	 */
+	@Override
+	protected String doInBackground(String... arg) {
+		String line = "";
+		String ret = "";
+		
+		// Create http client
+		HttpClient client = new DefaultHttpClient();
+		
 		try {
-			URL linkurl = new URL(url);
-			linkConnection = (HttpURLConnection) linkurl.openConnection();
-			int responseCode = linkConnection.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				InputStream linkinStream = linkConnection.getInputStream();
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				int j = 0;
-				while ((j = linkinStream.read()) != -1) {
-					baos.write(j);
+			// Get the response from the website
+			HttpResponse response = client.execute(httpPost);
+			
+			// Check the status of the response
+			StatusLine statusLine = response.getStatusLine();
+			int statusCode = statusLine.getStatusCode();
+			
+			if (statusCode == 200) { //OK
+				BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+				
+				while ((line = rd.readLine()) != null) {
+					ret += line;
 				}
-				byte[] data = baos.toByteArray();
-				jsonString = new String(data);
 			}
-		} catch (Exception e) {
+		} catch (ClientProtocolException e) {
 			e.printStackTrace();
-		} finally {
-			if (linkConnection != null) {
-				linkConnection.disconnect();
-			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return jsonString;
+		return ret;
 	}
-
-	public static boolean isNetworkAvailable(Activity activity) {
-		ConnectivityManager connectivity = (ConnectivityManager) activity
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		if (connectivity == null) {
-			return false;
-		} else {
-			NetworkInfo[] info = connectivity.getAllNetworkInfo();
-			if (info != null) {
-				for (int i = 0; i < info.length; i++) {
-					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-						return true;
-					}
-				}
-			}
+	
+	/**
+	 * once it is finished dismiss the dialog and process the JSON
+	 */
+	@Override
+	protected void onPostExecute(String result) {
+		JSONObject json;
+		try {
+			// turn the result into a JSONObject
+			json = new JSONObject(result);
+			processJSON(json);
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
-		return false;
+		progressDialog.dismiss();
 	}
-
+	
+	public abstract void processJSON(JSONObject json);
 }

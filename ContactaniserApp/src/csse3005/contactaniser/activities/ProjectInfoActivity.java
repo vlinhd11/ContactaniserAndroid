@@ -93,8 +93,9 @@ public class ProjectInfoActivity extends Fragment {
         	
         	User_Project  userproject = values.get(i);
             long userid = userproject.getUPUid();
+   
             Cursor c = userdatasource.fetchUserById(userid);
-            
+
             c.moveToFirst();
 			while (!c.isAfterLast()) {
 				User user = cursorToUser(c);
@@ -103,6 +104,7 @@ public class ProjectInfoActivity extends Fragment {
 			}
 			// Make sure to close the cursor
 			c.close();
+            
             
          }
         
