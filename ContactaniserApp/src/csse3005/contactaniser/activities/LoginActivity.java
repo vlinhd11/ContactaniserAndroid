@@ -25,6 +25,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -271,7 +272,7 @@ public class LoginActivity extends Activity {
 		String ePassword = null;
 		
 		// attempt authentication against a network service.
-		HttpPost httpRequest = new HttpPost("http://triple11.com/BlueTeam/android/login_decrypt.php");
+		HttpPost httpRequest = new HttpPost("http://triple11.com/BlueTeam/android/login_secure.php");
 		
 		MCrypt mcrypt = new MCrypt();
 		try {
@@ -296,14 +297,20 @@ public class LoginActivity extends Activity {
                 JSONObject json;
                 try {
                 	json = new JSONObject(strResult);
-                	if (json.get("Result").equals("Success")) 
+                	String dResult = new String (mcrypt.decrypt(json.getString("Result"))).trim();
+
+                	if (dResult.equals("Success")) 
                 		{
-                			setUserID(json.getInt("UserID"));
+                			json.getString("UserID");
+                			String dUserID = new String (mcrypt.decrypt(json.getString("UserID"))).trim();
+                			setUserID(Integer.parseInt(dUserID));
                 			return true;
                 		}
                 } catch (JSONException e) {
         			e.printStackTrace();
-        		}
+        		} catch (Exception e) {
+					e.printStackTrace();
+				}
             }
         } catch (ClientProtocolException e){
         	e.printStackTrace();
