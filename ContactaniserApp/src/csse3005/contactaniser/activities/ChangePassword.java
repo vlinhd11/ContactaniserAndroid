@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import csse3005.contactaniser.library.InternetCheck;
+import csse3005.contactaniser.library.MCrypt;
 import csse3005.contactaniser.library.PasswordValidator;
 import csse3005.contactaniserapp.R;
 
@@ -138,14 +139,29 @@ public class ChangePassword extends Activity {
 		
 	private boolean changeNewPwd() {
 		
+		String eUsername = null;
+		String eOldPwd = null;
+		String eNewPwd = null;
+		String eID = null;
+		
 		// attempt authentication against a network service.
-		HttpPost httpRequest = new HttpPost("http://protivity.triple11.com/android/changePassword.php");
+		HttpPost httpRequest = new HttpPost("http://protivity.triple11.com/android/changePassword_decrypt.php");
+		
+		MCrypt mcrypt = new MCrypt();
+		try {
+			eID = MCrypt.bytesToHex( mcrypt.encrypt(Integer.toString(userID)));
+			eUsername = MCrypt.bytesToHex( mcrypt.encrypt(username));
+			eOldPwd = MCrypt.bytesToHex( mcrypt.encrypt(txtOldPwd.getText().toString()));
+			eNewPwd = MCrypt.bytesToHex( mcrypt.encrypt(txtNewPwd.getText().toString()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
     	List<NameValuePair> nvp = new ArrayList<NameValuePair>(4);
-    	
-    	nvp.add(new BasicNameValuePair("id", Integer.toString(userID)));
-    	nvp.add(new BasicNameValuePair("username", username));
-    	nvp.add(new BasicNameValuePair("password", txtOldPwd.getText().toString()));
-    	nvp.add(new BasicNameValuePair("newPassword", txtNewPwd.getText().toString()));
+    	nvp.add(new BasicNameValuePair("id", eID));
+    	nvp.add(new BasicNameValuePair("username", eUsername));
+    	nvp.add(new BasicNameValuePair("password", eOldPwd));
+    	nvp.add(new BasicNameValuePair("newPassword", eNewPwd));
     	
     	try
         {
