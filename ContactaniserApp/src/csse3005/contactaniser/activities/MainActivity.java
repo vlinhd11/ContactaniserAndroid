@@ -129,10 +129,22 @@ public class MainActivity extends FragmentActivity {
         	    menuItem = item;
         	    menuItem.setActionView(R.layout.progressbar);
         	    
-        	    InternetCheck interent = new InternetCheck();
-            	boolean internetOn = interent.internetOn(this);
-            	if (internetOn) 
-            	{
+            	InternetCheck internet = new InternetCheck();
+    			boolean internetOn = internet.internetOn(this);
+    			if (!internetOn) {
+    				new AlertDialog.Builder(this)
+    			    .setTitle(R.string.network_error)
+    			    .setMessage(R.string.network_error_message)
+    			    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+    			        public void onClick(DialogInterface dialog, int which) { 
+    			            // do nothing
+    			        }
+    			     })
+    			     .show();
+    				menuItem.collapseActionView();
+			    	menuItem.setActionView(null);
+			    	return super.onOptionsItemSelected(item); 
+    			}
         	    
         	    DownSycnUserProject dsUP = new DownSycnUserProject();
         		dsUP.setContext(this);
@@ -194,18 +206,7 @@ public class MainActivity extends FragmentActivity {
             	dsU.execute();
         	 
         		return true;
-        	} else {
-        		new AlertDialog.Builder(this)
-			    .setTitle(R.string.network_error)
-			    .setMessage(R.string.network_error_message)
-			    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) { 
-			            // do nothing
-			        }
-			     })
-			     .show();
-        		return false;
-        	}
+        	 
 
 	        case R.id.menu_change_password:
 	        	openPasswordActivity();
