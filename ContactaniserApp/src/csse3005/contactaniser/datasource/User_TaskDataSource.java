@@ -1,5 +1,6 @@
 package csse3005.contactaniser.datasource;
 import csse3005.contactaniser.models.MySQLHelper;
+import csse3005.contactaniser.models.User_Project;
 import csse3005.contactaniser.models.User_Task;
 
 import java.sql.Date;
@@ -49,7 +50,7 @@ public class User_TaskDataSource {
 				if (affectedRows == 1)
 				{
 					Cursor cursor = database.query(MySQLHelper.TABLE_USER_TASK,
-					        allColumns, MySQLHelper.COLUMN_USERTASKUSERFID + " = " + usertaskid, null,
+					        allColumns, MySQLHelper.COLUMN_USERTASKID + " = " + usertaskid, null,
 					        null, null, null);
 					    cursor.moveToFirst();
 					    User_Task newUser_Task = cursorToUser_Task(cursor);
@@ -63,7 +64,7 @@ public class User_TaskDataSource {
 					long insertId = database.insert(MySQLHelper.TABLE_USER_TASK, null,
 					        values);
 					    Cursor cursor = database.query(MySQLHelper.TABLE_USER_TASK,
-					        allColumns, MySQLHelper.COLUMN_USERTASKUSERFID + " = " + insertId, null,
+					        allColumns, MySQLHelper.COLUMN_USERTASKID + " = " + insertId, null,
 					        null, null, null);
 					    cursor.moveToFirst();
 					    User_Task newUser_Task = cursorToUser_Task(cursor);
@@ -85,6 +86,25 @@ public class User_TaskDataSource {
 				//Retrieve all tasks with the tid and uid given
 				Cursor cursor = database.query(MySQLHelper.TABLE_LOGS,
 				    allColumns, MySQLHelper.COLUMN_USERTASKUSERFID + " = " + uid + " AND " + MySQLHelper.COLUMN_USERTASKTASKFID + " = " + tid, null, null, null, null);
+
+				cursor.moveToFirst();
+				while (!cursor.isAfterLast()) {
+					User_Task User_Task = cursorToUser_Task(cursor);
+				    User_Tasks.add(User_Task);
+				    cursor.moveToNext();
+				}
+				// Make sure to close the cursor
+				cursor.close();
+				return User_Tasks;
+			}
+			
+			public ArrayList<User_Task> getAllUserbyTaskId(long tid) {
+				
+				ArrayList<User_Task> User_Tasks = new ArrayList<User_Task>();
+				//Retrieve all tasks with the tid and pid given
+				Cursor cursor = database.query(MySQLHelper.TABLE_USER_TASK,
+				    allColumns, MySQLHelper.COLUMN_USERTASKTASKFID + " = " + tid, null, null, null, null);
+				
 
 				cursor.moveToFirst();
 				while (!cursor.isAfterLast()) {

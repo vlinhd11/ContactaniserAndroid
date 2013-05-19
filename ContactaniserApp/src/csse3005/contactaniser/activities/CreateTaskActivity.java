@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class CreateTaskActivity extends Activity {
 
@@ -142,7 +143,8 @@ public class CreateTaskActivity extends Activity {
             		String taskidstring = String.valueOf(taskid);
             		
             		projectid = getIntent().getExtras().getLong("projectid");
-            		userid = getIntent().getExtras().getInt("userID");
+            		userid = getIntent().getExtras().getInt("userid");
+            		//Log.i("useridmasukpascreate", String.valueOf(userid));
             		tasknamestring = taskname.getText().toString();
             		taskdescriptionstring = 
             				taskdescription.getText().toString();
@@ -171,13 +173,17 @@ public class CreateTaskActivity extends Activity {
             	    for(int i=0;i<userLists.size();i++){
             	     User user = userLists.get(i);
             	     if(user.isSelected()){
-            	    	 usertaskdatasource.createUser_Task(taskidstring, user.getUserid(), taskid, datenow);
+            	    	 long usertaskid = System.currentTimeMillis();
+            	    	 String usertaskidstring = String.valueOf(usertaskid);
+            	    	 usertaskdatasource.createUser_Task(usertaskidstring, user.getUserid(), taskid, datenow);
             	    	 
             	      
             	     }
             	    }
             		
-            	    usertaskdatasource.createUser_Task(taskidstring,userid , taskid, datenow);
+            	    long usertaskidself = System.currentTimeMillis();
+            	    String usertaskidselfstring = String.valueOf(usertaskidself);
+            	    usertaskdatasource.createUser_Task(usertaskidselfstring,userid , taskid, datenow);
             		taskdatabase.createTask(taskidstring, projectid,
             				tasknamestring, taskdescriptionstring,
             				taskimportanceindex, dateSet, 0, datenow,
@@ -304,9 +310,16 @@ public class CreateTaskActivity extends Activity {
 			   holder = new ViewHolder();
 			   holder.membercheck = (CheckBox) convertView.findViewById(R.id.memberlistadd);
 			   convertView.setTag(holder);
-			 
+			   holder.membercheck.setOnClickListener( new View.OnClickListener() {  
+				     public void onClick(View v) {  
+				      CheckBox cb = (CheckBox) v ;  
+				      User user = (User) cb.getTag();
+				      user.setSelected(cb.isChecked());
+				     }  
+				    });  
+				   }
 			    
-			   } 
+			    
 			   else {
 			    holder = (ViewHolder) convertView.getTag();
 			   }

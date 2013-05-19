@@ -22,8 +22,6 @@ public class MemberInfoActivity extends Activity {
 	
 	private static TextView userName;
 	private static TextView userRole;
-	private static TextView userPhone;
-	private static TextView userEmail;
 	String phonenumber;
 	String phoneemail;
 	private UserDataSource userdatasource;
@@ -50,8 +48,6 @@ public class MemberInfoActivity extends Activity {
 		
 		userName = (TextView) findViewById(R.id.nametextView);
 		userRole = (TextView) findViewById(R.id.roletextView);
-		userPhone = (TextView) findViewById(R.id.phonetextView);
-		userEmail = (TextView) findViewById(R.id.emailtextView);
 		
 		ProjectId = getIntent().getExtras().getLong("projectid");
 		UserId = getIntent().getExtras().getLong("userid");

@@ -56,6 +56,8 @@ public class ActiveTasks extends Fragment {
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 					Intent pIntent = new Intent(getActivity(), TaskActivity.class);
 					pIntent.putExtra("taskid", mAdapter.getItem(position).getTaskID());
+					pIntent.putExtra("projectid", getActivity().getIntent().getExtras().getLong("projId"));
+					pIntent.putExtra("userid", getActivity().getIntent().getIntExtra("userid", 0));
 					startActivity(pIntent);
 				}
 			});

@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import csse3005.contactaniser.models.TabsAdapter;
@@ -74,7 +75,7 @@ public class ProjectActivity extends FragmentActivity {
 	private void openNewTaskActivity() {
 		Intent intent = new Intent(this, CreateTaskActivity.class);
 		intent.putExtra("projectid", getIntent().getExtras().getLong("projId"));
-		intent.putExtra("userid", getIntent().getIntExtra("userID", 0));
+		intent.putExtra("userid", getIntent().getIntExtra("userid", 0));
 		startActivity(intent);
 	}
 

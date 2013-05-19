@@ -233,7 +233,6 @@ public class MainActivity extends FragmentActivity {
 									JSONObject userprojectObject = jsonArray.getJSONObject(i);
 									//JSONObject userprojectObject = jsonArray.getJSONObject(i);
 									String upid = userprojectObject.getString("Id");
-									Log.i("userprojectidmasuk", upid);
 									String upufidstring = userprojectObject.getString("uId");
 									int upufid = Integer.parseInt(upufidstring);
 									String uppfidstring = userprojectObject.getString("pId");
@@ -300,7 +299,6 @@ public class MainActivity extends FragmentActivity {
 								
 								JSONObject jsonObject = jsonArray.getJSONObject(i);
 								String ID = jsonObject.getString("Id");
-								Log.i("projectidmasuk", ID);
 								String Name = jsonObject.getString("Name");
 							
 								String Description = jsonObject.getString("Description");
@@ -373,7 +371,6 @@ public class MainActivity extends FragmentActivity {
 							
 								JSONObject jsonObject = jsonArray.getJSONObject(i);
 								String ID = jsonObject.getString("uId");
-								Log.i("useridmasuk", ID);
 								String User_Username = jsonObject.getString("uUsername");
 								String Username = jsonObject.getString("uName");
 								int Phonenumber = Integer.parseInt(jsonObject.getString("uPhone"));

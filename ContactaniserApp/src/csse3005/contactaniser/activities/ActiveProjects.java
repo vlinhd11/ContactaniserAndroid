@@ -54,8 +54,8 @@ public class ActiveProjects extends ListFragment {
 		Intent pIntent = new Intent(getActivity(), ProjectActivity.class);
 		pIntent.putExtra("projName", itemtext);
 		pIntent.putExtra("projId", itemId.getProjectid());
-		Log.i("userid", String.valueOf(getActivity().getIntent().getIntExtra("userID", 0)));
 		pIntent.putExtra("userid", getActivity().getIntent().getIntExtra("userID", 0));
+		
 		startActivity(pIntent);
 		
 	}

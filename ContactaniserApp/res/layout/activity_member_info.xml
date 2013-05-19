@@ -27,36 +27,14 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@id/textView2" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/member_contact"
-        android:textAppearance="?android:attr/textAppearanceSmall" 
-        android:layout_below="@id/roletextView" />
 
-    <TextView
-        android:id="@+id/phonetextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/member_phone"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_below="@id/textView4" />
-
-    <TextView
-        android:id="@+id/emailtextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/member_email"
-        android:textAppearance="?android:attr/textAppearanceSmall" 
-        android:layout_below="@id/phonetextView" />
 
     <RelativeLayout 
         android:id="@+id/InnerRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" >
-	
+
      </RelativeLayout>
 
     <ImageButton
@@ -64,7 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/emailtextView"
+        android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@+id/smsButton"
         android:src="@drawable/ic_email" />
 
     <ImageButton

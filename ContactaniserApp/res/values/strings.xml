@@ -73,6 +73,14 @@
     <string name="member_contact">Contact</string>
     <string name="member_role">Role</string>
     <string name="send_sms">Send SMS</string>
+    <string name="task_importance">Importance Level</string>
+    <string name="task_category">Category</string><string name="button_update">Update</string><string name="button_complete">Complete</string>
+    
+    
+    
+    
+    
+    
     
     
     
