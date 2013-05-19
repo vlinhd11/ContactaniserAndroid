@@ -170,6 +170,17 @@ public class TaskActivity extends Activity {
 				}
 			});
 	        
+	        UpdateButton.setOnClickListener(new View.OnClickListener() {
+	            public void onClick(View v) {
+	            	Intent pIntent = new Intent(TaskActivity.this, UpdateTaskActivity.class);
+					pIntent.putExtra("taskid", getIntent().getExtras().getLong("taskid"));
+					pIntent.putExtra("userid", getIntent().getIntExtra("userid", 0));
+					pIntent.putExtra("projectid", getIntent().getExtras().getLong("projectid"));
+					startActivity(pIntent);
+					
+	            }
+	        });
+	        
 	        CompleteButton.setOnClickListener(new View.OnClickListener() {
 	            public void onClick(View v) {
 	            	

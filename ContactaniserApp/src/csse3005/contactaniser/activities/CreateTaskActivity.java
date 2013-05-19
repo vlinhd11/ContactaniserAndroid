@@ -4,6 +4,7 @@ import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
 import csse3005.contactaniser.datasource.User_TaskDataSource;
+import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.User;
 import csse3005.contactaniser.models.User_Project;
 import csse3005.contactaniserapp.R;
@@ -14,8 +15,6 @@ import android.view.Menu;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -116,8 +115,8 @@ public class CreateTaskActivity extends Activity {
 			c.close();
             
          }
-        
-        
+
+
         
         final MyCustomAdapter adapter = new MyCustomAdapter(this,
                 R.layout.member_checkbox,  userlistcreate);
@@ -197,6 +196,7 @@ public class CreateTaskActivity extends Activity {
         });
 		
 	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

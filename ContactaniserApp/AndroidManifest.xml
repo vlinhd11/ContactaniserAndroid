@@ -28,6 +28,10 @@
             android:label="@string/title_activity_change_password" >
         </activity>
         <activity
+            android:name="csse3005.contactaniser.activities.UpdateTaskActivity"
+            android:label="@string/title_activity_update" >
+        </activity>
+        <activity
             android:name="csse3005.contactaniser.activities.EmailActivity"
             android:label="@string/app_name" >
         </activity>
