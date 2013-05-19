@@ -27,5 +27,14 @@
     <style name="BlueButton">
         <item name="android:background">@drawable/blue_button</item>
     </style>
+    
+    <style name="TextBox">
+        <item name="android:background">@drawable/text_box</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:layout_width">250dp</item>
+        <item name="android:layout_gravity">center</item>"
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">18dp</item>
+    </style>
 
 </resources>

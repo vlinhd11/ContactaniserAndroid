@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/emailtextView"
-        android:src="@drawable/email_button" />
+        android:src="@drawable/ic_email" />
 
     <ImageButton
         android:id="@+id/callButton"
@@ -74,7 +74,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/smsButton"
-        android:src="@drawable/call_button" />
+        android:src="@drawable/ic_call" />
 
     <ImageButton
         android:id="@+id/smsButton"
@@ -82,6 +82,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/sms_button" />
+        android:src="@drawable/ic_text" />
 
 </RelativeLayout>
