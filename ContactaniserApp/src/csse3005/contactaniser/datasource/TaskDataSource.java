@@ -83,6 +83,10 @@ public class TaskDataSource {
 		database.delete(MySQLHelper.TABLE_TASKS, MySQLHelper.COLUMN_TASKID
 		    + " = " + id, null);
 	}
+	
+	public void deleteAllTask() {
+		database.delete(MySQLHelper.TABLE_TASKS, null, null);
+	}
 
 
 	public ArrayList<Task> getAllTasks(long pid, int completion) {

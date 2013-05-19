@@ -37,7 +37,7 @@ public class ProjectInfoActivity extends Fragment {
 	private static Button CompleteButton;
 	
 	long mRowId;
-	
+	long mrowuserid;
 	String ProjectName;
 	String ProjectDescription;
 	String ProjectStartDate;
@@ -80,6 +80,7 @@ public class ProjectInfoActivity extends Fragment {
 		CompleteButton = (Button) getActivity().findViewById(R.id.buttonProjectComplete);
 		
 		mRowId = getActivity().getIntent().getExtras().getLong("projId");
+		mrowuserid = getActivity().getIntent().getIntExtra("userID", 0);
 		final String mRowIdString = String.valueOf(mRowId);
 		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
         final Cursor project = DatabaseHelper.fetchProjectById(mRowId);
@@ -106,6 +107,7 @@ public class ProjectInfoActivity extends Fragment {
         	User_Project  userproject = values.get(i);
             long userid = userproject.getUPUid();
    
+            if (mrowuserid !=userid){
             Cursor c = userdatasource.fetchUserById(userid);
 
             c.moveToFirst();
@@ -116,7 +118,7 @@ public class ProjectInfoActivity extends Fragment {
 			}
 			// Make sure to close the cursor
 			c.close();
-            
+            }
             
          }
         

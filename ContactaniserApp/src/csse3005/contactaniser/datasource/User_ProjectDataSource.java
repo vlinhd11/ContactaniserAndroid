@@ -76,6 +76,10 @@ public class User_ProjectDataSource {
 					database.delete(MySQLHelper.TABLE_USER_PROJECT, MySQLHelper.COLUMN_USERPROJECTUSERFID
 					    + " = " + id, null);
 				}
+				
+				public void deleteAllUserProject() {
+					database.delete(MySQLHelper.TABLE_USER_PROJECT, null, null);
+				}
 
 
 				public List<User_Project> getAllUser_Project(String uid, String pid) {
@@ -158,4 +162,6 @@ public class User_ProjectDataSource {
 			        return mCursor;
 
 			    }
+				
+				
 }

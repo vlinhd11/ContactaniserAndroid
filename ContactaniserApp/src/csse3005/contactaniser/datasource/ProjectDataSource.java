@@ -87,6 +87,10 @@ public class ProjectDataSource {
 		database.delete(MySQLHelper.TABLE_PROJECTS, MySQLHelper.COLUMN_PROJECTID
 		    + " = " + id, null);
 	}
+	
+	public void deleteAllProject() {
+		database.delete(MySQLHelper.TABLE_PROJECTS, null, null);
+	}
 
 
 	public List<Project> getAllProjects(int completion) {

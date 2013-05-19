@@ -71,6 +71,9 @@ public class TaskActivity extends Activity {
 		taskimportancetextview = (TextView) findViewById(R.id.tasktextView8);
 		taskduedatetextview = (TextView) findViewById (R.id.tasktextView10);
 		
+		UpdateButton = (Button) findViewById (R.id.buttonTaskUpdate);
+		CompleteButton = (Button) findViewById (R.id.buttonTaskComplete);
+		
 		long mrowtaskid = getIntent().getExtras().getLong("taskid");
 		long mrowuserid = getIntent().getIntExtra("userid", 0);
 		Cursor task = taskdatasource.fetchTaskById(mrowtaskid);

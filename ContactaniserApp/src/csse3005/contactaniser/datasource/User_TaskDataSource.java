@@ -78,6 +78,10 @@ public class User_TaskDataSource {
 				database.delete(MySQLHelper.TABLE_USER_TASK, MySQLHelper.COLUMN_USERTASKUSERFID
 				    + " = " + id, null);
 			}
+			
+			public void deleteAllUserTask() {
+				database.delete(MySQLHelper.TABLE_USER_TASK, null, null);
+			}
 
 
 			public List<User_Task> getAllUser_Task(String uid, String tid) {

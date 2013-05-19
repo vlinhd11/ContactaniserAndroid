@@ -32,8 +32,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import csse3005.contactaniser.datasource.ProjectDataSource;
+import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
+import csse3005.contactaniser.datasource.User_TaskDataSource;
 import csse3005.contactaniser.library.InternetCheck;
 import csse3005.contactaniser.models.TabsAdapter;
 import csse3005.contactaniserapp.R;
@@ -44,6 +46,8 @@ public class MainActivity extends FragmentActivity {
 	private ProjectDataSource projectdatasource;
 	private UserDataSource userdatasource;
 	private User_ProjectDataSource userprojectdatasource;
+	private User_TaskDataSource usertaskdatasource;
+	private TaskDataSource taskdatasource;
 	private MenuItem menuItem; //menu item used by sync refresh
 	private String username;
 	private int userID;
@@ -64,6 +68,12 @@ public class MainActivity extends FragmentActivity {
 	    
 	    userprojectdatasource = new User_ProjectDataSource(this);
 	    userprojectdatasource.open();
+	    
+	    usertaskdatasource = new User_TaskDataSource(this);
+	    usertaskdatasource.open();
+	    
+	    taskdatasource = new TaskDataSource(this);
+	    taskdatasource.open();
 	    
 	   
 	    // retrieve username and userID
@@ -438,6 +448,11 @@ public class MainActivity extends FragmentActivity {
 	    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	            // TODO: Any cleanup (database, syncing etc) goes here!
+	        	userdatasource.deleteAllUser();
+	        	projectdatasource.deleteAllProject();
+	        	userprojectdatasource.deleteAllUserProject();
+	        	usertaskdatasource.deleteAllUserTask();
+	        	taskdatasource.deleteAllTask();
 	        	System.exit(0);
 	        }
 	     })

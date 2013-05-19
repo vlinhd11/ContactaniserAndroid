@@ -77,6 +77,10 @@ public class UserDataSource {
 			database.delete(MySQLHelper.TABLE_USER, MySQLHelper.COLUMN_USERID
 			    + " = " + id, null);
 		}
+		
+		public void deleteAllUser() {
+			database.delete(MySQLHelper.TABLE_USER, null, null);
+		}
 
 
 		public ArrayList<User> getAllUser(String pid) {
