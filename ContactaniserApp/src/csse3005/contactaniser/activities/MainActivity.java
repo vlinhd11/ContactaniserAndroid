@@ -132,15 +132,7 @@ public class MainActivity extends FragmentActivity {
             	InternetCheck internet = new InternetCheck();
     			boolean internetOn = internet.internetOn(this);
     			if (!internetOn) {
-    				new AlertDialog.Builder(this)
-    			    .setTitle(R.string.network_error)
-    			    .setMessage(R.string.network_error_message)
-    			    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-    			        public void onClick(DialogInterface dialog, int which) { 
-    			            // do nothing
-    			        }
-    			     })
-    			     .show();
+    				internet.NetworkError(this);
     				menuItem.collapseActionView();
 			    	menuItem.setActionView(null);
 			    	return super.onOptionsItemSelected(item); 

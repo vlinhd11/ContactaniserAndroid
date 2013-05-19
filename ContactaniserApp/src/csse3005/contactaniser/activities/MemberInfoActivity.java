@@ -98,10 +98,9 @@ public class MemberInfoActivity extends Activity {
 	
 	private void PhoneCall() {
 		// add PhoneStateListener
-				PhoneCallListener phoneListener = new PhoneCallListener();
-				TelephonyManager telephonyManager = (TelephonyManager) this
-					.getSystemService(Context.TELEPHONY_SERVICE);
-				telephonyManager.listen(phoneListener,PhoneStateListener.LISTEN_CALL_STATE);
+		PhoneCallListener phoneListener = new PhoneCallListener();
+		TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+		telephonyManager.listen(phoneListener,PhoneStateListener.LISTEN_CALL_STATE);
 
 		Intent callIntent = new Intent(Intent.ACTION_CALL);
 		callIntent.setData(Uri.parse("tel:"+phonenumber));

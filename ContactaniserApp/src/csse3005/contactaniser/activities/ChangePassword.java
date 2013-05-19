@@ -17,8 +17,6 @@ import org.json.JSONObject;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -120,15 +118,7 @@ public class ChangePassword extends Activity {
 			InternetCheck internet = new InternetCheck();
 			boolean internetOn = internet.internetOn(this);
 			if (!internetOn) {
-				new AlertDialog.Builder(this)
-			    .setTitle(R.string.network_error)
-			    .setMessage(R.string.network_error_message)
-			    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) { 
-			            // do nothing
-			        }
-			     })
-			     .show();
+				internet.NetworkError(this);
 				return;
 			}
 			
