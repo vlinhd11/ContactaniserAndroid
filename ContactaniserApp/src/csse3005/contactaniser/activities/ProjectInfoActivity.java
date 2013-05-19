@@ -34,7 +34,7 @@ public class ProjectInfoActivity extends Fragment {
 	private static TextView projectDescription;
 	private static TextView projectStartDate;
 	private static TextView projectDueDate;
-	private static Button CompleteButton;
+	//private static Button CompleteButton;
 	
 	long mRowId;
 	long mrowuserid;
@@ -77,20 +77,21 @@ public class ProjectInfoActivity extends Fragment {
 		projectDescription = (TextView) getActivity().findViewById(R.id.textView4);
 		projectStartDate = (TextView) getActivity().findViewById(R.id.textView6);
 		projectDueDate = (TextView) getActivity().findViewById(R.id.textView8);
-		CompleteButton = (Button) getActivity().findViewById(R.id.buttonProjectComplete);
+		//CompleteButton = (Button) getActivity().findViewById(R.id.buttonProjectComplete);
 		
 		mRowId = getActivity().getIntent().getExtras().getLong("projId");
 		mrowuserid = getActivity().getIntent().getIntExtra("userID", 0);
-		final String mRowIdString = String.valueOf(mRowId);
-		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+		//final String mRowIdString = String.valueOf(mRowId);
+		//final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
         final Cursor project = DatabaseHelper.fetchProjectById(mRowId);
         ProjectName = project.getString(project.getColumnIndexOrThrow(MySQLHelper.COLUMN_PROJECTNAME));
         ProjectDescription = project.getString(project.getColumnIndexOrThrow(MySQLHelper.COLUMN_PROJECTDESCRIPTION));
         ProjectStartDate = project.getString(project.getColumnIndexOrThrow(MySQLHelper.COLUMN_PROJECTSTARTDATE));
+        ProjectDueDate = project.getString(project.getColumnIndexOrThrow(MySQLHelper.COLUMN_PROJECTDUEDATE));
         
 		
-		Calendar CalNow = Calendar.getInstance();
-    	final Date DateNow = new Date(CalNow.getTimeInMillis());
+		//Calendar CalNow = Calendar.getInstance();
+    	//final Date DateNow = new Date(CalNow.getTimeInMillis());
         
         
         projectName.setText(ProjectName);
@@ -138,7 +139,7 @@ public class ProjectInfoActivity extends Fragment {
 			}
 		});
         
-        CompleteButton.setOnClickListener(new View.OnClickListener() {
+        /*CompleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	
 				try {
@@ -155,7 +156,7 @@ public class ProjectInfoActivity extends Fragment {
 				} 
         		
             }
-        });
+        });*/
         
         
         super.onStart();

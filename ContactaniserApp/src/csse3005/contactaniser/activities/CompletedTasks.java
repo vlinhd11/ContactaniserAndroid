@@ -48,10 +48,12 @@ public class CompletedTasks extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		String itemtext = l.getItemAtPosition(position).toString(); 
-		
-		Intent taskIntent = new Intent(getActivity(), TaskActivity.class);
-		taskIntent.putExtra("taskName", itemtext);
-		startActivity(taskIntent);
+		Task itemId = (Task) getListAdapter().getItem(position);
+		Intent pIntent = new Intent(getActivity(), TaskActivity.class);
+		pIntent.putExtra("taskid", itemId.getTaskid());
+		pIntent.putExtra("projectid", getActivity().getIntent().getExtras().getLong("projId"));
+		pIntent.putExtra("userid", getActivity().getIntent().getIntExtra("userid", 0));
+		startActivity(pIntent);
 		
 	}
 

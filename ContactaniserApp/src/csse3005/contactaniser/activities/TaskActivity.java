@@ -1,7 +1,11 @@
 package csse3005.contactaniser.activities;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -74,7 +78,9 @@ public class TaskActivity extends Activity {
 		UpdateButton = (Button) findViewById (R.id.buttonTaskUpdate);
 		CompleteButton = (Button) findViewById (R.id.buttonTaskComplete);
 		
+		final long mrowprojectid = getIntent().getExtras().getLong("projectid");
 		long mrowtaskid = getIntent().getExtras().getLong("taskid");
+		final String mrowtaskidString = String.valueOf(mrowtaskid);
 		long mrowuserid = getIntent().getIntExtra("userid", 0);
 		Cursor task = taskdatasource.fetchTaskById(mrowtaskid);
 		
@@ -122,6 +128,10 @@ public class TaskActivity extends Activity {
 		
 		listviewmember = (ListView) findViewById(R.id.tasklistMember);
 		
+		Calendar CalNow = Calendar.getInstance();
+    	final Date DateNow = new Date(CalNow.getTimeInMillis());
+		
+    	final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
 		ArrayList<User_Task> values = usertaskdatasource.getAllUserbyTaskId(mrowtaskid);
 		ArrayList<User> userlist = new ArrayList<User>();
 	        for (int i=0; i<values.size(); i++){
@@ -159,6 +169,21 @@ public class TaskActivity extends Activity {
 					startActivity(pIntent);
 				}
 			});
+	        
+	        CompleteButton.setOnClickListener(new View.OnClickListener() {
+	            public void onClick(View v) {
+	            	
+					try {
+		                java.util.Date DueDateUtil =  df.parse(taskduedate); 
+		        		java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
+		        		taskdatasource.createTask(mrowtaskidString, mrowprojectid, taskname, taskdescription, taskimportanceindex, DueDate, 1, DateNow, taskcategoryindex);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+	        		
+	            }
+	        });
 		
 	}
 
