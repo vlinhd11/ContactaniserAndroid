@@ -102,6 +102,17 @@ public class UpdateTaskActivity extends Activity {
 		taskcreatebutton = (Button) findViewById(R.id.create_task_button);
 		p1_button = (Button)findViewById(R.id.btnChangeDate);
 		
+		//Check the savedInstanceState for the mRowId or the row of the task is contain a saved state in Bundle or not
+        taskidsaved = (savedInstanceState == null) ? null :
+                  (Long) savedInstanceState.getSerializable("taskid");
+             if (taskidsaved == null) {
+                  Bundle extras = getIntent().getExtras();
+                  taskidsaved = extras != null ? extras.getLong("taskid")
+                                          : null;
+              }
+		
+		
+		
 		ArrayList<User_Project> values = userprojectdatasource.getAllUserbyProjectId(projectid);
         ArrayList<User> userlistcreate = new ArrayList<User>();
         for (int i=0; i<values.size(); i++){
@@ -110,9 +121,21 @@ public class UpdateTaskActivity extends Activity {
             long userid = userproject.getUPUid();
             Cursor c = userdatasource.fetchUserById(userid);
             
+			
+			
+            
+            
             c.moveToFirst();
 			while (!c.isAfterLast()) {
 				User user = cursorToUser(c);
+				Cursor usercursor = usertaskdatasource.fetchUserTaskByUserIdTaskId(taskidsaved, user.getUserid());
+				if (usercursor.getCount()>0){
+					user.setSelected(true);
+					}
+					else
+					{
+						user.setSelected(false);
+					}
 				userlistcreate.add(user);
 			    c.moveToNext();
 			}
@@ -121,14 +144,7 @@ public class UpdateTaskActivity extends Activity {
             
          }
         
-      //Check the savedInstanceState for the mRowId or the row of the task is contain a saved state in Bundle or not
-        taskidsaved = (savedInstanceState == null) ? null :
-                  (Long) savedInstanceState.getSerializable("taskid");
-             if (taskidsaved == null) {
-                  Bundle extras = getIntent().getExtras();
-                  taskidsaved = extras != null ? extras.getLong("taskid")
-                                          : null;
-              }
+      
         
         populateFields();
         setCurrentDateOnView();
@@ -186,8 +202,12 @@ public class UpdateTaskActivity extends Activity {
         	    	 
             	     if(user.isSelected()){
             	    	 
-            	    	 Cursor c = usertaskdatasource.fetchUserTaskByUserIdTaskId(user.getUserid(), taskidsaved);
+            	    	 
+            	    	 Log.i("userid", String.valueOf(user.getUserid()));
+            	    	 Log.i("taskid", String.valueOf(taskidsaved));
+            	    	 Cursor c = usertaskdatasource.fetchUserTaskByUserIdTaskId(taskidsaved, user.getUserid() );
             	    	 //Log.i("idygtdidbikin", c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)));
+            	    	 
             	    	 if (c.moveToFirst()){
             	    		 Log.i("masuk :", "masuk update");
             	    		 
@@ -214,9 +234,10 @@ public class UpdateTaskActivity extends Activity {
             	     }
             	    }
             		
-            	    long usertaskidself = System.currentTimeMillis();
-            	    String usertaskidselfstring = String.valueOf(usertaskidself);
-            	    usertaskdatasource.createUser_Task(usertaskidselfstring,userid , taskidsaved, datenow);
+            	    
+            	    Cursor c = usertaskdatasource.fetchUserTaskByUserIdTaskId(taskidsaved,userid);
+            	   
+            	    usertaskdatasource.createUser_Task(c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)),userid , taskidsaved, datenow);
             	    String taskidsavedstring = String.valueOf(taskidsaved);
             		taskdatabase.createTask(taskidsavedstring, projectid,
             				tasknamestring, taskdescriptionstring,
@@ -336,7 +357,7 @@ public class UpdateTaskActivity extends Activity {
 			user.setUserEmail(cursor.getString(4));
 			Date lu = Date.valueOf(cursor.getString(5));
 			user.setUserLastUpdate(lu);
-			user.setSelected(false);
+			
 			
 			return user;
 		}

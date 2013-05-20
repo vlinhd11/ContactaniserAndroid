@@ -136,8 +136,8 @@ public class TaskActivity extends Activity {
 		ArrayList<User> userlist = new ArrayList<User>();
 	        for (int i=0; i<values.size(); i++){
 	        	
-	        	User_Task  userproject = values.get(i);
-	            long userid = userproject.getUTUid();
+	        	User_Task  usertask = values.get(i);
+	            long userid = usertask.getUTUid();
 	            if (mrowuserid != userid){
 	            Cursor c = userdatasource.fetchUserById(userid);
 
@@ -218,6 +218,141 @@ public class TaskActivity extends Activity {
 		
 		return user;
 	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		tasknametextview = (TextView) findViewById(R.id.tasktextViewName);
+		taskdescriptiontextview = (TextView) findViewById(R.id.tasktextViewDescription);
+		taskcategorytextview = (TextView) findViewById(R.id.tasktextCategory);
+		taskimportancetextview = (TextView) findViewById(R.id.tasktextImportance);
+		taskduedatetextview = (TextView) findViewById (R.id.tasktextDueDate);
+		
+		UpdateButton = (Button) findViewById (R.id.buttonTaskUpdate);
+		CompleteButton = (Button) findViewById (R.id.buttonTaskComplete);
+		
+		final long mrowprojectid = getIntent().getExtras().getLong("projectid");
+		long mrowtaskid = getIntent().getExtras().getLong("taskid");
+		final String mrowtaskidString = String.valueOf(mrowtaskid);
+		long mrowuserid = getIntent().getIntExtra("userid", 0);
+		Cursor task = taskdatasource.fetchTaskById(mrowtaskid);
+		
+		taskname = task.getString(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKNAME));
+		taskdescription = task.getString(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKDESCRIPTION));
+		taskcategoryindex = task.getInt(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKCATEGORY));
+		taskimportanceindex = task.getInt(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKIMPORTANCELEVEL));
+		taskduedate = task.getString(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKDUEDATE));
+		
+		if (taskimportanceindex == 0)
+		{
+			taskimportance = "Low";
+		}
+		if (taskimportanceindex == 1)
+		{
+			taskimportance = "Medium";
+		}
+		if (taskimportanceindex == 2)
+		{
+			taskimportance = "High";
+		}
+		
+		if (taskcategoryindex == 0)
+		{
+			taskcategory = "TODO";
+		}
+		if (taskcategoryindex == 1)
+		{
+			taskcategory = "Meeting";
+		}
+		if (taskcategoryindex == 2)
+		{
+			taskcategory = "Contact";
+		}
+		if (taskcategoryindex == 3)
+		{
+			taskcategory = "Other";
+		}
+		
+		tasknametextview.setText(taskname);
+		taskdescriptiontextview.setText(taskdescription);
+		taskcategorytextview.setText(taskcategory);
+		taskimportancetextview.setText(taskimportance);
+		taskduedatetextview.setText(String.valueOf(taskduedate));
+		
+		listviewmember = (ListView) findViewById(R.id.tasklistMember);
+		
+		Calendar CalNow = Calendar.getInstance();
+    	final Date DateNow = new Date(CalNow.getTimeInMillis());
+		
+    	final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+		ArrayList<User_Task> values = usertaskdatasource.getAllUserbyTaskId(mrowtaskid);
+		ArrayList<User> userlist = new ArrayList<User>();
+	        for (int i=0; i<values.size(); i++){
+	        	
+	        	User_Task  usertask = values.get(i);
+	            long userid = usertask.getUTUid();
+	            if (mrowuserid != userid){
+	            Cursor c = userdatasource.fetchUserById(userid);
+
+	            c.moveToFirst();
+				while (!c.isAfterLast()) {
+					User user = cursorToUser(c);
+					userlist.add(user);
+				    c.moveToNext();
+				}
+				// Make sure to close the cursor
+				c.close();
+	            
+	            }
+	         }
+	        
+	        
+	        
+	        final ArrayAdapter<User> adapter = new ArrayAdapter<User>(this,
+	                R.layout.member_row, R.id.memberLable, userlist);
+	        listviewmember.setAdapter(adapter);
+	        
+	        listviewmember.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+					Intent pIntent = new Intent(TaskActivity.this, MemberInfoActivity.class);
+					pIntent.putExtra("taskid", getIntent().getExtras().getLong("taskid"));
+					pIntent.putExtra("userid", adapter.getItem(position).getUserid());
+					pIntent.putExtra("projectid", getIntent().getExtras().getLong("projectid"));
+					startActivity(pIntent);
+				}
+			});
+	        
+	        UpdateButton.setOnClickListener(new View.OnClickListener() {
+	            public void onClick(View v) {
+	            	Intent pIntent = new Intent(TaskActivity.this, UpdateTaskActivity.class);
+					pIntent.putExtra("taskid", getIntent().getExtras().getLong("taskid"));
+					pIntent.putExtra("userid", getIntent().getIntExtra("userid", 0));
+					pIntent.putExtra("projectid", getIntent().getExtras().getLong("projectid"));
+					startActivity(pIntent);
+					
+	            }
+	        });
+	        
+	        CompleteButton.setOnClickListener(new View.OnClickListener() {
+	            public void onClick(View v) {
+	            	
+					try {
+		                java.util.Date DueDateUtil =  df.parse(taskduedate); 
+		        		java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
+		        		taskdatasource.createTask(mrowtaskidString, mrowprojectid, taskname, taskdescription, taskimportanceindex, DueDate, 1, DateNow, taskcategoryindex);
+		        		finish();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+	        		
+	            }
+	        });
+	}
+	
+	
 	
 	
 

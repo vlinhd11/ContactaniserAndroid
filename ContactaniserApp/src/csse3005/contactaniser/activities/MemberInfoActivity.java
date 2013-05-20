@@ -51,7 +51,7 @@ public class MemberInfoActivity extends Activity {
 		
 		ProjectId = getIntent().getExtras().getLong("projectid"); //masuk
 		UserId = getIntent().getExtras().getLong("userid"); //masuk
-		Log.i("useridmasuk", String.valueOf(UserId));
+		//Log.i("useridmasuk", String.valueOf(UserId));
 		Cursor user = userdatasource.fetchUserById(UserId);
 		Cursor role = userprojectdatasource.fetchUserProjectById(UserId, ProjectId);
 		userName.setText(user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERNAME)));

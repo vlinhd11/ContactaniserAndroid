@@ -425,10 +425,10 @@ public class MainActivity extends FragmentActivity {
 
 								JSONObject jsonObject = jsonArray.getJSONObject(i);
 								String ID = jsonObject.getString("uId");
-								Log.i("useridmasuk", ID);
+								//Log.i("useridmasuk", ID);
 								String User_Username = jsonObject.getString("uUsername");
 								String Username = jsonObject.getString("uName");
-								Log.i("namanyamasuk", Username);
+								//Log.i("namanyamasuk", Username);
 								int Phonenumber = Integer.parseInt(jsonObject.getString("uPhone"));
 								String Email = User_Username;
 
@@ -580,10 +580,10 @@ public class MainActivity extends FragmentActivity {
 
 								JSONObject jsonObject = jsonArray.getJSONObject(i);
 								String ID = jsonObject.getString("uId");
-								Log.i("useridmasuk", ID);
+								//Log.i("useridmasuk", ID);
 								String User_Username = jsonObject.getString("uUsername");
 								String Username = jsonObject.getString("uName");
-								Log.i("namanyamasuk", Username);
+								//Log.i("namanyamasuk", Username);
 								int Phonenumber = Integer.parseInt(jsonObject.getString("uPhone"));
 								String Email = User_Username;
 

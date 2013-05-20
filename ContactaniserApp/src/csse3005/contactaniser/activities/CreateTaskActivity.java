@@ -134,7 +134,9 @@ public class CreateTaskActivity extends Activity {
         			focusView = taskname;
         			focusView.requestFocus();
         			 
-        		} else {
+        		} 
+            	
+            	else {
         			
         			//if the name is not null wh, get the values from the
         			//layout attributes and saved values from existing edit
