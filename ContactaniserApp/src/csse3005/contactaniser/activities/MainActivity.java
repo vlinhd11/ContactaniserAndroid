@@ -216,6 +216,11 @@ public class MainActivity extends FragmentActivity {
 
 	        case R.id.menu_logoff:
 	        	// log off action here - save info to db, etc
+	        	projectdatasource.deleteAllProject();
+	        	/*userdatasource.deleteAllUser();
+	        	taskdatasource.deleteAllTask();
+	        	userprojectdatasource.deleteAllUserProject();
+	        	usertaskdatasource.deleteAllUserTask();*/
 	        	startActivity(new Intent(this, LoginActivity.class));
 	        	return true;
 
@@ -449,6 +454,10 @@ public class MainActivity extends FragmentActivity {
 	        public void onClick(DialogInterface dialog, int which) { 
 	            // TODO: Any cleanup (database, syncing etc) goes here!
 	        	projectdatasource.deleteAllProject();
+	        	/*userdatasource.deleteAllUser();
+	        	taskdatasource.deleteAllTask();
+	        	userprojectdatasource.deleteAllUserProject();
+	        	usertaskdatasource.deleteAllUserTask();*/
 
 	        	System.exit(0);
 	        }

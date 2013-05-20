@@ -1,137 +1,149 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+    <TextView
+        android:id="@+id/tasktextView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/task_name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/tasktextView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView9"
+        android:layout_below="@+id/tasktextView9"
+        android:layout_marginTop="25dp"
+        android:text="@string/task_category"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/tasktextView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/task_name"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+    <TextView
+        android:id="@+id/tasktextView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView5"
+        android:layout_below="@+id/tasktextView5"
+        android:layout_marginTop="25dp"
+        android:text="@string/project_member"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/tasktextView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="" />
+    <TextView
+        android:id="@+id/tasktextView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView3"
+        android:layout_below="@+id/tasktextView3"
+        android:layout_marginTop="25dp"
+        android:text="@string/task_importance"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/tasktextView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="@string/task_description"
-                android:layout_marginTop="5dp"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+    <TextView
+        android:id="@+id/tasktextView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView7"
+        android:layout_below="@+id/tasktextView7"
+        android:layout_marginTop="25dp"
+        android:text="@string/project_date_due"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/tasktextView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="" />
+    <TextView
+        android:id="@+id/tasktextView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView1"
+        android:layout_below="@+id/tasktextView1"
+        android:layout_marginTop="25dp"
+        android:text="@string/task_description"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/tasktextView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:text="@string/task_category"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+    <TextView
+        android:id="@+id/tasktextCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView5"
+        android:layout_below="@+id/tasktextView5"
+        android:text="" />
 
-            <TextView
-                android:id="@+id/tasktextView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="" />
+    <TextView
+        android:id="@+id/tasktextDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView5"
+        android:layout_below="@+id/tasktextView9"
+        android:text="" />
 
-            <TextView
-                android:id="@+id/tasktextView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/task_importance"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+    <TextView
+        android:id="@+id/tasktextImportance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView9"
+        android:layout_below="@+id/tasktextView7"
+        android:text="" />
 
-            <TextView
-                android:id="@+id/tasktextView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="" />
+    
 
-            <TextView
-                android:id="@+id/tasktextView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/project_date_due"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+    <ListView
+        android:id="@+id/tasklistMember"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tasktextView11"
+        android:layout_above="@+id/buttonTaskUpdate"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp" >
+    </ListView>
 
-            <TextView
-                android:id="@+id/tasktextView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                
-                android:text="" />
-            
-            <TextView
-                android:id="@+id/tasktextView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:text="@string/project_member"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+    <Button
+        android:id="@+id/buttonTaskUpdate"
+        style="@style/BlueButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@+id/view"
+        android:text="@string/button_update"
+        android:textColor="#FFF" />
+    
+    <View
+        android:id="@+id/view"
+        android:layout_width="10dp"
+        android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
+    
+    <Button
+        android:id="@+id/buttonTaskComplete"
+        style="@style/BlueButton"
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/view"
+        android:layout_marginBottom="10dp"
+        android:text="@string/button_complete"
+        android:textColor="#FFF" />
 
-        	<ListView
-                android:id="@+id/tasklistMember"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_weight="1" >
-            </ListView>
-            
-            <LinearLayout 
-            	android:layout_width="wrap_content"
-     			android:layout_height="wrap_content"
-     			android:layout_gravity="center"
-     			android:orientation="horizontal">
-            
-        		<Button
-            		android:id="@+id/buttonTaskUpdate"
-            		android:layout_width="130dp"
-            		android:layout_height="wrap_content"
-            		android:layout_marginRight="20dp"
-            		android:text="@string/button_update"
-            		style="@style/BlueButton"
-            		android:textColor="#FFF"
-            		android:layout_alignParentBottom="true"
-            		android:layout_weight="1" />
-        
-        		<Button
-            		android:id="@+id/buttonTaskComplete"
-            		android:layout_width="130dp"
-            		android:layout_height="wrap_content"
-            		android:text="@string/button_complete"
-            		style="@style/BlueButton"
-            		android:textColor="#FFF"
-            		android:layout_alignParentBottom="true"
-            		android:layout_weight="1" />
+    <TextView
+        android:id="@+id/tasktextViewDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView3"
+        android:layout_below="@+id/tasktextView3"
+        android:text="" />
 
-            </LinearLayout>
-            
-        </LinearLayout>
-        
+    <TextView
+        android:id="@+id/tasktextViewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView3"
+        android:layout_below="@+id/tasktextView1"
+        android:text="" />
+
+</RelativeLayout>

@@ -69,11 +69,11 @@ public class TaskActivity extends Activity {
 		usertaskdatasource.open();
 		
 		
-		tasknametextview = (TextView) findViewById(R.id.tasktextView2);
-		taskdescriptiontextview = (TextView) findViewById(R.id.tasktextView4);
-		taskcategorytextview = (TextView) findViewById(R.id.tasktextView6);
-		taskimportancetextview = (TextView) findViewById(R.id.tasktextView8);
-		taskduedatetextview = (TextView) findViewById (R.id.tasktextView10);
+		tasknametextview = (TextView) findViewById(R.id.tasktextViewName);
+		taskdescriptiontextview = (TextView) findViewById(R.id.tasktextViewDescription);
+		taskcategorytextview = (TextView) findViewById(R.id.tasktextCategory);
+		taskimportancetextview = (TextView) findViewById(R.id.tasktextImportance);
+		taskduedatetextview = (TextView) findViewById (R.id.tasktextDueDate);
 		
 		UpdateButton = (Button) findViewById (R.id.buttonTaskUpdate);
 		CompleteButton = (Button) findViewById (R.id.buttonTaskComplete);

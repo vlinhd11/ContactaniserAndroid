@@ -72,10 +72,10 @@ public class ProjectInfoActivity extends Fragment {
 		userdatasource = new UserDataSource(getActivity());
 		userdatasource.open();
 		
-		projectName = (TextView) getActivity().findViewById(R.id.textView2);
-		projectDescription = (TextView) getActivity().findViewById(R.id.textView4);
-		projectStartDate = (TextView) getActivity().findViewById(R.id.textView6);
-		projectDueDate = (TextView) getActivity().findViewById(R.id.textView8);
+		projectName = (TextView) getActivity().findViewById(R.id.textViewProjectName);
+		projectDescription = (TextView) getActivity().findViewById(R.id.textViewProjectBrief);
+		projectStartDate = (TextView) getActivity().findViewById(R.id.textViewProjectDateCreated);
+		projectDueDate = (TextView) getActivity().findViewById(R.id.textViewProjectDueDate);
 
 		
 		mRowId = getActivity().getIntent().getExtras().getLong("projId");
@@ -93,7 +93,7 @@ public class ProjectInfoActivity extends Fragment {
         projectStartDate.setText(ProjectStartDate);
         projectDueDate.setText(ProjectDueDate);
         
-        listviewmember = (ListView) getActivity().findViewById(R.id.listMember);
+        listviewmember = (ListView) getActivity().findViewById(R.id.listMemberProject);
         
         ArrayList<User_Project> values = userprojectdatasource.getAllUserbyProjectId(mRowId);
         ArrayList<User> userlist = new ArrayList<User>();
