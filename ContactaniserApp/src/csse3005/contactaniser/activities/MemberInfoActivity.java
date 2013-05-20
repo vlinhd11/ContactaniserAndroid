@@ -54,12 +54,14 @@ public class MemberInfoActivity extends Activity {
 		Log.i("useridmasuk", String.valueOf(UserId));
 		Cursor user = userdatasource.fetchUserById(UserId);
 		Cursor role = userprojectdatasource.fetchUserProjectById(UserId, ProjectId);
+		userName.setText(user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERNAME)));
+		userRole.setText(role.getString(role.getColumnIndexOrThrow(MySQLHelper.COLUMN_ROLE)));
+		
 		
 		phonenumber = user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERPHONENUMBER));
 		phoneemail = user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USEREMAIL));
 
-		userName.setText(user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERNAME)));
-		userRole.setText(role.getString(role.getColumnIndexOrThrow(MySQLHelper.COLUMN_ROLE)));
+		
 		
 			
 		

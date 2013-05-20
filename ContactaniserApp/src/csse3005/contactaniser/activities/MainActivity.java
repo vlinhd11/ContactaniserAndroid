@@ -100,6 +100,65 @@ public class MainActivity extends FragmentActivity {
 	    if (savedInstanceState != null) {
 	        bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
 	    }   
+	    
+	    DownSycnUserProjectAuto dsUPAuto = new DownSycnUserProjectAuto();
+		dsUPAuto.setContext(this);
+		
+		DownSycnProjectAuto dsPAuto = new DownSycnProjectAuto();
+		dsPAuto.setContext(this);
+		
+		DownSycnUserAuto dsUAuto = new DownSycnUserAuto();
+		dsUAuto.setContext(this);
+	        
+	    
+	    int userid = getIntent().getIntExtra("userID", 0);
+	    String useridstring = String.valueOf(userid);
+	    
+	    //UserProjectList
+	    HttpPost httpPost = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUserProject.php");
+    	List<NameValuePair> nvp = new ArrayList<NameValuePair>(1);
+    	nvp.add(new BasicNameValuePair("userID", useridstring));
+    	try {
+			httpPost.setEntity(new UrlEncodedFormEntity(nvp));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+    	dsUPAuto.setHttpPost(httpPost);
+    	
+    	dsUPAuto.setUserid(userid);
+    	
+    	dsUPAuto.execute();
+    	
+    	//ProjectList
+    	HttpPost httpPostProject = new HttpPost("http://triple11.com/BlueTeam/android/syncDownProject.php");
+    	List<NameValuePair> nvp1 = new ArrayList<NameValuePair>(1);
+    	nvp1.add(new BasicNameValuePair("userID", useridstring));
+    	try {
+			httpPostProject.setEntity(new UrlEncodedFormEntity(nvp1));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+    	dsPAuto.setHttpPost(httpPostProject);
+    	
+    	dsPAuto.setUserid(userid);
+    	
+    	dsPAuto.execute();
+    	
+    	
+    	//UserList
+    	HttpPost httpPostUser = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUser.php");
+    	List<NameValuePair> nvp2 = new ArrayList<NameValuePair>(1);
+    	nvp2.add(new BasicNameValuePair("userID", useridstring));
+    	try {
+			httpPostUser.setEntity(new UrlEncodedFormEntity(nvp2));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+    	dsUAuto.setHttpPost(httpPostUser);
+    	
+    	dsUAuto.setUserid(userid);
+    	
+    	dsUAuto.execute();
 	}
 
 	@SuppressLint("NewApi")
@@ -216,11 +275,17 @@ public class MainActivity extends FragmentActivity {
 
 	        case R.id.menu_logoff:
 	        	// log off action here - save info to db, etc
-	        	projectdatasource.deleteAllProject();
-	        	/*userdatasource.deleteAllUser();
-	        	taskdatasource.deleteAllTask();
-	        	userprojectdatasource.deleteAllUserProject();
-	        	usertaskdatasource.deleteAllUserTask();*/
+	        	
+	        	 userprojectdatasource.deleteAllUserProject();
+	        	 usertaskdatasource.deleteAllUserTask();
+	        	 
+	        	 taskdatasource.deleteAllTask();
+	        	 projectdatasource.deleteAllProject();
+	        	
+	        	
+	        	
+	        	
+	        	
 	        	startActivity(new Intent(this, LoginActivity.class));
 	        	return true;
 
@@ -260,32 +325,6 @@ public class MainActivity extends FragmentActivity {
 									userprojectdatasource.createUser_Project(upid, upufid, uppfid, role, DateNow);
 
 								}
-
-				        	    ActiveProjects fragment = (ActiveProjects) getSupportFragmentManager().findFragmentByTag(
-				                        "android:switcher:"+R.id.projectListPager+":0");
-				        	    CompletedProjects fragment2 = (CompletedProjects) getSupportFragmentManager().findFragmentByTag(
-				                        "android:switcher:"+R.id.projectListPager+":1");
-				        	    if(fragment != null)  // could be null if not instantiated yet
-				        	      {
-				        	         if(fragment.getView() != null) 
-				        	         {
-				        	            // no need to call if fragment's onDestroyView() 
-				        	            //has since been called.
-				        	            fragment.fillData(); // do what updates are required
-				        	         }
-				        	      }
-
-				        	    if(fragment2 != null)  // could be null if not instantiated yet
-					      	      {
-					      	         if(fragment2.getView() != null) 
-					      	         {
-					      	            // no need to call if fragment's onDestroyView() 
-					      	            //has since been called.
-					      	            fragment2.fillData(); // do what updates are required
-					      	         }
-					      	      }
-
-
 
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -386,8 +425,10 @@ public class MainActivity extends FragmentActivity {
 
 								JSONObject jsonObject = jsonArray.getJSONObject(i);
 								String ID = jsonObject.getString("uId");
+								Log.i("useridmasuk", ID);
 								String User_Username = jsonObject.getString("uUsername");
 								String Username = jsonObject.getString("uName");
+								Log.i("namanyamasuk", Username);
 								int Phonenumber = Integer.parseInt(jsonObject.getString("uPhone"));
 								String Email = User_Username;
 
@@ -395,6 +436,95 @@ public class MainActivity extends FragmentActivity {
 					        	Date DateNow = new Date(CalNow.getTimeInMillis());
 
 								userdatasource.createUser(ID, User_Username, Username, Phonenumber, Email, DateNow);
+
+							}
+
+
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+			    	//Stop the progress on the syncing icon
+			    	menuItem.collapseActionView();
+			    	menuItem.setActionView(null);
+			}
+
+	    }
+		
+		private class DownSycnUserProjectAuto extends JSONParser {
+
+			@SuppressLint("NewApi")
+				@Override
+				public void processJSON(JSONObject json) {
+					try {
+						// if the JSON comes back successfully
+
+							JSONArray jsonArray = json.getJSONArray("userProjectList");
+							//JSONArray jsonArray = json.getJSONArray("userProjectList");
+							for (int i = 0; i < jsonArray.length(); i++) {
+
+
+									// if the JSON object contains a staff update get the information
+									// about the staff that needs to be updated
+									JSONObject userprojectObject = jsonArray.getJSONObject(i);
+									//JSONObject userprojectObject = jsonArray.getJSONObject(i);
+									String upid = userprojectObject.getString("Id");
+									String upufidstring = userprojectObject.getString("uId");
+									int upufid = Integer.parseInt(upufidstring);
+									String uppfidstring = userprojectObject.getString("pId");
+									int uppfid = Integer.parseInt(uppfidstring);
+									String role = userprojectObject.getString("role");
+									Calendar CalNow = Calendar.getInstance();
+						        	Date DateNow = new Date(CalNow.getTimeInMillis());
+
+
+									userprojectdatasource.createUser_Project(upid, upufid, uppfid, role, DateNow);
+
+								}
+
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+
+		    }
+
+		private class DownSycnProjectAuto extends JSONParser {
+
+			@SuppressLint("NewApi")
+			@Override
+			public void processJSON(JSONObject json) {
+				try {
+					// if the JSON comes back successfully
+
+						JSONArray jsonArray = json.getJSONArray("projectList");
+						//JSONArray jsonArray = json.getJSONArray("userProjectList");
+						for (int i = 0; i < jsonArray.length(); i++) {
+
+								//JSONObject userprojectObject = jsonArray.getJSONObject(i);
+								SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+
+								JSONObject jsonObject = jsonArray.getJSONObject(i);
+								String ID = jsonObject.getString("Id");
+								String Name = jsonObject.getString("Name");
+
+								String Description = jsonObject.getString("Description");
+								String StartDateString = jsonObject.getString("StartDate");
+								java.util.Date StartDateUtil =  df.parse(StartDateString); 
+								java.sql.Date StartDate = new java.sql.Date(StartDateUtil.getTime());
+								String DueDateString = jsonObject.getString("DueDate");
+								java.util.Date DueDateUtil =  df.parse(DueDateString);
+								java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
+								String Completion = jsonObject.getString("Completion");
+
+								Calendar CalNow = Calendar.getInstance();
+					        	Date DateNow = new Date(CalNow.getTimeInMillis());
+
+								// open the staff dao and update/insert the staff information
+								projectdatasource.createProject(ID, Name,Description,StartDate,DueDate,Completion,DateNow);
 
 							}
 
@@ -425,14 +555,57 @@ public class MainActivity extends FragmentActivity {
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 
 			    	//Stop the progress on the syncing icon
-			    	menuItem.collapseActionView();
-			    	menuItem.setActionView(null);
+			    	
 			}
 
 	    }
+
+		private class DownSycnUserAuto extends JSONParser {
+
+			@SuppressLint("NewApi")
+			@Override
+			public void processJSON(JSONObject json) {
+				try {
+					// if the JSON comes back successfully
+
+						JSONArray jsonArray = json.getJSONArray("userList");
+						//JSONArray jsonArray = json.getJSONArray("userProjectList");
+						for (int i = 0; i < jsonArray.length(); i++) {
+
+								JSONObject jsonObject = jsonArray.getJSONObject(i);
+								String ID = jsonObject.getString("uId");
+								Log.i("useridmasuk", ID);
+								String User_Username = jsonObject.getString("uUsername");
+								String Username = jsonObject.getString("uName");
+								Log.i("namanyamasuk", Username);
+								int Phonenumber = Integer.parseInt(jsonObject.getString("uPhone"));
+								String Email = User_Username;
+
+								Calendar CalNow = Calendar.getInstance();
+					        	Date DateNow = new Date(CalNow.getTimeInMillis());
+
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, Email, DateNow);
+
+							}
+
+
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+			    	//Stop the progress on the syncing icon
+			    	
+			}
+
+	    }
+
 
 	@Override
 	public void onBackPressed() {		
@@ -453,12 +626,11 @@ public class MainActivity extends FragmentActivity {
 	    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	            // TODO: Any cleanup (database, syncing etc) goes here!
-	        	projectdatasource.deleteAllProject();
-	        	/*userdatasource.deleteAllUser();
-	        	taskdatasource.deleteAllTask();
 	        	userprojectdatasource.deleteAllUserProject();
-	        	usertaskdatasource.deleteAllUserTask();*/
-
+	        	 usertaskdatasource.deleteAllUserTask();
+	        	 
+	        	 taskdatasource.deleteAllTask();
+	        	 projectdatasource.deleteAllProject();
 	        	System.exit(0);
 	        }
 	     })
