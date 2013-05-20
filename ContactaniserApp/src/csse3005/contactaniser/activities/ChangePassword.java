@@ -135,7 +135,7 @@ public class ChangePassword extends Activity {
 		String eID = null;
 		
 		// attempt authentication against a network service.
-		HttpPost httpRequest = new HttpPost("http://protivity.triple11.com/android/changePassword_decrypt.php");
+		HttpPost httpRequest = new HttpPost("http://protivity.triple11.com/android/changePassword_secure.php");
 		
 		MCrypt mcrypt = new MCrypt();
 		try {
@@ -164,12 +164,16 @@ public class ChangePassword extends Activity {
                 JSONObject json;
                 try {
                 	json = new JSONObject(strResult);
-                	if (json.get("Result").equals("Success")) {
+                	String dResult = new String (mcrypt.decrypt(json.getString("Result"))).trim();
+                	
+                	if (dResult.equals("Success")) {
                 		return true;
                 	}
                 } catch (JSONException e) {
         			e.printStackTrace();
-        		}
+        		} catch (Exception e) {
+					e.printStackTrace();
+				}
             }
         } catch (ClientProtocolException e){
         	e.printStackTrace();
