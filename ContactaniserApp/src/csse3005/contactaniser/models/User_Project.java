@@ -33,16 +33,16 @@ public class User_Project {
 	}
 	
 	/**
-	 * Gets the uP id.
+	 * Gets the User Project id.
 	 *
-	 * @return the uP id
+	 * @return the User Project id
 	 */
 	public long getUPid() {
 		return userprojectid;
 	}
 	
 	/**
-	 * Sets the uP id.
+	 * Sets the User Project id.
 	 *
 	 * @param userprojectid the new uP id
 	 */
@@ -51,16 +51,16 @@ public class User_Project {
 	}
 	
 	/**
-	 * Gets the uP uid.
+	 * Gets the UP User id.
 	 *
-	 * @return the uP uid
+	 * @return the User Project User id
 	 */
 	public long getUPUid() {
 		return userprojectuserid;
 	}
 	
 	/**
-	 * Sets the uP uid.
+	 * Sets the UP User id.
 	 *
 	 * @param userprojectuserid the new uP uid
 	 */
@@ -69,7 +69,7 @@ public class User_Project {
 	}
 	
 	/**
-	 * Gets the uP pid.
+	 * Gets the UP Project id.
 	 *
 	 * @return the uP pid
 	 */
@@ -78,7 +78,7 @@ public class User_Project {
 	}
 	
 	/**
-	 * Sets the uP pid.
+	 * Sets the UP Project id.
 	 *
 	 * @param userprojectprojectid the new uP pid
 	 */

@@ -14,8 +14,12 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -74,8 +78,7 @@ public class UpdateTaskActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_task);
 		
-		setCurrentDateOnView();
-		addListenerOnButton();
+		
 		
 		taskdatabase = new TaskDataSource(this);
 		taskdatabase.open();
@@ -128,6 +131,8 @@ public class UpdateTaskActivity extends Activity {
               }
         
         populateFields();
+        setCurrentDateOnView();
+		addListenerOnButton();
         
         final MyCustomAdapter adapter = new MyCustomAdapter(this,
                 R.layout.member_checkbox,  userlistcreate);
@@ -178,15 +183,34 @@ public class UpdateTaskActivity extends Activity {
             		ArrayList<User> userLists = adapter.userList;
             	    for(int i=0;i<userLists.size();i++){
             	     User user = userLists.get(i);
+        	    	 
             	     if(user.isSelected()){
-            	    	 long usertaskid = System.currentTimeMillis();
-            	    	 String usertaskidstring = String.valueOf(usertaskid);
-            	    	 usertaskdatasource.createUser_Task(usertaskidstring, user.getUserid(), taskidsaved, datenow);
- 
+            	    	 
+            	    	 Cursor c = usertaskdatasource.fetchUserTaskByUserIdTaskId(user.getUserid(), taskidsaved);
+            	    	 //Log.i("idygtdidbikin", c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)));
+            	    	 if (c.moveToFirst()){
+            	    		 Log.i("masuk :", "masuk update");
+            	    		 
+            	    		 usertaskdatasource.createUser_Task(c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)), user.getUserid(), taskidsaved, datenow);
+            	    	 }
+            	    	 else
+            	    	 {
+            	    		 Log.i("masuk :", "masuk create new");
+            	    		 long usertaskid = System.currentTimeMillis();
+                	    	 String usertaskidstring = String.valueOf(usertaskid);
+                	    	 usertaskdatasource.createUser_Task(usertaskidstring, user.getUserid(), taskidsaved, datenow);
+                	    	 Log.i("idpertamabikin", usertaskidstring);
+                	    	 
+            	    	 }
+            	    	 
+            	      
             	     }
             	     else
-            	     {
-            	    	 usertaskdatasource.deleteUserTaskbyUserId(user.getUserid());
+            	    	 
+            	     {   
+            	    	 Log.i("masuk :", "masuk delete");
+            	    	 long taskidsaveprimitive = taskidsaved.longValue();
+            	    	 usertaskdatasource.deleteUserTaskbyUserIdTaskId(user.getUserid(), taskidsaveprimitive);
             	     }
             	    }
             		
@@ -233,15 +257,26 @@ public class UpdateTaskActivity extends Activity {
 	
 	// display current date
 		public void setCurrentDateOnView() {
+			Cursor task = taskdatabase.fetchTaskById(taskidsaved);
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+			Calendar c = Calendar.getInstance();
+			try {
+				c.setTime(df.parse(task.getString(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKDUEDATE))));
+				year = c.get(Calendar.YEAR);
+				month = c.get(Calendar.MONTH);
+				day = c.get(Calendar.DAY_OF_MONTH);
+				p1_button = (Button)findViewById(R.id.btnChangeDate);
+				p1_button.setText(Integer.toString(day)
+						+ "/" + (Integer.toString(month+1)) + "/" + 
+						Integer.toString(year));
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			final Calendar c = Calendar.getInstance();
-			year = c.get(Calendar.YEAR);
-			month = c.get(Calendar.MONTH);
-			day = c.get(Calendar.DAY_OF_MONTH);
-			p1_button = (Button)findViewById(R.id.btnChangeDate);
-			p1_button.setText(Integer.toString(day)
-					+ "/" + (Integer.toString(month+1)) + "/" + 
-					Integer.toString(year));
 	 
 		}
 	 

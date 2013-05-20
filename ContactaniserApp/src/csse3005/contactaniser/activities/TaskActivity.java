@@ -188,6 +188,7 @@ public class TaskActivity extends Activity {
 		                java.util.Date DueDateUtil =  df.parse(taskduedate); 
 		        		java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
 		        		taskdatasource.createTask(mrowtaskidString, mrowprojectid, taskname, taskdescription, taskimportanceindex, DueDate, 1, DateNow, taskcategoryindex);
+		        		finish();
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

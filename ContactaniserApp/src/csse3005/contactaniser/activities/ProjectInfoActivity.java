@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ public class ProjectInfoActivity extends Fragment {
 	private static TextView projectDescription;
 	private static TextView projectStartDate;
 	private static TextView projectDueDate;
-	//private static Button CompleteButton;
+
 	
 	long mRowId;
 	long mrowuserid;
@@ -71,28 +72,21 @@ public class ProjectInfoActivity extends Fragment {
 		userdatasource = new UserDataSource(getActivity());
 		userdatasource.open();
 		
-		
-		// TODO Auto-generated method stub
 		projectName = (TextView) getActivity().findViewById(R.id.textView2);
 		projectDescription = (TextView) getActivity().findViewById(R.id.textView4);
 		projectStartDate = (TextView) getActivity().findViewById(R.id.textView6);
 		projectDueDate = (TextView) getActivity().findViewById(R.id.textView8);
-		//CompleteButton = (Button) getActivity().findViewById(R.id.buttonProjectComplete);
+
 		
 		mRowId = getActivity().getIntent().getExtras().getLong("projId");
-		mrowuserid = getActivity().getIntent().getIntExtra("userID", 0);
-		//final String mRowIdString = String.valueOf(mRowId);
-		//final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
-        final Cursor project = DatabaseHelper.fetchProjectById(mRowId);
+		mrowuserid = getActivity().getIntent().getIntExtra("userid", 0);
+
+		
+        Cursor project = DatabaseHelper.fetchProjectById(mRowId);
         ProjectName = project.getString(project.getColumnIndexOrThrow(MySQLHelper.COLUMN_PROJECTNAME));
         ProjectDescription = project.getString(project.getColumnIndexOrThrow(MySQLHelper.COLUMN_PROJECTDESCRIPTION));
         ProjectStartDate = project.getString(project.getColumnIndexOrThrow(MySQLHelper.COLUMN_PROJECTSTARTDATE));
         ProjectDueDate = project.getString(project.getColumnIndexOrThrow(MySQLHelper.COLUMN_PROJECTDUEDATE));
-        
-		
-		//Calendar CalNow = Calendar.getInstance();
-    	//final Date DateNow = new Date(CalNow.getTimeInMillis());
-        
         
         projectName.setText(ProjectName);
         projectDescription.setText(ProjectDescription);
@@ -108,7 +102,7 @@ public class ProjectInfoActivity extends Fragment {
         	User_Project  userproject = values.get(i);
             long userid = userproject.getUPUid();
    
-            if (mrowuserid !=userid){
+
             Cursor c = userdatasource.fetchUserById(userid);
 
             c.moveToFirst();
@@ -119,7 +113,7 @@ public class ProjectInfoActivity extends Fragment {
 			}
 			// Make sure to close the cursor
 			c.close();
-            }
+            
             
          }
         
@@ -138,25 +132,6 @@ public class ProjectInfoActivity extends Fragment {
 				startActivity(pIntent);
 			}
 		});
-        
-        /*CompleteButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	
-				try {
-					java.util.Date StartDateUtil;
-					StartDateUtil = df.parse(ProjectStartDate);
-					java.sql.Date StartDate = new java.sql.Date(StartDateUtil.getTime());
-	                ProjectDueDate = project.getString(project.getColumnIndexOrThrow(MySQLHelper.COLUMN_PROJECTDUEDATE));
-	                java.util.Date DueDateUtil =  df.parse(ProjectDueDate); 
-	        		java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
-	                DatabaseHelper.createProject(mRowIdString, ProjectName, ProjectDescription, StartDate, DueDate, String.valueOf(1), DateNow);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
-        		
-            }
-        });*/
         
         
         super.onStart();

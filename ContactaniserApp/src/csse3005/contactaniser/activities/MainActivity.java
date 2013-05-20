@@ -42,7 +42,7 @@ import csse3005.contactaniserapp.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MainActivity extends FragmentActivity {
-	
+
 	private ProjectDataSource projectdatasource;
 	private UserDataSource userdatasource;
 	private User_ProjectDataSource userprojectdatasource;
@@ -51,57 +51,57 @@ public class MainActivity extends FragmentActivity {
 	private MenuItem menuItem; //menu item used by sync refresh
 	private String username;
 	private int userID;
-	
+
 	ViewPager ViewPager;
 	TabsAdapter TabsAdapter;
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	        
+
 	    projectdatasource = new ProjectDataSource(this);
 	    projectdatasource.open();
-	    
+
 	    userdatasource = new UserDataSource(this);
 	    userdatasource.open();
-	    
+
 	    userprojectdatasource = new User_ProjectDataSource(this);
 	    userprojectdatasource.open();
-	    
+
 	    usertaskdatasource = new User_TaskDataSource(this);
 	    usertaskdatasource.open();
-	    
+
 	    taskdatasource = new TaskDataSource(this);
 	    taskdatasource.open();
-	    
-	   
+
+
 	    // retrieve username and userID
 	    Intent receivedIntent = getIntent();
 	    setUsername(receivedIntent.getStringExtra("username")); 
 	    setUserID(receivedIntent.getIntExtra("userID", 0));
-	        
+
 	    //create a new ViewPager and set to the pager we have created in Ids.xml
 	    ViewPager = new ViewPager(this);
 	    ViewPager.setId(R.id.projectListPager);
 	    setContentView(ViewPager);
-	 
+
 	    //Create a new Action bar and set title to strings.xml
 	    final ActionBar bar = getActionBar();
 	    bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	    bar.setTitle(R.string.project_list_title);
-	 
+
 	    //Attach the Tabs to the fragment classes and set the tab title.
 	    TabsAdapter = new TabsAdapter(this, ViewPager);
-	        
+
 	    TabsAdapter.addTab(bar.newTab().setText("Active Projects"), ActiveProjects.class, null);
 	    TabsAdapter.addTab(bar.newTab().setText("Completed Projects"), CompletedProjects.class, null);
-	 
+
 	    if (savedInstanceState != null) {
 	        bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
 	    }   
 	}
-	 
+
 	@SuppressLint("NewApi")
 	@Override
 	protected void onStart() {
@@ -114,13 +114,13 @@ public class MainActivity extends FragmentActivity {
 	    SyncProgress task = new SyncProgress();
 	    task.execute("http://triple11.com/BlueTeam/android/syncDownProject.php");*/
 	}
-	
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 	    outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
 	}
-	
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,7 +128,7 @@ public class MainActivity extends FragmentActivity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-	
+
 	@SuppressLint("NewApi")
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -213,7 +213,7 @@ public class MainActivity extends FragmentActivity {
 	        case R.id.menu_change_password:
 	        	openPasswordActivity();
 	            return true;
-	        
+
 	        case R.id.menu_logoff:
 	        	// log off action here - save info to db, etc
 	        	startActivity(new Intent(this, LoginActivity.class));
@@ -223,21 +223,21 @@ public class MainActivity extends FragmentActivity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-	
-	
+
+
 		private class DownSycnUserProject extends JSONParser {
-		
+
 			@SuppressLint("NewApi")
 				@Override
 				public void processJSON(JSONObject json) {
 					try {
 						// if the JSON comes back successfully
-							
+
 							JSONArray jsonArray = json.getJSONArray("userProjectList");
 							//JSONArray jsonArray = json.getJSONArray("userProjectList");
 							for (int i = 0; i < jsonArray.length(); i++) {
-								
-									
+
+
 									// if the JSON object contains a staff update get the information
 									// about the staff that needs to be updated
 									JSONObject userprojectObject = jsonArray.getJSONObject(i);
@@ -250,12 +250,12 @@ public class MainActivity extends FragmentActivity {
 									String role = userprojectObject.getString("role");
 									Calendar CalNow = Calendar.getInstance();
 						        	Date DateNow = new Date(CalNow.getTimeInMillis());
-										
-									
+
+
 									userprojectdatasource.createUser_Project(upid, upufid, uppfid, role, DateNow);
-									
+
 								}
-								
+
 				        	    ActiveProjects fragment = (ActiveProjects) getSupportFragmentManager().findFragmentByTag(
 				                        "android:switcher:"+R.id.projectListPager+":0");
 				        	    CompletedProjects fragment2 = (CompletedProjects) getSupportFragmentManager().findFragmentByTag(
@@ -269,7 +269,7 @@ public class MainActivity extends FragmentActivity {
 				        	            fragment.fillData(); // do what updates are required
 				        	         }
 				        	      }
-				        	    
+
 				        	    if(fragment2 != null)  // could be null if not instantiated yet
 					      	      {
 					      	         if(fragment2.getView() != null) 
@@ -279,9 +279,9 @@ public class MainActivity extends FragmentActivity {
 					      	            fragment2.fillData(); // do what updates are required
 					      	         }
 					      	      }
-					
-						
-						
+
+
+
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -289,28 +289,28 @@ public class MainActivity extends FragmentActivity {
 					menuItem.collapseActionView();
 			    	menuItem.setActionView(null);
 				}
-		    	
+
 		    }
-		
+
 		private class DownSycnProject extends JSONParser {
-			
+
 			@SuppressLint("NewApi")
 			@Override
 			public void processJSON(JSONObject json) {
 				try {
 					// if the JSON comes back successfully
-						
+
 						JSONArray jsonArray = json.getJSONArray("projectList");
 						//JSONArray jsonArray = json.getJSONArray("userProjectList");
 						for (int i = 0; i < jsonArray.length(); i++) {
-							
+
 								//JSONObject userprojectObject = jsonArray.getJSONObject(i);
 								SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
-								
+
 								JSONObject jsonObject = jsonArray.getJSONObject(i);
 								String ID = jsonObject.getString("Id");
 								String Name = jsonObject.getString("Name");
-							
+
 								String Description = jsonObject.getString("Description");
 								String StartDateString = jsonObject.getString("StartDate");
 								java.util.Date StartDateUtil =  df.parse(StartDateString); 
@@ -319,15 +319,15 @@ public class MainActivity extends FragmentActivity {
 								java.util.Date DueDateUtil =  df.parse(DueDateString);
 								java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
 								String Completion = jsonObject.getString("Completion");
-									
+
 								Calendar CalNow = Calendar.getInstance();
 					        	Date DateNow = new Date(CalNow.getTimeInMillis());
-									
+
 								// open the staff dao and update/insert the staff information
 								projectdatasource.createProject(ID, Name,Description,StartDate,DueDate,Completion,DateNow);
-								
+
 							}
-							
+
 			        	    ActiveProjects fragment = (ActiveProjects) getSupportFragmentManager().findFragmentByTag(
 			                        "android:switcher:"+R.id.projectListPager+":0");
 			        	    CompletedProjects fragment2 = (CompletedProjects) getSupportFragmentManager().findFragmentByTag(
@@ -341,7 +341,7 @@ public class MainActivity extends FragmentActivity {
 			        	            fragment.fillData(); // do what updates are required
 			        	         }
 			        	      }
-			        	    
+
 			        	    if(fragment2 != null)  // could be null if not instantiated yet
 				      	      {
 				      	         if(fragment2.getView() != null) 
@@ -351,7 +351,7 @@ public class MainActivity extends FragmentActivity {
 				      	            fragment2.fillData(); // do what updates are required
 				      	         }
 				      	      }
-						
+
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -359,40 +359,40 @@ public class MainActivity extends FragmentActivity {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-			    	
+
 			    	//Stop the progress on the syncing icon
 			    	menuItem.collapseActionView();
 			    	menuItem.setActionView(null);
 			}
-	    	
+
 	    }
-		
+
 		private class DownSycnUser extends JSONParser {
-			
+
 			@SuppressLint("NewApi")
 			@Override
 			public void processJSON(JSONObject json) {
 				try {
 					// if the JSON comes back successfully
-						
+
 						JSONArray jsonArray = json.getJSONArray("userList");
 						//JSONArray jsonArray = json.getJSONArray("userProjectList");
 						for (int i = 0; i < jsonArray.length(); i++) {
-							
+
 								JSONObject jsonObject = jsonArray.getJSONObject(i);
 								String ID = jsonObject.getString("uId");
 								String User_Username = jsonObject.getString("uUsername");
 								String Username = jsonObject.getString("uName");
 								int Phonenumber = Integer.parseInt(jsonObject.getString("uPhone"));
 								String Email = User_Username;
-									
+
 								Calendar CalNow = Calendar.getInstance();
 					        	Date DateNow = new Date(CalNow.getTimeInMillis());
-									
+
 								userdatasource.createUser(ID, User_Username, Username, Phonenumber, Email, DateNow);
-								
+
 							}
-							
+
 			        	    ActiveProjects fragment = (ActiveProjects) getSupportFragmentManager().findFragmentByTag(
 			                        "android:switcher:"+R.id.projectListPager+":0");
 			        	    CompletedProjects fragment2 = (CompletedProjects) getSupportFragmentManager().findFragmentByTag(
@@ -406,7 +406,7 @@ public class MainActivity extends FragmentActivity {
 			        	            fragment.fillData(); // do what updates are required
 			        	         }
 			        	      }
-			        	    
+
 			        	    if(fragment2 != null)  // could be null if not instantiated yet
 				      	      {
 				      	         if(fragment2.getView() != null) 
@@ -416,31 +416,31 @@ public class MainActivity extends FragmentActivity {
 				      	            fragment2.fillData(); // do what updates are required
 				      	         }
 				      	      }
-						
+
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-			    	
+
 			    	//Stop the progress on the syncing icon
 			    	menuItem.collapseActionView();
 			    	menuItem.setActionView(null);
 			}
-	    	
+
 	    }
-		  
+
 	@Override
 	public void onBackPressed() {		
 		exitAppConfirmation();
 	}
-	
+
 	private void openPasswordActivity() {
 		Intent intent = new Intent(this, ChangePassword.class);
 		intent.putExtra("username", getUsername());
 		intent.putExtra("userID", getUserID());
 		startActivity(intent);
 	}
-	
+
 	private void exitAppConfirmation() {
 		new AlertDialog.Builder(this)
 	    .setTitle(R.string.exit)
@@ -448,11 +448,8 @@ public class MainActivity extends FragmentActivity {
 	    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	            // TODO: Any cleanup (database, syncing etc) goes here!
-	        	userdatasource.deleteAllUser();
 	        	projectdatasource.deleteAllProject();
-	        	userprojectdatasource.deleteAllUserProject();
-	        	usertaskdatasource.deleteAllUserTask();
-	        	taskdatasource.deleteAllTask();
+
 	        	System.exit(0);
 	        }
 	     })
@@ -467,15 +464,15 @@ public class MainActivity extends FragmentActivity {
 	private void setUsername(String username) {
 		this.username = username;
 	}
-	
+
 	private String getUsername() {
 		return this.username;
 	}
-	
+
 	private void setUserID(int userID) {
 		this.userID = userID;
 	}
-	
+
 	private int getUserID() {
 		return this.userID;
 	}

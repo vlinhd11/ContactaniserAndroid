@@ -83,7 +83,7 @@ public class UserDataSource {
 		}
 
 
-		public ArrayList<User> getAllUser(String pid) {
+		public ArrayList<User> getAllUser() {
 			ArrayList<User> users = new ArrayList<User>();
 
 			//Retrieve all tasks with the pid given

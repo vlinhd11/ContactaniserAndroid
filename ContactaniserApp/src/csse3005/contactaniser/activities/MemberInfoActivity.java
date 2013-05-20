@@ -49,17 +49,19 @@ public class MemberInfoActivity extends Activity {
 		userName = (TextView) findViewById(R.id.nametextView);
 		userRole = (TextView) findViewById(R.id.roletextView);
 		
-		ProjectId = getIntent().getExtras().getLong("projectid");
-		UserId = getIntent().getExtras().getLong("userid");
-		
+		ProjectId = getIntent().getExtras().getLong("projectid"); //masuk
+		UserId = getIntent().getExtras().getLong("userid"); //masuk
+		Log.i("useridmasuk", String.valueOf(UserId));
 		Cursor user = userdatasource.fetchUserById(UserId);
 		Cursor role = userprojectdatasource.fetchUserProjectById(UserId, ProjectId);
 		
 		phonenumber = user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERPHONENUMBER));
 		phoneemail = user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USEREMAIL));
-		
+
 		userName.setText(user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERNAME)));
 		userRole.setText(role.getString(role.getColumnIndexOrThrow(MySQLHelper.COLUMN_ROLE)));
+		
+			
 		
 	}
 	

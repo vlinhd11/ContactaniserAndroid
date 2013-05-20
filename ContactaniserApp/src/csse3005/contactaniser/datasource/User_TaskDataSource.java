@@ -83,19 +83,19 @@ public class User_TaskDataSource {
 				database.delete(MySQLHelper.TABLE_USER_TASK, null, null);
 			}
 			
-			public void deleteUserTaskbyUserId(long uid)
+			public void deleteUserTaskbyUserIdTaskId(long uid, long tid)
 			{
 				database.delete(MySQLHelper.TABLE_USER_TASK, MySQLHelper.COLUMN_USERTASKUSERFID
-						+ " = " + uid, null);
+						+ " = " + uid + " AND " + MySQLHelper.COLUMN_USERTASKTASKFID + " = " + tid, null);
 			}
 
 
-			public List<User_Task> getAllUser_Task(String uid, String tid) {
-				List<User_Task> User_Tasks = new ArrayList<User_Task>();
+			public ArrayList<User_Task> getAllUser_Task() {
+				ArrayList<User_Task> User_Tasks = new ArrayList<User_Task>();
 
 				//Retrieve all tasks with the tid and uid given
-				Cursor cursor = database.query(MySQLHelper.TABLE_LOGS,
-				    allColumns, MySQLHelper.COLUMN_USERTASKUSERFID + " = " + uid + " AND " + MySQLHelper.COLUMN_USERTASKTASKFID + " = " + tid, null, null, null, null);
+				Cursor cursor = database.query(MySQLHelper.TABLE_USER_TASK,
+				    allColumns, null, null, null, null, null);
 
 				cursor.moveToFirst();
 				while (!cursor.isAfterLast()) {
@@ -136,4 +136,18 @@ public class User_TaskDataSource {
 				user_task.setUTLastUpdate(lu);
 				return user_task;
 			}
+			
+			public Cursor fetchUserTaskByUserIdTaskId(long taskid,long userid) throws SQLException {
+
+		        Cursor mCursor =
+
+		            database.query(true,MySQLHelper.TABLE_USER_TASK , allColumns, MySQLHelper.COLUMN_USERTASKTASKFID + "=" + taskid
+		            		+ " AND " + MySQLHelper.COLUMN_USERTASKUSERFID + "=" + userid, null,
+		                    null, null, null, null);
+		        if (mCursor != null) {
+		            mCursor.moveToFirst();
+		        }
+		        return mCursor;
+
+		    }
 }

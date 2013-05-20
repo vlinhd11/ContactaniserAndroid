@@ -118,6 +118,7 @@
             		android:text="@string/button_update"
             		style="@style/BlueButton"
             		android:textColor="#FFF"
+            		android:layout_alignParentBottom="true"
             		android:layout_weight="1" />
         
         		<Button
@@ -127,8 +128,10 @@
             		android:text="@string/button_complete"
             		style="@style/BlueButton"
             		android:textColor="#FFF"
+            		android:layout_alignParentBottom="true"
             		android:layout_weight="1" />
 
             </LinearLayout>
             
         </LinearLayout>
+        
