@@ -23,7 +23,7 @@ public class CompletedTasks extends ListFragment {
 		
 		taskdatabase = new TaskDataSource(getActivity());
 		taskdatabase.open();
-
+//		setEmptyText("No Tasks");
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 	
