@@ -144,7 +144,7 @@ public class ProjectInfoActivity extends Fragment {
 		user.setUserid(cursor.getInt(0));
 		user.setUser_UserName(cursor.getString(1));
 		user.setUserName(cursor.getString(2));
-		user.setUserPhoneNumber(cursor.getInt(3));
+		user.setUserPhoneNumber(cursor.getString(3));
 		user.setUserEmail(cursor.getString(4));
 		Date lu = Date.valueOf(cursor.getString(5));
 		user.setUserLastUpdate(lu);

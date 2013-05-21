@@ -18,7 +18,7 @@ public class User {
 	private String username;
 	
 	/** The userphonenumber. */
-	private int userphonenumber;
+	private String userphonenumber;
 	
 	/** The useremail. */
 	private String useremail;
@@ -97,7 +97,7 @@ public class User {
 	 *
 	 * @return the user phone number
 	 */
-	public int getUserPhoneNumber() {
+	public String getUserPhoneNumber() {
 		return userphonenumber;
 	}
 	
@@ -106,7 +106,7 @@ public class User {
 	 *
 	 * @param userphonenumber the new user phone number
 	 */
-	public void setUserPhoneNumber(int userphonenumber){
+	public void setUserPhoneNumber(String userphonenumber){
 		this.userphonenumber = userphonenumber;
 	}
 	

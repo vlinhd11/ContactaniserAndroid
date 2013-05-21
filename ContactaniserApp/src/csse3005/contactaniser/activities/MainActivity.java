@@ -425,7 +425,7 @@ public class MainActivity extends FragmentActivity {
 								String User_Username = jsonObject.getString("uUsername");
 								String Username = jsonObject.getString("uName");
 								//Log.i("namanyamasuk", Username);
-								int Phonenumber = Integer.parseInt(jsonObject.getString("uPhone"));
+								String Phonenumber = jsonObject.getString("uPhone");
 								String Email = User_Username;
 
 								Calendar CalNow = Calendar.getInstance();
@@ -580,7 +580,7 @@ public class MainActivity extends FragmentActivity {
 								String User_Username = jsonObject.getString("uUsername");
 								String Username = jsonObject.getString("uName");
 								//Log.i("namanyamasuk", Username);
-								int Phonenumber = Integer.parseInt(jsonObject.getString("uPhone"));
+								String Phonenumber = jsonObject.getString("uPhone");
 								String Email = User_Username;
 
 								Calendar CalNow = Calendar.getInstance();

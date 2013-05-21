@@ -28,6 +28,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_TASKCOMPLETION = "taskcompletion";
 	public static final String COLUMN_TASKLASTUPDATE = "tasklastupdate";
 	public static final String COLUMN_TASKCATEGORY = "taskcategory";
+	//public static final String COLUMN_TASKOWNERID = "taskowner";
 	
 	//User
 	public static final String TABLE_USER = "user";
@@ -60,8 +61,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_USERTASKID = "usertaskid";
 	public static final String COLUMN_USERTASKUSERFID = "usertaskuserfid";
 	public static final String COLUMN_USERTASKTASKFID = "usertasktaskfid";
-	public static final String COLUMN_USERTASKLASTUPDATE = "usertasklastupdate";
-	
+	public static final String COLUMN_USERTASKLASTUPDATE = "usertasklastupdate";	
 	private static final String DATABASE_NAME = "commments.db";
 	private static final int DATABASE_VERSION = 1;
 
@@ -92,7 +92,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 			+ TABLE_USER + "(" + COLUMN_USERID + " integer primary key autoincrement, "
 			+ COLUMN_USER_USERNAME + " text not null, " 
 			+ COLUMN_USERNAME + " text not null, " 
-			+ COLUMN_USERPHONENUMBER + " integer not null, "
+			+ COLUMN_USERPHONENUMBER + " text not null, "
 			+ COLUMN_USEREMAIL + " text not null, " 
 			+ COLUMN_USERLASTUPDATE + " text not null);";
 	

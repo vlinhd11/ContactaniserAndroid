@@ -35,7 +35,7 @@ public class UserDataSource {
 			dbHelper.close();
 		}
 		
-		public User createUser(String userid, String user_username, String username, int phonenumber, String email, Date lastupdate) {
+		public User createUser(String userid, String user_username, String username, String phonenumber, String email, Date lastupdate) {
 			ContentValues values = new ContentValues();
 			values.put(MySQLHelper.COLUMN_USER_USERNAME, user_username);
 			values.put(MySQLHelper.COLUMN_USERNAME, username);
@@ -106,7 +106,7 @@ public class UserDataSource {
 			user.setUserid(cursor.getInt(0));
 			user.setUser_UserName(cursor.getString(1));
 			user.setUserName(cursor.getString(2));
-			user.setUserPhoneNumber(cursor.getInt(3));
+			user.setUserPhoneNumber(cursor.getString(3));
 			user.setUserEmail(cursor.getString(4));
 			Date lu = Date.valueOf(cursor.getString(5));
 			user.setUserLastUpdate(lu);
