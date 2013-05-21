@@ -73,6 +73,7 @@ public class ActiveTasks extends Fragment {
 			return;
 		}
 		
+		boolean p1Right = false;
 		ArrayList<Task> taskList = orderTasks(rawList, byDate);
 		
 		for (int i=0; i < taskList.size(); i++) {
@@ -97,7 +98,10 @@ public class ActiveTasks extends Fragment {
 			case 1:
 				param.height = halfScreenWidthX;
 		        param.width = halfScreenWidthX;
-		        param.rowSpec = GridLayout.spec(1, 2);
+		        
+		        param.rowSpec = GridLayout.spec(p1Right ? 1 : 0, 2);
+		        
+		        p1Right = !p1Right;
 				break;
 			case 0:
 				param.height = halfScreenWidthX/2;
@@ -158,23 +162,6 @@ public class ActiveTasks extends Fragment {
     		
     		Calendar weekFromNow = Calendar.getInstance();
     		weekFromNow.add(Calendar.DAY_OF_YEAR, 7);
-    		
-    		System.out.println("Task " + inTask.getTaskName() + " detail:");
-    		System.out.println("Task date  : " + tDate.getTime().toLocaleString());
-    		System.out.println("Task year  : " + tDate.get(Calendar.YEAR));
-    		System.out.println("Task month : " + tDate.get(Calendar.MONTH));
-    		System.out.println("Task DOY  : " + tDate.get(Calendar.DAY_OF_YEAR));
-    		System.out.println("----");
-    		System.out.println("Today date : " + today.getTime().toLocaleString());
-    		System.out.println("Today year : " + today.get(Calendar.YEAR));
-    		System.out.println("Today month: " + today.get(Calendar.MONTH));
-    		System.out.println("Today DOY  : " + today.get(Calendar.DAY_OF_YEAR));
-    		System.out.println("----");
-    		System.out.println("Week date  : " + weekFromNow.getTime().toLocaleString());
-    		System.out.println("Week year  : " + weekFromNow.get(Calendar.YEAR));
-    		System.out.println("Week month : " + weekFromNow.get(Calendar.MONTH));
-    		System.out.println("Week DOY   : " + weekFromNow.get(Calendar.DAY_OF_YEAR));
-    		System.out.println("----");
     		
     		if ((tDate.get(Calendar.YEAR) < today.get(Calendar.YEAR)) || 
     				(tDate.get(Calendar.YEAR) == today.get(Calendar.YEAR) && tDate.get(Calendar.DAY_OF_YEAR) <= today.get(Calendar.DAY_OF_YEAR))) {
