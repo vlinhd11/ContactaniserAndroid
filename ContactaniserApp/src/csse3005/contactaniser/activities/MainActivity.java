@@ -281,11 +281,7 @@ public class MainActivity extends FragmentActivity {
 	        	 
 	        	 taskdatasource.deleteAllTask();
 	        	 projectdatasource.deleteAllProject();
-	        	
-	        	
-	        	
-	        	
-	        	
+
 	        	startActivity(new Intent(this, LoginActivity.class));
 	        	return true;
 

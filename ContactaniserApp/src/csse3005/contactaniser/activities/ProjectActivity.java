@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
+import csse3005.contactaniser.library.InternetCheck;
 import csse3005.contactaniser.models.TabsAdapter;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -79,8 +80,8 @@ public class ProjectActivity extends FragmentActivity {
         	case R.id.add_task_bar: 
         		openNewTaskActivity();
         		return true;
-	        
-	        default:
+        		
+	       default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}

@@ -24,6 +24,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +34,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -152,6 +154,11 @@ public class UpdateTaskActivity extends Activity {
         
         final MyCustomAdapter adapter = new MyCustomAdapter(this,
                 R.layout.member_checkbox,  userlistcreate);
+
+        int height = userlistcreate.size();
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(230, (40*height));
+        layoutParams.gravity=Gravity.CENTER;
+        listviewmembercreate.setLayoutParams(layoutParams);
         listviewmembercreate.setAdapter(adapter);
         
 		
