@@ -26,7 +26,7 @@ public class EmailActivity extends Activity {
 			if (internetOn) { 
 			  Intent email = new Intent(Intent.ACTION_SEND);
 			  email.putExtra(Intent.EXTRA_EMAIL, new String[]{ useremail});
-			  
+			  email.putExtra(Intent.EXTRA_SUBJECT, "Protivity");
 			  //need this to prompts email client only
 			  email.setType("message/rfc822");
 			  startActivity(Intent.createChooser(email, "Choose an Email client :"));

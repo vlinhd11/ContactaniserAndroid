@@ -116,6 +116,7 @@ public class MemberInfoActivity extends Activity {
 	private void ContinueToSms() {
 		Intent i = new Intent(this, PhoneActivity.class);
 		i.putExtra("phonenumber",phonenumber);
+		i.putExtra("username", userName.getText().toString());
 		startActivity(i);
 	}
 	

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import csse3005.contactaniserapp.R;
  
@@ -15,8 +16,10 @@ public class PhoneActivity extends Activity {
 	
 	final Context context = this;
 	private String phonenumber;
+	private String username;
 	private Button smsButton;
-	private EditText textPhoneNo;
+	private TextView contactName;
+	private TextView textPhoneNo;
 	private EditText textSMS;
 	private String phoneNo;
 	
@@ -26,11 +29,14 @@ public class PhoneActivity extends Activity {
 		setContentView(R.layout.phone_function);
  
 		smsButton = (Button) findViewById(R.id.buttonSend);
-		textPhoneNo = (EditText) findViewById(R.id.editTextPhoneNo);
+		contactName = (TextView) findViewById(R.id.editContactName);
+		textPhoneNo = (TextView) findViewById(R.id.editTextPhoneNo);
 		textSMS = (EditText) findViewById(R.id.editTextSMS);
 		
 		phonenumber = getIntent().getExtras().getString("phonenumber");
+		username = getIntent().getExtras().getString("username");
 		textPhoneNo.setText(phonenumber);
+		contactName.setText(username);
 		textSMS.requestFocus();
 		
 		// add SMS button listener

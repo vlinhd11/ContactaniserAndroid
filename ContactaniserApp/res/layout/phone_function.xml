@@ -6,7 +6,18 @@
     android:padding="40dp"
     android:orientation="vertical" >
     
+	<TextView
+        android:id="@+id/textViewContactName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contact Name : "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 	
+	<TextView
+        android:id="@+id/editContactName"
+        android:layout_width="fill_parent"
+        style="@style/TextBox"
+        android:textIsSelectable ="false"/>
     
 	<TextView
         android:id="@+id/textViewPhoneNo"
@@ -15,12 +26,11 @@
         android:text="Phone Number : "
         android:textAppearance="?android:attr/textAppearanceLarge" />
  
-    <EditText
+    <TextView
         android:id="@+id/editTextPhoneNo"
         android:layout_width="fill_parent"
         style="@style/TextBox"
-        android:phoneNumber="true" >
-    </EditText>
+        android:textIsSelectable ="false"/>
  
     <TextView
         android:id="@+id/textViewSMS"
