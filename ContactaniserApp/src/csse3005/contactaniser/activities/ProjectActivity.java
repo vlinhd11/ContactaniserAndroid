@@ -1,8 +1,5 @@
 package csse3005.contactaniser.activities;
 
-import csse3005.contactaniserapp.R;
-
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Intent;
@@ -10,13 +7,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
-import csse3005.contactaniser.library.InternetCheck;
 import csse3005.contactaniser.models.TabsAdapter;
+import csse3005.contactaniserapp.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ProjectActivity extends FragmentActivity {
@@ -26,6 +22,7 @@ public class ProjectActivity extends FragmentActivity {
 	 Long mRowId;
 	 private UserDataSource userdatasource;
 	 private User_ProjectDataSource userprojectdatasource;
+	 
 		@Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -38,7 +35,7 @@ public class ProjectActivity extends FragmentActivity {
 	        
 	        //create a new ViewPager and set to the pager in Ids.xml
 	        ViewPager = new ViewPager(this);
-	        ViewPager.setId(R.id.projectListPager);
+	        ViewPager.setId(R.id.taskListPager);
 	        setContentView(ViewPager);
 	 
 	        //Create a new Action bar and set title to strings.xml
@@ -58,6 +55,8 @@ public class ProjectActivity extends FragmentActivity {
 	        TabsAdapter.addTab(bar.newTab().setText("Completed"), CompletedTasks.class, null);
 	        
 	        TabsAdapter.onPageSelected(1);
+	        
+//	        TabsAdapter.getItem(1)
 	 
 	    
 	        if (savedInstanceState != null) {
@@ -76,12 +75,26 @@ public class ProjectActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
+	    
+	    	case R.id.change_order:
+	    		 ActiveTasks taskFragment = (ActiveTasks) getSupportFragmentManager().findFragmentByTag(
+	                        "android:switcher:"+R.id.taskListPager+":1");
+	    		
+	    		taskFragment.setByDate(!taskFragment.getByDate());
+	    		
+	    		if (taskFragment.getByDate()) {
+	    			item.setTitle(R.string.orderby_importance);
+	    		} else {
+	    			item.setTitle(R.string.orderby_date);
+	    		}
+	    		taskFragment.fillTaskData();
+	    		return true;
 
         	case R.id.add_task_bar: 
         		openNewTaskActivity();
         		return true;
-        		
-	       default:
+	        
+	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
@@ -93,6 +106,4 @@ public class ProjectActivity extends FragmentActivity {
 		startActivity(intent);
 	}
 	
-	
-
 }

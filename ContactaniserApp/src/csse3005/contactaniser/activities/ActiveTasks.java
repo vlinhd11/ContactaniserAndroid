@@ -2,6 +2,7 @@ package csse3005.contactaniser.activities;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -22,10 +23,8 @@ import csse3005.contactaniserapp.R;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ActiveTasks extends Fragment {
-//    private ArrayList<Task> taskList;
 	private boolean byDate = false;
 	private TaskDataSource DatabaseHelper;
-//	private GridLayout taskGrid;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,11 +35,11 @@ public class ActiveTasks extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		fillData();
+		fillTaskData();
 	}
 
 
-	private void fillData() {
+	public void fillTaskData() {
 		// retrieve tasks
 		DatabaseHelper = new TaskDataSource(getActivity());
 		DatabaseHelper.open();
@@ -53,7 +52,7 @@ public class ActiveTasks extends Fragment {
 		// get screen dimensions
 		Point screenSize = new Point();
 		getActivity().getWindowManager().getDefaultDisplay().getSize(screenSize);
-		int halfScreenWidth = (screenSize.x - 4) / 2;
+		int halfScreenWidthX = (screenSize.x - 4) / 2;
 		
 		// make needed objects
 		Button taskButton;
@@ -66,6 +65,7 @@ public class ActiveTasks extends Fragment {
 			noTasks.setText("No Tasks");
 			param = new GridLayout.LayoutParams();
 			param.columnSpec = GridLayout.spec(0, 2);
+//			param.rowSpec = GridLayout.spec(0, 5);
 			param.setGravity(Gravity.CENTER);
 			noTasks.setTextSize(20);
 			noTasks.setLayoutParams(param);
@@ -77,31 +77,31 @@ public class ActiveTasks extends Fragment {
 		
 		for (int i=0; i < taskList.size(); i++) {
 			// get task importance by date or property
-			currentTaskImportance = calcTaskImportance(taskList.get(i), byDate);
 			
 			// button properties
 			taskButton = new Button(getActivity());
 			taskButton.setText(taskList.get(i).getTaskName());
 			taskButton.setTag(taskList.get(i).getTaskid());
-			taskButton.setBackgroundResource(catToCol(currentTaskImportance));
+			taskButton.setTextColor(getResources().getColor(R.color.task_tile_text_color));
+			taskButton.setBackgroundResource(catToCol(taskList.get(i).getTaskCategory()));
 			
 			param = new GridLayout.LayoutParams();
 			
 			// set tile size & background based on priority
-			switch (currentTaskImportance) {
+			switch (calcTaskImportance(taskList.get(i), byDate)) {
 			case 2:
 				param.height = 200;// R.dimen.task_tile_p2_height;
-		        param.width = halfScreenWidth*2;
+		        param.width = halfScreenWidthX*2;
 		        param.columnSpec = GridLayout.spec(0, 2);
 				break;
 			case 1:
-				param.height = halfScreenWidth;
-		        param.width = halfScreenWidth;
+				param.height = halfScreenWidthX;
+		        param.width = halfScreenWidthX;
 		        param.rowSpec = GridLayout.spec(1, 2);
 				break;
 			case 0:
-				param.height = halfScreenWidth/2;
-		        param.width = halfScreenWidth;
+				param.height = halfScreenWidthX/2;
+		        param.width = halfScreenWidthX;
 				break;
 			}
 			// apply parameters
@@ -152,11 +152,29 @@ public class ActiveTasks extends Fragment {
     	if (byDate) {
     		Calendar tDate = Calendar.getInstance();
     		tDate.setTime(inTask.getTaskDueDate());
+//    		tDate.set(Calendar.MONTH, tDate.get(Calendar.MONTH - 1));
     		
     		Calendar today = Calendar.getInstance();
     		
     		Calendar weekFromNow = Calendar.getInstance();
     		weekFromNow.add(Calendar.DAY_OF_YEAR, 7);
+    		
+    		System.out.println("Task " + inTask.getTaskName() + " detail:");
+    		System.out.println("Task date  : " + tDate.getTime().toLocaleString());
+    		System.out.println("Task year  : " + tDate.get(Calendar.YEAR));
+    		System.out.println("Task month : " + tDate.get(Calendar.MONTH));
+    		System.out.println("Task DOY  : " + tDate.get(Calendar.DAY_OF_YEAR));
+    		System.out.println("----");
+    		System.out.println("Today date : " + today.getTime().toLocaleString());
+    		System.out.println("Today year : " + today.get(Calendar.YEAR));
+    		System.out.println("Today month: " + today.get(Calendar.MONTH));
+    		System.out.println("Today DOY  : " + today.get(Calendar.DAY_OF_YEAR));
+    		System.out.println("----");
+    		System.out.println("Week date  : " + weekFromNow.getTime().toLocaleString());
+    		System.out.println("Week year  : " + weekFromNow.get(Calendar.YEAR));
+    		System.out.println("Week month : " + weekFromNow.get(Calendar.MONTH));
+    		System.out.println("Week DOY   : " + weekFromNow.get(Calendar.DAY_OF_YEAR));
+    		System.out.println("----");
     		
     		if ((tDate.get(Calendar.YEAR) < today.get(Calendar.YEAR)) || 
     				(tDate.get(Calendar.YEAR) == today.get(Calendar.YEAR) && tDate.get(Calendar.DAY_OF_YEAR) <= today.get(Calendar.DAY_OF_YEAR))) {
@@ -188,5 +206,13 @@ public class ActiveTasks extends Fragment {
     		return R.drawable.button_background_5;
     	}
     }
+	
+	public boolean getByDate() {
+		return byDate;
+	}
+	
+	public void setByDate(boolean set) {
+		byDate = set;
+	}
 	
 }

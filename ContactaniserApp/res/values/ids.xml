@@ -2,4 +2,5 @@
 <resources>
     <item type="id" name="projectListPager"/>
     <item type="id" name="projectHomePager"/>
+    <item type="id" name="taskListPager"/>
 </resources>

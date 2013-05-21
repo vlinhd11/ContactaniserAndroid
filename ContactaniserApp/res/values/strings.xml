@@ -75,6 +75,8 @@
     <string name="send_sms">Send SMS</string>
     <string name="task_importance">Importance Level</string>
     <string name="task_category">Category</string><string name="button_update">Update</string><string name="button_complete">Complete</string><string name="title_activity_update">Update Task</string>
+    <string name="orderby_date">Order by: Date</string>
+    <string name="orderby_importance">Order by: Importance</string>
     
     
     

@@ -170,7 +170,7 @@ public class CreateTaskActivity extends Activity {
             		
             		String[] daymonthyear = datestring.split("/");
             		duedateday = Integer.parseInt(daymonthyear[0]);
-            		duedatemonth = Integer.parseInt(daymonthyear[1]);
+            		duedatemonth = Integer.parseInt(daymonthyear[1]) - 1;
             		duedateyear = Integer.parseInt(daymonthyear[2]);
             		Calendar c1 = Calendar.getInstance();
             		c1.set(duedateyear, duedatemonth, duedateday);
