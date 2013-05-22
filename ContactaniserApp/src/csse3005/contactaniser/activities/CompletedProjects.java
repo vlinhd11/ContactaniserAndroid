@@ -40,6 +40,7 @@ public class CompletedProjects extends ListFragment{
 	@Override
     public void onStart() {
             super.onStart();
+            setEmptyText("No completed projects");
             fillData();
             
     }
