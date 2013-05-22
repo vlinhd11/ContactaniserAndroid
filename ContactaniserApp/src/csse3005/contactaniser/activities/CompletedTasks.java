@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniser.models.Task;
-import csse3005.contactaniserapp.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 //import csse3005.contactaniser.datasource.ProjectDataSource;
 
 public class CompletedTasks extends ListFragment {
@@ -33,17 +31,16 @@ public class CompletedTasks extends ListFragment {
 	private void fillData() {
 		/** Creating array adapter to set data in listview */
 		long pid = getActivity().getIntent().getExtras().getLong("projId");
-//        List<Project> values = projectdatasource.getAllProjects(0);
 		ArrayList<Task> values = taskdatabase.getAllTasks(pid, 1);
         /** Setting the array adapter to the listview */
-        ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(getActivity(),
-        		R.layout.completed_task, R.id.label, values);
-            setListAdapter(adapter);
+        ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(getActivity(), android.R.layout.simple_list_item_1, values);
+        setListAdapter(adapter);
     }
 	
 	@Override
     public void onStart() {
             super.onStart();
+            setEmptyText("No completed tasks");
             fillData();
     }
 	

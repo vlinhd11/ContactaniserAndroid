@@ -43,6 +43,7 @@ public class ActiveProjects extends ListFragment {
 	@Override
     public void onStart() {
         super.onStart();
+        setEmptyText("No active projects");
 		fillData();
     }
 
