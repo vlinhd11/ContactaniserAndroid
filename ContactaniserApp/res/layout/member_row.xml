@@ -6,6 +6,8 @@
     <TextView
         android:id="@+id/memberLable"
         android:paddingLeft="10dp"
+        android:drawableLeft="@drawable/member"
+        android:drawablePadding="5dip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@+id/memberLabel"
