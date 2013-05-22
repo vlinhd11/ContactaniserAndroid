@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
@@ -57,20 +59,29 @@ public class ActiveTasks extends Fragment {
 		// make needed objects
 		Button taskButton;
 		GridLayout.LayoutParams param;
-		int currentTaskImportance;
+		TextView noTasks = (TextView) getActivity().findViewById(R.id.no_tasks_text);
 		
 		// Add 'no tasks' text if needed
 		if (rawList.size() == 0) {
-			TextView noTasks = new TextView(getActivity());
-			noTasks.setText("No Tasks");
-			param = new GridLayout.LayoutParams();
-			param.columnSpec = GridLayout.spec(0, 2);
-//			param.rowSpec = GridLayout.spec(0, 5);
-			param.setGravity(Gravity.CENTER);
-			noTasks.setTextSize(20);
-			noTasks.setLayoutParams(param);
-			taskGrid.addView(noTasks);
+//			TextView noTasks = new TextView(getActivity());
+//			noTasks.setText("No Tasks");
+//			noTasks.setBackgroundColor(Color.RED);
+//			noTasks.setTextSize(20);
+////			noTasks.setHeight(LayoutParams.MATCH_PARENT);
+////			noTasks.setWidth(LayoutParams.MATCH_PARENT);
+//			param = new GridLayout.LayoutParams();
+//			param.columnSpec = GridLayout.spec(0, 2);
+////			param.rowSpec = GridLayout.spec(0, 5);
+////			param.height = LayoutParams.MATCH_PARENT;
+//			param.setGravity(Gravity.CENTER);
+//			noTasks.setTextSize(20);
+//			noTasks.setLayoutParams(param);
+//			taskGrid.addView(noTasks);
+			
+			noTasks.setVisibility(View.VISIBLE);
 			return;
+		} else {
+			noTasks.setVisibility(View.GONE);
 		}
 		
 		boolean p1Right = false;

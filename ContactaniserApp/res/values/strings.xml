@@ -65,7 +65,7 @@
     </string-array>
     <string name="members_prompt">Members:</string>
     <string name="importance_prompt">Importance:</string>
-    <string name="no_tasks">No Tasks</string>
+    <string name="no_active_tasks">No active tasks</string>
     <string name="project_list_title">Projects</string>
     <string name="invalid_email">Incorrect email format</string>
     <string name="project_member">Member</string><string name="member_email">Email</string>
