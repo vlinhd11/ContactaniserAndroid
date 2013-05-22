@@ -92,7 +92,6 @@
                 	android:paddingRight="32dp"
                 	android:textColor="#FFF"
                 	style="@style/BlueButton"
-                	android:drawableRight="@drawable/ic_right_arrow"
                 	android:text="@string/action_sign_in_register" />
         
         	</LinearLayout>
