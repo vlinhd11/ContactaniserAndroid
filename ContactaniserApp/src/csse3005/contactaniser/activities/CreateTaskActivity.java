@@ -126,8 +126,9 @@ public class CreateTaskActivity extends Activity {
                 R.layout.member_checkbox,  userlistcreate);
         
         int height = userlistcreate.size();
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(230, (40*height));
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height*103);
         layoutParams.gravity=Gravity.CENTER;
+        
         listviewmembercreate.setLayoutParams(layoutParams);
         listviewmembercreate.setAdapter(adapter);
         

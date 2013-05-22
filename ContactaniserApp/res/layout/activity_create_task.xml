@@ -93,16 +93,20 @@
             	android:singleLine="true"
             	android:text="@string/members_prompt"
             	android:textSize="18sp" />
-
+			<LinearLayout 
+			    android:layout_width="230dp"
+			    
+			    android:layout_gravity="center"
+			    android:layout_height="wrap_content">
             <ListView
                 android:id="@+id/listMemberCreate"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="18dp" >
 
             </ListView>
-            
+            </LinearLayout>
             <RelativeLayout 
 			    android:layout_width="230dp"
 			    android:layout_gravity="center"

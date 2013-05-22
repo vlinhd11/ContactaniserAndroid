@@ -28,6 +28,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -156,7 +157,7 @@ public class UpdateTaskActivity extends Activity {
                 R.layout.member_checkbox,  userlistcreate);
 
         int height = userlistcreate.size();
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(230, (40*height));
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height*103);
         layoutParams.gravity=Gravity.CENTER;
         listviewmembercreate.setLayoutParams(layoutParams);
         listviewmembercreate.setAdapter(adapter);
