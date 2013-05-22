@@ -22,6 +22,9 @@ public class User_Project {
 	
 	/** The userprojectlastupdate. */
 	private Date userprojectlastupdate;
+	
+	/** The userprojectstatus. */
+	private String userprojectstatus;
 
 	//Will be used by array adapter in the list view
 	/* (non-Javadoc)
@@ -121,6 +124,24 @@ public class User_Project {
 	 */
 	public void setUserProjectLastUpdate(Date userprojectlastupdate) {
 		this.userprojectlastupdate = userprojectlastupdate;
+	}
+	
+	/**
+	 * Gets the user project status.
+	 *
+	 * @return the user project Status
+	 */
+	public String getUserProjectStatus() {
+		return userprojectstatus;
+	}
+	
+	/**
+	 * Sets the user project status.
+	 *
+	 * @param userprojectrole the new user project status
+	 */
+	public void setUserProjectStatus(String userprojectstatus) {
+		this.userprojectstatus = userprojectstatus;
 	}
 	
 

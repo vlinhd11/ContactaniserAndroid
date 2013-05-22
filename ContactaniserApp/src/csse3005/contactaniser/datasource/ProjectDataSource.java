@@ -24,7 +24,8 @@ public class ProjectDataSource {
 			MySQLHelper.COLUMN_PROJECTSTARTDATE,
 			MySQLHelper.COLUMN_PROJECTDUEDATE,
 			MySQLHelper.COLUMN_PROJECTCOMPLETION,
-			MySQLHelper.COLUMN_PROJECTLASTUPDATE};
+			MySQLHelper.COLUMN_PROJECTLASTUPDATE,
+			MySQLHelper.COLUMN_PROJECTSTATUS};
 
 	public ProjectDataSource(Context context) {
 		dbHelper = new MySQLHelper(context);
@@ -39,7 +40,7 @@ public class ProjectDataSource {
 	}
 
 	
-	public Project createProject(String id, String name, String description, Date startdate, Date duedate,String completion, Date lastupdate) {
+	public Project createProject(String id, String name, String description, Date startdate, Date duedate,String completion, Date lastupdate, String status) {
 		ContentValues values = new ContentValues();
 		
 		values.put(MySQLHelper.COLUMN_PROJECTNAME, name);
@@ -48,6 +49,7 @@ public class ProjectDataSource {
 		values.put(MySQLHelper.COLUMN_PROJECTDUEDATE, duedate.toString());
 		values.put(MySQLHelper.COLUMN_PROJECTCOMPLETION, completion);
 		values.put(MySQLHelper.COLUMN_PROJECTLASTUPDATE, lastupdate.toString());
+		values.put(MySQLHelper.COLUMN_PROJECTSTATUS, status);
 		
 		String[] str = {id};
 		
@@ -98,7 +100,7 @@ public class ProjectDataSource {
 
 		//Retrieve all project
 		Cursor cursor = database.query(MySQLHelper.TABLE_PROJECTS,
-		    allColumns, MySQLHelper.COLUMN_PROJECTCOMPLETION + " = " + completion, null, null, null, MySQLHelper.COLUMN_PROJECTDUEDATE + " ASC",null );
+		    allColumns, MySQLHelper.COLUMN_PROJECTCOMPLETION + " = " + completion + " AND " + MySQLHelper.COLUMN_PROJECTSTATUS + " =0" , null, null, null, MySQLHelper.COLUMN_PROJECTDUEDATE + " ASC",null );
 		
 
 		cursor.moveToFirst();
@@ -124,6 +126,7 @@ public class ProjectDataSource {
 		project.setProjectCompletion(cursor.getString(5));
 		Date lu = Date.valueOf(cursor.getString(6));
 	    project.setProjectLastUpdate(lu);
+	    project.setProjectStatus(cursor.getString(7));
 		return project;
 	}
 	

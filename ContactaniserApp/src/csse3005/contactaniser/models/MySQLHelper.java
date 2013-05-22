@@ -16,6 +16,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_PROJECTDUEDATE = "duedate";
 	public static final String COLUMN_PROJECTCOMPLETION = "projectcompletion";
 	public static final String COLUMN_PROJECTLASTUPDATE = "projectlastupdate";
+	public static final String COLUMN_PROJECTSTATUS = "projectstatus";
 	
 	//Task
 	public static final String TABLE_TASKS = "tasks";
@@ -55,6 +56,7 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_USERPROJECTPROJECTFID = "userprojectprojectfid";
 	public static final String COLUMN_ROLE = "userprojectrole";
 	public static final String COLUMN_USERPROJECTLASTUPDATE = "userprojectlastupdate";
+	public static final String COLUMN_USERPROJECTSTATUS = "userprojectstatus";
 	
 	//User Task
 	public static final String TABLE_USER_TASK = "user_task";
@@ -75,7 +77,8 @@ public class MySQLHelper extends SQLiteOpenHelper {
 			+ COLUMN_PROJECTSTARTDATE + " text not null, "
 			+ COLUMN_PROJECTDUEDATE + " text not null, "
 			+ COLUMN_PROJECTCOMPLETION + " integer not null, "
-			+ COLUMN_PROJECTLASTUPDATE + " text not null);";
+			+ COLUMN_PROJECTLASTUPDATE + " text not null, " 
+			+ COLUMN_PROJECTSTATUS + " integer not null);";
 	
 	private static final String DATABASE_CREATE_TASKS = "create table "
 			+ TABLE_TASKS + "(" + COLUMN_TASKID + " integer primary key autoincrement, "
@@ -109,7 +112,8 @@ public class MySQLHelper extends SQLiteOpenHelper {
 			+ COLUMN_USERPROJECTUSERFID + " integer, " 
 			+ COLUMN_USERPROJECTPROJECTFID + " integer not null, " 
 			+ COLUMN_ROLE + " string not null, " 
-			+ COLUMN_USERPROJECTLASTUPDATE + " text not null);";
+			+ COLUMN_USERPROJECTLASTUPDATE + " text not null, " 
+			+ COLUMN_USERPROJECTSTATUS + " integer not null);";
 	
 	private static final String DATABASE_CREATE_USER_TASK = "create table "
 			+ TABLE_USER_TASK + "("+  COLUMN_USERTASKID + " integer primary key autoincrement, "

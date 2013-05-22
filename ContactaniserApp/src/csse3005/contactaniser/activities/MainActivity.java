@@ -314,11 +314,12 @@ public class MainActivity extends FragmentActivity {
 									String uppfidstring = userprojectObject.getString("pId");
 									int uppfid = Integer.parseInt(uppfidstring);
 									String role = userprojectObject.getString("role");
+									String status = userprojectObject.getString("status");
 									Calendar CalNow = Calendar.getInstance();
 						        	Date DateNow = new Date(CalNow.getTimeInMillis());
 
 
-									userprojectdatasource.createUser_Project(upid, upufid, uppfid, role, DateNow);
+									userprojectdatasource.createUser_Project(upid, upufid, uppfid, role, DateNow, status);
 
 								}
 
@@ -359,12 +360,13 @@ public class MainActivity extends FragmentActivity {
 								java.util.Date DueDateUtil =  df.parse(DueDateString);
 								java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
 								String Completion = jsonObject.getString("Completion");
+								String Status = jsonObject.getString("Status");
 
 								Calendar CalNow = Calendar.getInstance();
 					        	Date DateNow = new Date(CalNow.getTimeInMillis());
 
 								// open the staff dao and update/insert the staff information
-								projectdatasource.createProject(ID, Name,Description,StartDate,DueDate,Completion,DateNow);
+								projectdatasource.createProject(ID, Name,Description,StartDate,DueDate,Completion,DateNow,Status);
 
 							}
 
@@ -471,11 +473,12 @@ public class MainActivity extends FragmentActivity {
 									String uppfidstring = userprojectObject.getString("pId");
 									int uppfid = Integer.parseInt(uppfidstring);
 									String role = userprojectObject.getString("role");
+									String status = userprojectObject.getString("status");
 									Calendar CalNow = Calendar.getInstance();
 						        	Date DateNow = new Date(CalNow.getTimeInMillis());
 
 
-									userprojectdatasource.createUser_Project(upid, upufid, uppfid, role, DateNow);
+									userprojectdatasource.createUser_Project(upid, upufid, uppfid, role, DateNow, status);
 
 								}
 
@@ -515,12 +518,13 @@ public class MainActivity extends FragmentActivity {
 								java.util.Date DueDateUtil =  df.parse(DueDateString);
 								java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
 								String Completion = jsonObject.getString("Completion");
+								String Status = jsonObject.getString("Status");
 
 								Calendar CalNow = Calendar.getInstance();
 					        	Date DateNow = new Date(CalNow.getTimeInMillis());
 
 								// open the staff dao and update/insert the staff information
-								projectdatasource.createProject(ID, Name,Description,StartDate,DueDate,Completion,DateNow);
+								projectdatasource.createProject(ID, Name,Description,StartDate,DueDate,Completion,DateNow,Status);
 
 							}
 

@@ -17,7 +17,7 @@ public class User_ProjectDataSource {
 				private SQLiteDatabase database;
 				private MySQLHelper dbHelper;
 				private String[] allColumns = { MySQLHelper.COLUMN_USERPROJECTID, MySQLHelper.COLUMN_USERPROJECTUSERFID, 
-						MySQLHelper.COLUMN_USERPROJECTPROJECTFID, MySQLHelper.COLUMN_ROLE, MySQLHelper.COLUMN_USERPROJECTLASTUPDATE};
+						MySQLHelper.COLUMN_USERPROJECTPROJECTFID, MySQLHelper.COLUMN_ROLE, MySQLHelper.COLUMN_USERPROJECTLASTUPDATE, MySQLHelper.COLUMN_USERPROJECTSTATUS};
 				
 
 				public User_ProjectDataSource(Context context) {
@@ -32,12 +32,13 @@ public class User_ProjectDataSource {
 					dbHelper.close();
 				}
 				
-				public User_Project createUser_Project(String upid, int upufid, int uppfid, String role, Date uplastupdate) {
+				public User_Project createUser_Project(String upid, int upufid, int uppfid, String role, Date uplastupdate, String status) {
 					ContentValues values = new ContentValues();
 					values.put(MySQLHelper.COLUMN_USERPROJECTUSERFID, upufid); 
 					values.put(MySQLHelper.COLUMN_USERPROJECTPROJECTFID, uppfid);
 					values.put(MySQLHelper.COLUMN_ROLE,role);
 					values.put(MySQLHelper.COLUMN_USERPROJECTLASTUPDATE, uplastupdate.toString());
+					values.put(MySQLHelper.COLUMN_USERPROJECTSTATUS, status);
 					
 					String[] str = {upid};
 					int affectedRows = database.update(MySQLHelper.TABLE_USER_PROJECT,
@@ -87,7 +88,7 @@ public class User_ProjectDataSource {
 
 					//Retrieve all tasks with the tid and pid given
 					Cursor cursor = database.query(MySQLHelper.TABLE_USER_PROJECT,
-					    allColumns, MySQLHelper.COLUMN_USERPROJECTUSERFID + " = " + uid + " AND " + MySQLHelper.COLUMN_USERPROJECTPROJECTFID + " = " + pid, null, null, null, null);
+					    allColumns, MySQLHelper.COLUMN_USERPROJECTUSERFID + " = " + uid + " AND " + MySQLHelper.COLUMN_USERPROJECTPROJECTFID + " = " + pid + " AND " + MySQLHelper.COLUMN_USERPROJECTSTATUS + " =0", null, null, null, null);
 
 					cursor.moveToFirst();
 					while (!cursor.isAfterLast()) {
@@ -105,7 +106,7 @@ public class User_ProjectDataSource {
 
 					//Retrieve all tasks with the tid and pid given
 					Cursor cursor = database.query(MySQLHelper.TABLE_USER_PROJECT,
-					    allColumns, MySQLHelper.COLUMN_USERPROJECTUSERFID + " = " + uid, null, null, null, null);
+					    allColumns, MySQLHelper.COLUMN_USERPROJECTUSERFID + " = " + uid + " AND " + MySQLHelper.COLUMN_USERPROJECTSTATUS + " =0", null, null, null, null);
 					
 
 					cursor.moveToFirst();
@@ -124,7 +125,7 @@ public class User_ProjectDataSource {
 					ArrayList<User_Project> User_Projects = new ArrayList<User_Project>();
 					//Retrieve all tasks with the tid and pid given
 					Cursor cursor = database.query(MySQLHelper.TABLE_USER_PROJECT,
-					    allColumns, MySQLHelper.COLUMN_USERPROJECTPROJECTFID + " = " + pid, null, null, null, null);
+					    allColumns, MySQLHelper.COLUMN_USERPROJECTPROJECTFID + " = " + pid + " AND " + MySQLHelper.COLUMN_USERPROJECTSTATUS + " =0", null, null, null, null);
 					
 
 					cursor.moveToFirst();
@@ -146,6 +147,7 @@ public class User_ProjectDataSource {
 					user_project.setUserProjectRole(cursor.getString(3));
 					Date lu = Date.valueOf(cursor.getString(4));
 					user_project.setUserProjectLastUpdate(lu);
+					user_project.setUserProjectStatus(cursor.getString(5));
 				
 					return user_project;
 				}

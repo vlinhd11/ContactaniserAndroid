@@ -29,6 +29,9 @@ public class Project {
 	/** The last time the entry was updated. */
 	private Date lastupdate;
 	
+	/** The status. */
+	private String status;
+	
 	/* Will be used by the list view for the string out put of each entry
 	 * @see java.lang.Object#toString()
 	 */
@@ -161,5 +164,23 @@ public class Project {
 	 */
 	public void setProjectLastUpdate(Date dueDate) {
 		this.lastupdate = dueDate;
+	}
+	
+	/**
+	 * Gets the project status.
+	 *
+	 * @return the project status
+	 */
+	public String getProjectStatus(){
+		return status;
+	}
+	
+	/**
+	 * Sets the project status.
+	 *
+	 * @param pDescription the new project status
+	 */
+	public void setProjectStatus(String status){
+		this.status = status;
 	}
 }
