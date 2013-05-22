@@ -30,6 +30,7 @@ public class EmailActivity extends Activity {
 			  //need this to prompts email client only
 			  email.setType("message/rfc822");
 			  startActivity(Intent.createChooser(email, "Choose an Email client :"));
+			  finish();
 			}
 			else {
 				internet.NetworkError(this);
