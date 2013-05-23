@@ -1,24 +1,25 @@
 package csse3005.contactaniser.activities;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+import java.text.SimpleDateFormat;
 import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniser.models.Task;
 import csse3005.contactaniserapp.R;
@@ -40,6 +41,22 @@ public class ActiveTasks extends Fragment {
 		fillTaskData();
 	}
 
+	
+	private String stringDate(Date inDate) {
+		Calendar tDate = Calendar.getInstance();
+		tDate.setTime(inDate);
+		Calendar today = Calendar.getInstance();
+		Calendar tomorrow = Calendar.getInstance();
+		tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+		
+		if (tDate.get(Calendar.YEAR) == today.get(Calendar.YEAR) && tDate.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)) {
+			return "TODAY";
+		} else if (tDate.get(Calendar.YEAR) == tomorrow.get(Calendar.YEAR) && tDate.get(Calendar.DAY_OF_YEAR) == tomorrow.get(Calendar.DAY_OF_YEAR)) {
+			return "TOMORROW";
+		} else {
+			return new SimpleDateFormat("d/M/yyyy", Locale.UK).format(inDate);
+		}
+	}
 
 	public void fillTaskData() {
 		// retrieve tasks
@@ -57,27 +74,14 @@ public class ActiveTasks extends Fragment {
 		int halfScreenWidthX = (screenSize.x - 4) / 2;
 		
 		// make needed objects
-		Button taskButton;
-		GridLayout.LayoutParams param;
+		RelativeLayout taskTile;
+		GridLayout.LayoutParams tileParams;
+		RelativeLayout.LayoutParams textParams;
+		TextView taskText;
 		TextView noTasks = (TextView) getActivity().findViewById(R.id.no_tasks_text);
 		
 		// Add 'no tasks' text if needed
 		if (rawList.size() == 0) {
-//			TextView noTasks = new TextView(getActivity());
-//			noTasks.setText("No Tasks");
-//			noTasks.setBackgroundColor(Color.RED);
-//			noTasks.setTextSize(20);
-////			noTasks.setHeight(LayoutParams.MATCH_PARENT);
-////			noTasks.setWidth(LayoutParams.MATCH_PARENT);
-//			param = new GridLayout.LayoutParams();
-//			param.columnSpec = GridLayout.spec(0, 2);
-////			param.rowSpec = GridLayout.spec(0, 5);
-////			param.height = LayoutParams.MATCH_PARENT;
-//			param.setGravity(Gravity.CENTER);
-//			noTasks.setTextSize(20);
-//			noTasks.setLayoutParams(param);
-//			taskGrid.addView(noTasks);
-			
 			noTasks.setVisibility(View.VISIBLE);
 			return;
 		} else {
@@ -88,42 +92,55 @@ public class ActiveTasks extends Fragment {
 		ArrayList<Task> taskList = orderTasks(rawList, byDate);
 		
 		for (int i=0; i < taskList.size(); i++) {
-			// get task importance by date or property
 			
-			// button properties
-			taskButton = new Button(getActivity());
-			taskButton.setText(taskList.get(i).getTaskName());
-			taskButton.setTag(taskList.get(i).getTaskid());
-			taskButton.setTextColor(getResources().getColor(R.color.task_tile_text_color));
-			taskButton.setBackgroundResource(catToCol(taskList.get(i).getTaskCategory()));
+			// tile properties
+			taskTile = new RelativeLayout(getActivity());
+			tileParams = new GridLayout.LayoutParams();
+			taskTile.setBackgroundResource(catToCol(taskList.get(i).getTaskCategory()));
+			taskTile.setTag(taskList.get(i).getTaskid());
 			
-			param = new GridLayout.LayoutParams();
+			taskText = new TextView(getActivity());
+			textParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			taskText.setText(taskList.get(i).getTaskName());
+			taskText.setTextSize(20);
+			taskText.setTextColor(getResources().getColor(R.color.task_tile_text_color));
+			textParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+			taskTile.addView(taskText, textParams);
+			
+			taskText = new TextView(getActivity());
+			textParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			taskText.setText(stringDate(taskList.get(i).getTaskDueDate()));
+			taskText.setTextSize(14);
+			taskText.setTextColor(getResources().getColor(R.color.task_tile_text_color));
+			textParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+			textParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+			textParams.setMargins(15, 10, 0, 0);
+			taskTile.addView(taskText, textParams);
+			
 			
 			// set tile size & background based on priority
 			switch (calcTaskImportance(taskList.get(i), byDate)) {
 			case 2:
-				param.height = 200;// R.dimen.task_tile_p2_height;
-		        param.width = halfScreenWidthX*2;
-		        param.columnSpec = GridLayout.spec(0, 2);
+				tileParams.height = 200;// R.dimen.task_tile_p2_height;
+		        tileParams.width = halfScreenWidthX*2;
+		        tileParams.columnSpec = GridLayout.spec(0, 2);
 				break;
 			case 1:
-				param.height = halfScreenWidthX;
-		        param.width = halfScreenWidthX;
+				tileParams.height = halfScreenWidthX;
+		        tileParams.width = halfScreenWidthX;
 		        
-		        param.rowSpec = GridLayout.spec(p1Right ? 1 : 0, 2);
+		        tileParams.rowSpec = GridLayout.spec(p1Right ? 1 : 0, 2);
 		        
 		        p1Right = !p1Right;
 				break;
 			case 0:
-				param.height = halfScreenWidthX/2;
-		        param.width = halfScreenWidthX;
+				tileParams.height = halfScreenWidthX/2;
+		        tileParams.width = halfScreenWidthX;
 				break;
 			}
-			// apply parameters
-			taskButton.setLayoutParams (param);
 			
 			// start task view activity on click
-			taskButton.setOnClickListener(new View.OnClickListener() {
+			taskTile.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					Intent pIntent = new Intent(getActivity(), TaskActivity.class);
@@ -133,7 +150,7 @@ public class ActiveTasks extends Fragment {
 					startActivity(pIntent);
 				}
 			});
-	        taskGrid.addView(taskButton);
+	        taskGrid.addView(taskTile, tileParams);
 		}
 	}
 	
@@ -167,7 +184,6 @@ public class ActiveTasks extends Fragment {
     	if (byDate) {
     		Calendar tDate = Calendar.getInstance();
     		tDate.setTime(inTask.getTaskDueDate());
-//    		tDate.set(Calendar.MONTH, tDate.get(Calendar.MONTH - 1));
     		
     		Calendar today = Calendar.getInstance();
     		
