@@ -196,6 +196,8 @@ public class TaskActivity extends Activity {
 	        		
 	            }
 	        });
+	        
+	        setTitle("Task: " + taskname);
 		
 	}
 

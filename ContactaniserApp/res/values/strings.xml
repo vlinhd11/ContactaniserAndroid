@@ -51,7 +51,7 @@
     <string name="project_date_created">Date Created</string>
     <string name="project_date_due">Due Date</string>
     <string name="new_task">Add New Task</string>
-    <string name="title_activity_create_task">CreateTaskActivity</string>
+    <string name="title_activity_create_task">Create new task</string>
     <string name="create_task">Create Task</string>
     <string name="task_name">Task Name</string>
     <string name="task_description">Description</string>

@@ -261,6 +261,7 @@ public class ActiveTasks extends Fragment {
 		
 		for (int i=0; i< userList.size(); i++) {
 			if (initList.length()!=0) initList.append(" ");
+//			initList.append(userList.get(i).getUserName());
 			splitName = userList.get(i).getUserName().split(" ");
 			for (int x=0; x < splitName.length; x++) {
 				initList.append(splitName[x].substring(0, 1).toUpperCase(Locale.US));
@@ -270,7 +271,7 @@ public class ActiveTasks extends Fragment {
 		return initList.toString();
 	}
 	
-	/** returns ArrayList of users by task ID. BREAKS ARCHITECTURE: This will be moved to a datasource or model. */
+	/** returns ArrayList of users by task ID. */
 	private ArrayList<User> grabUsersByTaskID(long tID) {
 	
 		ArrayList<User_Task> values = usertaskdatasource.getAllUserbyTaskId(tID);
