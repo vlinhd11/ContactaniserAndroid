@@ -327,8 +327,7 @@ public class MainActivity extends FragmentActivity {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					menuItem.collapseActionView();
-			    	menuItem.setActionView(null);
+					
 				}
 
 		    }
@@ -403,8 +402,7 @@ public class MainActivity extends FragmentActivity {
 					}
 
 			    	//Stop the progress on the syncing icon
-			    	menuItem.collapseActionView();
-			    	menuItem.setActionView(null);
+			    	
 			}
 
 	    }

@@ -26,15 +26,47 @@
         android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@id/textView2" />
-	
-    <View
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_below="@id/roletextView"
+        android:text="Phone Number"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+    <TextView
+        android:id="@+id/phoneNumberTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView1"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/textViewEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_below="@id/phoneNumberTextView"
+        android:text="Email"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+    <TextView
+        android:id="@+id/EmailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewEmail"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+     <View
         android:id="@+id/line"
         android:layout_width="fill_parent"
         android:layout_height="3dp"
-        android:layout_below="@id/roletextView"
+        android:layout_below="@id/EmailTextView"
         android:background="@android:color/darker_gray" />
-    
-    <TextView
+     
+     <TextView
         android:id="@+id/textViewMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,17 +74,17 @@
         android:paddingTop="10dp"
         android:text="Quick Message : "
         android:textAppearance="?android:attr/textAppearanceLarge" />
- 
-    <EditText
+     
+     <EditText
         android:id="@+id/editTextMsg"
         android:layout_width="fill_parent"
         style="@style/TextBox"
         android:inputType="textMultiLine"
-        android:lines="10"
+        android:lines="7"
         android:gravity="top|left"
         android:layout_below="@id/textViewMsg"/>
-	
-    <ImageButton
+     
+     <ImageButton
         android:id="@+id/emailButton"
         style="@style/BlueButton"
         android:layout_width="80dp"

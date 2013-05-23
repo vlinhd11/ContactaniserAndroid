@@ -26,6 +26,8 @@ public class MemberInfoActivity extends Activity {
 	
 	private static TextView userName;
 	private static TextView userRole;
+	private static TextView userPhone;
+	private static TextView userEmail;
 	private EditText quickMsgBox;
 	private String quickMsg;
 	String phonenumber;
@@ -54,6 +56,8 @@ public class MemberInfoActivity extends Activity {
 		
 		userName = (TextView) findViewById(R.id.nametextView);
 		userRole = (TextView) findViewById(R.id.roletextView);
+		userEmail = (TextView) findViewById(R.id.EmailTextView);
+		userPhone = (TextView) findViewById(R.id.phoneNumberTextView);
 		quickMsgBox = (EditText) findViewById(R.id.editTextMsg);
 		
 		ProjectId = getIntent().getExtras().getLong("projectid"); //masuk
@@ -63,6 +67,8 @@ public class MemberInfoActivity extends Activity {
 		Cursor role = userprojectdatasource.fetchUserProjectById(UserId, ProjectId);
 		userName.setText(user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERNAME)));
 		userRole.setText(role.getString(role.getColumnIndexOrThrow(MySQLHelper.COLUMN_ROLE)));
+		userEmail.setText(user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USEREMAIL)));
+		userPhone.setText(user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERPHONENUMBER)));
 	
 		phonenumber = user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERPHONENUMBER));
 		phoneemail = user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USEREMAIL));
