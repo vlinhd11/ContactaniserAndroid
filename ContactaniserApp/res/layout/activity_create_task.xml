@@ -78,7 +78,7 @@
 				    android:layout_height="wrap_content"
 				    style="@style/BlueButton"
 				    android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                	android:paddingRight="10dp"
                 	android:textColor="#FFF"
 				    android:layout_toRightOf="@+id/duedate_prompt"/>
 			
@@ -94,8 +94,7 @@
             	android:text="@string/members_prompt"
             	android:textSize="18sp" />
 			<LinearLayout 
-			    android:layout_width="230dp"
-			    
+			    android:layout_width="230dp"			    
 			    android:layout_gravity="center"
 			    android:layout_height="wrap_content">
             <ListView
