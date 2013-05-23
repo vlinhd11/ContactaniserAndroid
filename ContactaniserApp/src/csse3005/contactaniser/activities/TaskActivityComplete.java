@@ -30,16 +30,14 @@ import csse3005.contactaniser.models.User_Project;
 import csse3005.contactaniser.models.User_Task;
 import csse3005.contactaniserapp.R;
 
-public class TaskActivity extends Activity {
+public class TaskActivityComplete extends Activity {
 
 	private static TextView tasknametextview;
 	private static TextView taskdescriptiontextview;
 	private static TextView taskcategorytextview;
 	private static TextView taskimportancetextview;
 	private static TextView taskduedatetextview;
-	private static Button UpdateButton;
-	private static Button CompleteButton;
-	
+
 	String taskname;
 	String taskdescription;
 	String taskcategory;
@@ -58,7 +56,7 @@ public class TaskActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_task);
+		setContentView(R.layout.activity_task_completed);
 		
 		taskdatasource = new TaskDataSource(this);
 		taskdatasource.open();
@@ -70,20 +68,16 @@ public class TaskActivity extends Activity {
 		usertaskdatasource.open();
 		
 		
-		
-		
 		tasknametextview = (TextView) findViewById(R.id.tasktextViewName);
 		taskdescriptiontextview = (TextView) findViewById(R.id.tasktextViewDescription);
 		taskcategorytextview = (TextView) findViewById(R.id.tasktextCategory);
 		taskimportancetextview = (TextView) findViewById(R.id.tasktextImportance);
 		taskduedatetextview = (TextView) findViewById (R.id.tasktextDueDate);
 		
-		UpdateButton = (Button) findViewById (R.id.buttonTaskUpdate);
-		CompleteButton = (Button) findViewById (R.id.buttonTaskComplete);
 		
-		final long mrowprojectid = getIntent().getExtras().getLong("projectid");
+
 		long mrowtaskid = getIntent().getExtras().getLong("taskid");
-		final String mrowtaskidString = String.valueOf(mrowtaskid);
+
 		long mrowuserid = getIntent().getIntExtra("userid", 0);
 		Cursor task = taskdatasource.fetchTaskById(mrowtaskid);
 		
@@ -92,8 +86,6 @@ public class TaskActivity extends Activity {
 		taskcategoryindex = task.getInt(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKCATEGORY));
 		taskimportanceindex = task.getInt(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKIMPORTANCELEVEL));
 		taskduedate = task.getString(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKDUEDATE));
-		
-		
 		
 		if (taskimportanceindex == 0)
 		{
@@ -133,10 +125,7 @@ public class TaskActivity extends Activity {
 		
 		listviewmember = (ListView) findViewById(R.id.tasklistMember);
 		
-		Calendar CalNow = Calendar.getInstance();
-    	final Date DateNow = new Date(CalNow.getTimeInMillis());
-		
-    	final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+
 		ArrayList<User_Task> values = usertaskdatasource.getAllUserbyTaskId(mrowtaskid);
 		ArrayList<User> userlist = new ArrayList<User>();
 	        for (int i=0; i<values.size(); i++){
@@ -167,43 +156,14 @@ public class TaskActivity extends Activity {
 	        listviewmember.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-					Intent pIntent = new Intent(TaskActivity.this, MemberInfoActivity.class);
+					Intent pIntent = new Intent(TaskActivityComplete.this, MemberInfoActivity.class);
 					pIntent.putExtra("taskid", getIntent().getExtras().getLong("taskid"));
 					pIntent.putExtra("userid", adapter.getItem(position).getUserid());
 					pIntent.putExtra("projectid", getIntent().getExtras().getLong("projectid"));
 					startActivity(pIntent);
 				}
 			});
-	        
-	        UpdateButton.setOnClickListener(new View.OnClickListener() {
-	            public void onClick(View v) {
-	            	Intent pIntent = new Intent(TaskActivity.this, UpdateTaskActivity.class);
-					pIntent.putExtra("taskid", getIntent().getExtras().getLong("taskid"));
-					pIntent.putExtra("userid", getIntent().getIntExtra("userid", 0));
-					pIntent.putExtra("projectid", getIntent().getExtras().getLong("projectid"));
-					startActivity(pIntent);
-					
-	            }
-	        });
-	        
-	        CompleteButton.setOnClickListener(new View.OnClickListener() {
-	            public void onClick(View v) {
-	            	
-					try {
-		                java.util.Date DueDateUtil =  df.parse(taskduedate); 
-		        		java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
-		        		taskdatasource.createTask(mrowtaskidString, mrowprojectid, taskname, taskdescription, taskimportanceindex, DueDate, 1, DateNow, taskcategoryindex);
-		        		finish();
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} 
-	        		
-	            }
-	        });
-	        
 	        setTitle("Task: " + taskname);
-		
 	}
 
 	@Override
@@ -235,9 +195,7 @@ public class TaskActivity extends Activity {
 		taskcategorytextview = (TextView) findViewById(R.id.tasktextCategory);
 		taskimportancetextview = (TextView) findViewById(R.id.tasktextImportance);
 		taskduedatetextview = (TextView) findViewById (R.id.tasktextDueDate);
-		
-		UpdateButton = (Button) findViewById (R.id.buttonTaskUpdate);
-		CompleteButton = (Button) findViewById (R.id.buttonTaskComplete);
+
 		
 		final long mrowprojectid = getIntent().getExtras().getLong("projectid");
 		long mrowtaskid = getIntent().getExtras().getLong("taskid");
@@ -289,10 +247,7 @@ public class TaskActivity extends Activity {
 		
 		listviewmember = (ListView) findViewById(R.id.tasklistMember);
 		
-		Calendar CalNow = Calendar.getInstance();
-    	final Date DateNow = new Date(CalNow.getTimeInMillis());
-		
-    	final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+
 		ArrayList<User_Task> values = usertaskdatasource.getAllUserbyTaskId(mrowtaskid);
 		ArrayList<User> userlist = new ArrayList<User>();
 	        for (int i=0; i<values.size(); i++){
@@ -323,40 +278,14 @@ public class TaskActivity extends Activity {
 	        listviewmember.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-					Intent pIntent = new Intent(TaskActivity.this, MemberInfoActivity.class);
+					Intent pIntent = new Intent(TaskActivityComplete.this, MemberInfoActivity.class);
 					pIntent.putExtra("taskid", getIntent().getExtras().getLong("taskid"));
 					pIntent.putExtra("userid", adapter.getItem(position).getUserid());
 					pIntent.putExtra("projectid", getIntent().getExtras().getLong("projectid"));
 					startActivity(pIntent);
 				}
 			});
-	        
-	        UpdateButton.setOnClickListener(new View.OnClickListener() {
-	            public void onClick(View v) {
-	            	Intent pIntent = new Intent(TaskActivity.this, UpdateTaskActivity.class);
-					pIntent.putExtra("taskid", getIntent().getExtras().getLong("taskid"));
-					pIntent.putExtra("userid", getIntent().getIntExtra("userid", 0));
-					pIntent.putExtra("projectid", getIntent().getExtras().getLong("projectid"));
-					startActivity(pIntent);
-					
-	            }
-	        });
-	        
-	        CompleteButton.setOnClickListener(new View.OnClickListener() {
-	            public void onClick(View v) {
-	            	
-					try {
-		                java.util.Date DueDateUtil =  df.parse(taskduedate); 
-		        		java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
-		        		taskdatasource.createTask(mrowtaskidString, mrowprojectid, taskname, taskdescription, taskimportanceindex, DueDate, 1, DateNow, taskcategoryindex);
-		        		finish();
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} 
-	        		
-	            }
-	        });
+
 	}
 	
 	

@@ -20,6 +20,8 @@ public class User_Task {
 	/** The usertasklastupdate. */
 	private Date usertasklastupdate;
 	
+	/** The usertaskstatus. */
+	private int usertaskstatus;
 	
 	/**
 	 * Gets the uT id.
@@ -91,6 +93,24 @@ public class User_Task {
 	 */
 	public void setUTLastUpdate(Date usertasklastupdate){
 		this.usertasklastupdate = usertasklastupdate;
+	}
+	
+	/**
+	 * Gets the uT status.
+	 *
+	 * @return the uT status
+	 */
+	public int getUTStatus(){
+		return usertaskstatus;
+	}
+	
+	/**
+	 * Sets the uT status.
+	 *
+	 * @param usertaskstatus the new uT status
+	 */
+	public void setUTStatus(int usertaskstatus){
+		this.usertaskstatus = usertaskstatus;
 	}
 	
 }

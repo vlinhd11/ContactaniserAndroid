@@ -38,7 +38,8 @@
     <string name="network_error_message">No network connection detected. Please connect your device and retry.</string>
     <string name="title_activity_project">ProjectActivity</string>
     <string name="title_activity_project_info">ProjectInfoActivity</string>
-    <string name="title_activity_task">TaskActivity</string>
+    <string name="title_activity_task">Active Task</string>
+    <string name="title_activity_task_completed">Completed Task</string>
     <string name="change_password">Change Password</string>
     <string name="change_password_success">Success, Password changed</string>
     <string name="change_password_fail">Incorrect password</string>
@@ -51,7 +52,7 @@
     <string name="project_date_created">Date Created</string>
     <string name="project_date_due">Due Date</string>
     <string name="new_task">Add New Task</string>
-    <string name="title_activity_create_task">Create new task</string>
+    <string name="title_activity_create_task">Create New Task</string>
     <string name="create_task">Create Task</string>
     <string name="task_name">Task Name</string>
     <string name="task_description">Description</string>
@@ -82,5 +83,6 @@
     <string name="confirm">Confirmation</string>
     <string name="no_active_projects">No active projects</string>
     <string name="no_completed_projects">No completed projects</string>
+    <string name="activity_member_info_title">Member Info</string>
     
 </resources>

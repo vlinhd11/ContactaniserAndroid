@@ -167,7 +167,7 @@ public class CompletedTasks extends Fragment {
 			taskTile.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					Intent pIntent = new Intent(getActivity(), TaskActivity.class);
+					Intent pIntent = new Intent(getActivity(), TaskActivityComplete.class);
 					pIntent.putExtra("taskid", (Long) view.getTag());
 					pIntent.putExtra("projectid", getActivity().getIntent().getExtras().getLong("projId"));
 					pIntent.putExtra("userid", getActivity().getIntent().getIntExtra("userid", 0));

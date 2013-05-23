@@ -100,7 +100,7 @@ public class MainActivity extends FragmentActivity {
 	    if (savedInstanceState != null) {
 	        bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
 	    }   
-	    
+	    /*
 	    DownSycnUserProjectAuto dsUPAuto = new DownSycnUserProjectAuto();
 		dsUPAuto.setContext(this);
 		
@@ -158,7 +158,7 @@ public class MainActivity extends FragmentActivity {
     	
     	dsUAuto.setUserid(userid);
     	
-    	dsUAuto.execute();
+    	dsUAuto.execute();*/
 	}
 
 	@SuppressLint("NewApi")

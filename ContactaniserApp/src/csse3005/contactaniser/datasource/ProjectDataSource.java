@@ -134,7 +134,7 @@ public class ProjectDataSource {
 
         Cursor mCursor =
 
-            database.query(true,MySQLHelper.TABLE_PROJECTS , allColumns, MySQLHelper.COLUMN_PROJECTID + "=" + rowId, null,
+            database.query(true,MySQLHelper.TABLE_PROJECTS , allColumns, MySQLHelper.COLUMN_PROJECTID + "=" + rowId , null,
                     null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();

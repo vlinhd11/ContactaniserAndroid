@@ -72,7 +72,7 @@ public class MemberInfoActivity extends Activity {
 	
 		phonenumber = user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERPHONENUMBER));
 		phoneemail = user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USEREMAIL));
-		
+		setTitle("Member: " + user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERNAME)));
 		addListenerOnButton();
 	}
 	

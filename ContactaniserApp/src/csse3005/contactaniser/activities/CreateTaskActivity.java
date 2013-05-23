@@ -15,6 +15,11 @@ import android.view.Menu;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -185,15 +190,41 @@ public class CreateTaskActivity extends Activity {
             	     if(user.isSelected()){
             	    	 long usertaskid = System.currentTimeMillis();
             	    	 String usertaskidstring = String.valueOf(usertaskid);
-            	    	 usertaskdatasource.createUser_Task(usertaskidstring, user.getUserid(), taskid, datenow);
+            	    	 usertaskdatasource.createUser_Task(usertaskidstring, user.getUserid(), taskid, datenow, 0);
+            	    	 /*
+            	    	 JSONParserSend syncuptask = new JSONParserSend();
+                 		syncuptask.setContext(CreateTaskActivity.this);
+                 		
+                 		JSONArray jsonArray = new JSONArray();
+                 		JSONObject object = new JSONObject();
+                 		try {
+                 		object.put("usertaskid", usertaskidstring);
+             		    object.put("usertaskuserid", user.getUserid());
+             		    object.put("usertasktaskid", taskid);
+             		    object.put("status", 0);
+             		    
+             		    
+             		    jsonArray.put(object); 
+             		    
+                 		} catch (JSONException e) {
+                 		    e.printStackTrace();
+                 		}
+                 		
+                 		System.out.println(jsonArray.toString());
             	    	 
-            	      
+            	      */
+            	     }
+            	     else
+            	     {
+            	    	 long usertaskid = System.currentTimeMillis();
+            	    	 String usertaskidstring = String.valueOf(usertaskid);
+            	    	 usertaskdatasource.createUser_Task(usertaskidstring, user.getUserid(), taskid, datenow, 1);
             	     }
             	    }
             		
             	    long usertaskidself = System.currentTimeMillis();
             	    String usertaskidselfstring = String.valueOf(usertaskidself);
-            	    usertaskdatasource.createUser_Task(usertaskidselfstring,userid , taskid, datenow);
+            	    usertaskdatasource.createUser_Task(usertaskidselfstring,userid , taskid, datenow, 0);
             		taskdatabase.createTask(taskidstring, projectid,
             				tasknamestring, taskdescriptionstring,
             				taskimportanceindex, dateSet, 0, datenow,

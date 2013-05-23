@@ -123,11 +123,6 @@ public class UpdateTaskActivity extends Activity {
         	User_Project  userproject = values.get(i);
             long userid = userproject.getUPUid();
             Cursor c = userdatasource.fetchUserById(userid);
-            
-			
-			
-            
-            
             c.moveToFirst();
 			while (!c.isAfterLast()) {
 				User user = cursorToUser(c);
@@ -207,45 +202,25 @@ public class UpdateTaskActivity extends Activity {
             		ArrayList<User> userLists = adapter.userList;
             	    for(int i=0;i<userLists.size();i++){
             	     User user = userLists.get(i);
-        	    	 
+            	     Cursor c = usertaskdatasource.fetchUserTaskByUserIdTaskId(taskidsaved, user.getUserid() );
             	     if(user.isSelected()){
-            	    	 
-            	    	 
-            	    	 Log.i("userid", String.valueOf(user.getUserid()));
-            	    	 Log.i("taskid", String.valueOf(taskidsaved));
-            	    	 Cursor c = usertaskdatasource.fetchUserTaskByUserIdTaskId(taskidsaved, user.getUserid() );
-            	    	 //Log.i("idygtdidbikin", c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)));
-            	    	 
-            	    	 if (c.moveToFirst()){
-            	    		 Log.i("masuk :", "masuk update");
-            	    		 
-            	    		 usertaskdatasource.createUser_Task(c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)), user.getUserid(), taskidsaved, datenow);
-            	    	 }
-            	    	 else
-            	    	 {
-            	    		 Log.i("masuk :", "masuk create new");
-            	    		 long usertaskid = System.currentTimeMillis();
-                	    	 String usertaskidstring = String.valueOf(usertaskid);
-                	    	 usertaskdatasource.createUser_Task(usertaskidstring, user.getUserid(), taskidsaved, datenow);
-                	    	 Log.i("idpertamabikin", usertaskidstring);
-                	    	 
-            	    	 }
-            	    	 
-            	      
+            	    	 	
+            	    	 Log.i("masuk","masuk update tetep ada");
+            	    		 usertaskdatasource.createUser_Task(c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)), user.getUserid(), taskidsaved, datenow, 0);
+
             	     }
             	     else
             	    	 
             	     {   
-            	    	 Log.i("masuk :", "masuk delete");
-            	    	 long taskidsaveprimitive = taskidsaved.longValue();
-            	    	 usertaskdatasource.deleteUserTaskbyUserIdTaskId(user.getUserid(), taskidsaveprimitive);
+            	    	 Log.i("masuk :", "masuk update dihapus");
+            	    	 usertaskdatasource.createUser_Task(c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)), user.getUserid(), taskidsaved, datenow, 1);
             	     }
             	    }
             		
             	    
             	    Cursor c = usertaskdatasource.fetchUserTaskByUserIdTaskId(taskidsaved,userid);
             	   
-            	    usertaskdatasource.createUser_Task(c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)),userid , taskidsaved, datenow);
+            	    usertaskdatasource.createUser_Task(c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)),userid , taskidsaved, datenow, 0);
             	    String taskidsavedstring = String.valueOf(taskidsaved);
             		taskdatabase.createTask(taskidsavedstring, projectid,
             				tasknamestring, taskdescriptionstring,

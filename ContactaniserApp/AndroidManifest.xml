@@ -45,7 +45,7 @@
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.MemberInfoActivity"
-            android:label="@string/app_name" >
+            android:label="@string/activity_member_info_title" >
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.LoginActivity"
@@ -72,6 +72,10 @@
         <activity
             android:name="csse3005.contactaniser.activities.TaskActivity"
             android:label="@string/title_activity_task" >
+        </activity>
+        <activity
+            android:name="csse3005.contactaniser.activities.TaskActivityComplete"
+            android:label="@string/title_activity_task_completed" >
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.CreateTaskActivity"

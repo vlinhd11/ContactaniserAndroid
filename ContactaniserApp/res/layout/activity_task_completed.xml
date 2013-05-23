@@ -1,0 +1,118 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/tasktextViewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="" />
+    
+    <TextView
+        android:id="@+id/tasktextView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView9"
+        android:layout_below="@+id/tasktextView9"
+        android:layout_marginTop="25dp"
+        android:text="@string/task_category"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tasktextView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView5"
+        android:layout_below="@+id/tasktextView5"
+        android:layout_marginTop="25dp"
+        android:text="@string/project_member"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tasktextView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView3"
+        android:layout_below="@+id/tasktextView3"
+        android:layout_marginTop="40dp"
+        android:text="@string/task_importance"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tasktextView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView7"
+        android:layout_below="@+id/tasktextView7"
+        android:layout_marginTop="25dp"
+        android:text="@string/project_date_due"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tasktextView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextViewName"
+        android:layout_below="@+id/tasktextViewName"
+        android:layout_marginTop="25dp"
+        android:text="@string/task_description"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tasktextCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView5"
+        android:layout_below="@+id/tasktextView5"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/tasktextDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView5"
+        android:layout_below="@+id/tasktextView9"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/tasktextImportance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView9"
+        android:layout_below="@+id/tasktextView7"
+        android:text="" />
+
+    <ListView
+        android:id="@+id/tasklistMember"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tasktextView11"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp" >
+
+    </ListView>
+    
+    <View
+        android:id="@+id/view"
+        android:layout_width="10dp"
+        android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:id="@+id/tasktextViewDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tasktextView3"
+        android:layout_below="@+id/tasktextView3"
+        android:text="" />
+
+
+</RelativeLayout>
