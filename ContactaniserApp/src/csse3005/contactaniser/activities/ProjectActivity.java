@@ -345,33 +345,33 @@ public class ProjectActivity extends FragmentActivity {
 					        	
 					        	taskdatasource.createTask(taskid, taskprojectid, taskname, taskdescription, taskimportance, taskduedate, taskcompletion, DateNow, taskcategory);
 					        	
-					        	ActiveTasks fragment = (ActiveTasks) getSupportFragmentManager().findFragmentByTag(
-				                        "android:switcher:"+R.id.projectListPager+":1");
-				        	    CompletedTasks fragment2 = (CompletedTasks) getSupportFragmentManager().findFragmentByTag(
-				                        "android:switcher:"+R.id.projectListPager+":2");
-				        	    if(fragment != null)  // could be null if not instantiated yet
-				        	      {
-				        	         if(fragment.getView() != null) 
-				        	         {
-				        	            // no need to call if fragment's onDestroyView() 
-				        	            //has since been called.
-				        	            fragment.fillTaskData(); // do what updates are required
-				        	         }
-				        	      }
-
-				        	    if(fragment2 != null)  // could be null if not instantiated yet
-					      	      {
-					      	         if(fragment2.getView() != null) 
-					      	         {
-					      	            // no need to call if fragment's onDestroyView() 
-					      	            //has since been called.
-					      	            fragment2.fillTaskData(); // do what updates are required
-					      	         }
-					      	      }
+					        	
 
 							}
 						
-						 
+						ActiveTasks fragment = (ActiveTasks) getSupportFragmentManager().findFragmentByTag(
+		                        "android:switcher:"+R.id.taskListPager+":1");
+		        	    CompletedTasks fragment2 = (CompletedTasks) getSupportFragmentManager().findFragmentByTag(
+		                        "android:switcher:"+R.id.taskListPager+":2");
+		        	    if(fragment != null)  // could be null if not instantiated yet
+		        	      {
+		        	         if(fragment.getView() != null) 
+		        	         {
+		        	            // no need to call if fragment's onDestroyView() 
+		        	            //has since been called.
+		        	            fragment.fillTaskData(); // do what updates are required
+		        	         }
+		        	      }
+
+		        	    if(fragment2 != null)  // could be null if not instantiated yet
+			      	      {
+			      	         if(fragment2.getView() != null) 
+			      	         {
+			      	            // no need to call if fragment's onDestroyView() 
+			      	            //has since been called.
+			      	            fragment2.fillTaskData(); // do what updates are required
+			      	         }
+			      	      } 
 						
 
 				} catch (JSONException e) {
