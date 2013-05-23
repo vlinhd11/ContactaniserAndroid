@@ -117,7 +117,7 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/sms" />
+        android:src="@drawable/ic_sms2" />
 
 </LinearLayout>
 
