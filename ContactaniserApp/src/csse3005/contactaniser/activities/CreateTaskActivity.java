@@ -191,28 +191,7 @@ public class CreateTaskActivity extends Activity {
             	    	 long usertaskid = System.currentTimeMillis();
             	    	 String usertaskidstring = String.valueOf(usertaskid);
             	    	 usertaskdatasource.createUser_Task(usertaskidstring, user.getUserid(), taskid, datenow, 0);
-            	    	 /*
-            	    	 JSONParserSend syncuptask = new JSONParserSend();
-                 		syncuptask.setContext(CreateTaskActivity.this);
-                 		
-                 		JSONArray jsonArray = new JSONArray();
-                 		JSONObject object = new JSONObject();
-                 		try {
-                 		object.put("usertaskid", usertaskidstring);
-             		    object.put("usertaskuserid", user.getUserid());
-             		    object.put("usertasktaskid", taskid);
-             		    object.put("status", 0);
-             		    
-             		    
-             		    jsonArray.put(object); 
-             		    
-                 		} catch (JSONException e) {
-                 		    e.printStackTrace();
-                 		}
-                 		
-                 		System.out.println(jsonArray.toString());
-            	    	 
-            	      */
+
             	     }
             	     else
             	     {

@@ -92,6 +92,10 @@ public class ProjectActivity extends FragmentActivity {
 	        int userid = getIntent().getIntExtra("userid", 0);
     	    String useridstring = String.valueOf(userid);
 	    
+    	    InternetCheck internet = new InternetCheck();
+			boolean internetOn = internet.internetOn(this);
+			if (internetOn) {
+    	    
 	        DownSycnTaskAndUserTask dsUT = new DownSycnTaskAndUserTask();
 			dsUT.setContext(this);
 			
@@ -107,6 +111,12 @@ public class ProjectActivity extends FragmentActivity {
         	dsUT.setHttpPost(httpPost);
         	dsUT.execute();
 
+			}
+			else {
+				
+				internet.NetworkError(this);
+				
+			}
 	        
 	        if (savedInstanceState != null) {
 	            bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
@@ -148,14 +158,9 @@ public class ProjectActivity extends FragmentActivity {
         		menuItem = item;
         	    menuItem.setActionView(R.layout.progressbar);
         	    
-            	InternetCheck internet = new InternetCheck();
+        	    InternetCheck internet = new InternetCheck();
     			boolean internetOn = internet.internetOn(this);
-    			if (!internetOn) {
-    				internet.NetworkError(this);
-    				menuItem.collapseActionView();
-			    	menuItem.setActionView(null);
-			    	return super.onOptionsItemSelected(item); 
-    			}
+    			if (internetOn) {
     			
     			//implement syncuptask here
     			JSONParserSend syncuptask = new JSONParserSend();
@@ -250,6 +255,14 @@ public class ProjectActivity extends FragmentActivity {
 
 		    			menuItem.collapseActionView();
 		    	    	menuItem.setActionView(null);
+    			}
+    			else {
+    				
+    				menuItem.collapseActionView();
+			    	menuItem.setActionView(null);
+			    	internet.NetworkError(this);
+    				
+    			}
 	        
 	        default:
 	            return super.onOptionsItemSelected(item);
