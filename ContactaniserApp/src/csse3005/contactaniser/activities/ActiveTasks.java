@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,8 +96,12 @@ public class ActiveTasks extends Fragment {
 		// make needed objects
 		RelativeLayout taskTile;
 		GridLayout.LayoutParams tileParams;
-		RelativeLayout.LayoutParams textParams;
-		TextView taskText;
+		RelativeLayout.LayoutParams nameParams;
+		RelativeLayout.LayoutParams dueDateParams;
+		RelativeLayout.LayoutParams memberParams;
+		TextView taskName;
+		TextView taskDueDate;
+		TextView taskMembers;
 		TextView noTasks = (TextView) getActivity().findViewById(R.id.no_tasks_text);
 		
 		// Add 'no tasks' text if needed
@@ -119,36 +124,34 @@ public class ActiveTasks extends Fragment {
 			taskTile.setTag(taskList.get(i).getTaskid());
 			
 			// add task name
-			taskText = new TextView(getActivity());
-			textParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			taskText.setText(taskList.get(i).getTaskName());
-			taskText.setTextSize(20);
-			taskText.setTextColor(getResources().getColor(R.color.task_tile_text_color));
-			textParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-			taskTile.addView(taskText, textParams);
+			taskName = new TextView(getActivity());
+			nameParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			taskName.setText(taskList.get(i).getTaskName());
+			taskName.setTextSize(20);
+			taskName.setEllipsize(TextUtils.TruncateAt.END);
+			taskName.setTextColor(getResources().getColor(R.color.task_tile_text_color));
+			nameParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+			nameParams.setMargins(50, 50, 50, 50);
 			
 			// add task due date
-			taskText = new TextView(getActivity());
-			textParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			taskText.setText(stringDate(taskList.get(i).getTaskDueDate()));
-			taskText.setTextSize(14);
-			taskText.setTextColor(getResources().getColor(R.color.task_tile_text_color));
-			textParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-			textParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-			textParams.setMargins(15, 10, 0, 0);
-			taskTile.addView(taskText, textParams);
+			taskDueDate = new TextView(getActivity());
+			dueDateParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			taskDueDate.setText(stringDate(taskList.get(i).getTaskDueDate()));
+			taskDueDate.setTextSize(14);
+			taskDueDate.setTextColor(getResources().getColor(R.color.task_tile_text_color));
+			dueDateParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+			dueDateParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+			dueDateParams.setMargins(15, 10, 0, 0);
 			
 			// add task members
-			taskText = new TextView(getActivity());
-			textParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			taskText.setText(grabUserInitialsByTaskID(taskList.get(i).getTaskid()));
-			taskText.setTextSize(14);
-			taskText.setTextColor(getResources().getColor(R.color.task_tile_text_color));
-			textParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-			textParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-			textParams.setMargins(0, 0, 15, 10);
-			taskTile.addView(taskText, textParams);
-			
+			taskMembers = new TextView(getActivity());
+			memberParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			taskMembers.setText(grabUserInitialsByTaskID(taskList.get(i).getTaskid()));
+			taskMembers.setTextSize(14);
+			taskMembers.setTextColor(getResources().getColor(R.color.task_tile_text_color));
+			memberParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+			memberParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+			memberParams.setMargins(0, 0, 15, 10);
 			
 			// set tile size & background based on priority
 			switch (calcTaskImportance(taskList.get(i), byDate)) {
@@ -156,20 +159,26 @@ public class ActiveTasks extends Fragment {
 				tileParams.height = 200;// R.dimen.task_tile_p2_height;
 		        tileParams.width = halfScreenWidthX*2;
 		        tileParams.columnSpec = GridLayout.spec(0, 2);
+		        taskName.setMaxLines(2);
 				break;
 			case 1:
 				tileParams.height = halfScreenWidthX;
 		        tileParams.width = halfScreenWidthX;
-		        
 		        tileParams.rowSpec = GridLayout.spec(p1Right ? 1 : 0, 2);
-		        
 		        p1Right = !p1Right;
+		        taskName.setMaxLines(5);
 				break;
 			case 0:
 				tileParams.height = halfScreenWidthX/2;
 		        tileParams.width = halfScreenWidthX;
+		        taskName.setMaxLines(1);
 				break;
 			}
+			
+			taskTile.addView(taskName, nameParams);
+			taskTile.addView(taskDueDate, dueDateParams);
+			if (calcTaskImportance(taskList.get(i), byDate) != 0)
+				taskTile.addView(taskMembers, memberParams);
 			
 			// start task view activity on click
 			taskTile.setOnClickListener(new View.OnClickListener() {
@@ -271,7 +280,8 @@ public class ActiveTasks extends Fragment {
 		return initList.toString();
 	}
 	
-	/** returns ArrayList of users by task ID. */
+	/** returns ArrayList of users by task ID. 
+	 * DISOBAYS ARCHITECTURE: BELONGS IN ANOTHER CLASS */
 	private ArrayList<User> grabUsersByTaskID(long tID) {
 	
 		ArrayList<User_Task> values = usertaskdatasource.getAllUserbyTaskId(tID);
