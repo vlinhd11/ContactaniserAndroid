@@ -6,13 +6,14 @@
 
     <TextView
         android:id="@+id/label"
-        android:paddingLeft="15dp"
+        android:gravity="center_vertical"
         android:drawableLeft="@drawable/ic_project"
-        android:drawablePadding="35dip"
+        android:drawablePadding="10dip"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="match_parent"
         android:text="@+id/label"
-        android:textSize="30sp" >
-    </TextView>
+        android:textSize="20sp"
+        android:maxLines="1"
+        android:ellipsize="end" />
 
 </LinearLayout>

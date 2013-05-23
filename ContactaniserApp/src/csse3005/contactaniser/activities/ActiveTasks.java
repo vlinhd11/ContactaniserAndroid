@@ -48,13 +48,13 @@ public class ActiveTasks extends Fragment {
 		return inflater.inflate(R.layout.grid_layout, container, false);
 	}
 	
-//	@Override
-//	public void onDestroy() {
-//		taskdatasource.close();
-//		userdatasource.close();
-//		usertaskdatasource.close();
-//		super.onDestroy();
-//	}
+	@Override
+	public void onDestroy() {
+		taskdatasource.close();
+		userdatasource.close();
+		usertaskdatasource.close();
+		super.onDestroy();
+	}
 	
 	@Override
 	public void onStart() {
