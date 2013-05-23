@@ -1,39 +1,59 @@
 package csse3005.contactaniser.activities;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
-import java.text.SimpleDateFormat;
 import csse3005.contactaniser.datasource.TaskDataSource;
+import csse3005.contactaniser.datasource.UserDataSource;
+import csse3005.contactaniser.datasource.User_TaskDataSource;
 import csse3005.contactaniser.models.Task;
+import csse3005.contactaniser.models.User;
+import csse3005.contactaniser.models.User_Task;
 import csse3005.contactaniserapp.R;
 
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ActiveTasks extends Fragment {
 	private boolean byDate = false;
-	private TaskDataSource DatabaseHelper;
+	private TaskDataSource taskdatasource;
+	
+	private UserDataSource userdatasource;
+	private User_TaskDataSource usertaskdatasource;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		taskdatasource = new TaskDataSource(getActivity());
+		taskdatasource.open();
+		
+		userdatasource = new UserDataSource(getActivity());
+		userdatasource.open();
+		
+		usertaskdatasource = new User_TaskDataSource(getActivity());
+		usertaskdatasource.open();
+		
 		return inflater.inflate(R.layout.grid_layout, container, false);
 	}
 	
+//	@Override
+//	public void onDestroy() {
+//		taskdatasource.close();
+//		userdatasource.close();
+//		usertaskdatasource.close();
+//		super.onDestroy();
+//	}
 	
 	@Override
 	public void onStart() {
@@ -41,7 +61,8 @@ public class ActiveTasks extends Fragment {
 		fillTaskData();
 	}
 
-	
+	/** Converts a Date object into a string to display on task tiles.
+	 * Returns 'TODAY', 'TOMORROW', or 'dd/mm/yyyy' depending on date. */
 	private String stringDate(Date inDate) {
 		Calendar tDate = Calendar.getInstance();
 		tDate.setTime(inDate);
@@ -57,13 +78,11 @@ public class ActiveTasks extends Fragment {
 			return new SimpleDateFormat("d/M/yyyy", Locale.UK).format(inDate);
 		}
 	}
-
+	
+	// populates tiles
 	public void fillTaskData() {
 		// retrieve tasks
-		DatabaseHelper = new TaskDataSource(getActivity());
-		DatabaseHelper.open();
-		ArrayList<Task> rawList = DatabaseHelper.getAllTasks(getActivity().getIntent().getLongExtra("projId", -1), 0);
-		DatabaseHelper.close();
+		ArrayList<Task> rawList = taskdatasource.getAllTasks(getActivity().getIntent().getLongExtra("projId", -1), 0);
 		
 		GridLayout taskGrid = (GridLayout) getActivity().findViewById(R.id.task_tile_grid);
 		taskGrid.removeAllViews();
@@ -99,6 +118,7 @@ public class ActiveTasks extends Fragment {
 			taskTile.setBackgroundResource(catToCol(taskList.get(i).getTaskCategory()));
 			taskTile.setTag(taskList.get(i).getTaskid());
 			
+			// add task name
 			taskText = new TextView(getActivity());
 			textParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			taskText.setText(taskList.get(i).getTaskName());
@@ -107,6 +127,7 @@ public class ActiveTasks extends Fragment {
 			textParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
 			taskTile.addView(taskText, textParams);
 			
+			// add task due date
 			taskText = new TextView(getActivity());
 			textParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			taskText.setText(stringDate(taskList.get(i).getTaskDueDate()));
@@ -115,6 +136,17 @@ public class ActiveTasks extends Fragment {
 			textParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
 			textParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
 			textParams.setMargins(15, 10, 0, 0);
+			taskTile.addView(taskText, textParams);
+			
+			// add task members
+			taskText = new TextView(getActivity());
+			textParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			taskText.setText(grabUserInitialsByTaskID(taskList.get(i).getTaskid()));
+			taskText.setTextSize(14);
+			taskText.setTextColor(getResources().getColor(R.color.task_tile_text_color));
+			textParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+			textParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+			textParams.setMargins(0, 0, 15, 10);
 			taskTile.addView(taskText, textParams);
 			
 			
@@ -220,6 +252,64 @@ public class ActiveTasks extends Fragment {
     		return R.drawable.button_background_5;
     	}
     }
+	
+	/** returns a string of the initials of members of a given task ID formatted "AB CD EF" */
+	private String grabUserInitialsByTaskID(long tID) {
+		ArrayList<User> userList = grabUsersByTaskID(tID);
+		String[] splitName;
+		StringBuilder initList = new StringBuilder();
+		
+		for (int i=0; i< userList.size(); i++) {
+			if (initList.length()!=0) initList.append(" ");
+			splitName = userList.get(i).getUserName().split(" ");
+			for (int x=0; x < splitName.length; x++) {
+				initList.append(splitName[x].substring(0, 1).toUpperCase(Locale.US));
+			}
+		}
+		
+		return initList.toString();
+	}
+	
+	/** returns ArrayList of users by task ID. BREAKS ARCHITECTURE: This will be moved to a datasource or model. */
+	private ArrayList<User> grabUsersByTaskID(long tID) {
+	
+		ArrayList<User_Task> values = usertaskdatasource.getAllUserbyTaskId(tID);
+		ArrayList<User> userlist = new ArrayList<User>();
+		
+        for (int i=0; i<values.size(); i++){
+        	
+        	User_Task  usertask = values.get(i);
+            long userid = usertask.getUTUid();
+            if (tID != userid){
+            Cursor c = userdatasource.fetchUserById(userid);
+
+            c.moveToFirst();
+			while (!c.isAfterLast()) {
+				User user = cursorToUser(c);
+				userlist.add(user);
+			    c.moveToNext();
+			}
+			c.close();
+            
+            }
+         }
+        
+        return userlist;
+	}
+	
+	/** needed for grabUsersByTaskID */
+	private User cursorToUser(Cursor cursor) {
+		User user = new User();
+		user.setUserid(cursor.getInt(0));
+		user.setUser_UserName(cursor.getString(1));
+		user.setUserName(cursor.getString(2));
+		user.setUserPhoneNumber(cursor.getString(3));
+		user.setUserEmail(cursor.getString(4));
+		Date lu = Date.valueOf(cursor.getString(5));
+		user.setUserLastUpdate(lu);
+		
+		return user;
+	}
 	
 	public boolean getByDate() {
 		return byDate;
