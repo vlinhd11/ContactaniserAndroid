@@ -24,6 +24,12 @@
         <item name="android:padding">16dp</item>
     </style>
     
+    <style name="ProjectInfoContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">60dp</item>
+    </style>
+    
     <style name="BlueButton">
         <item name="android:background">@drawable/blue_button</item>
     </style>
