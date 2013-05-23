@@ -106,6 +106,23 @@ public class TaskDataSource {
 		cursor.close();
 		return tasks;
 	}
+	public ArrayList<Task> getALLTasks() {
+		ArrayList<Task> tasks = new ArrayList<Task>();
+
+		//Retrieve all tasks with the pid given
+		Cursor cursor = database.query(MySQLHelper.TABLE_TASKS,
+		    allColumns, null, null, null, null , MySQLHelper.COLUMN_TASKDUEDATE + " ASC", null);
+		
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Task task = cursorToTask(cursor);
+		    tasks.add(task);
+		    cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return tasks;
+	}
 
 	private Task cursorToTask(Cursor cursor) {
 		Task task = new Task();

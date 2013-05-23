@@ -1,5 +1,18 @@
 package csse3005.contactaniser.activities;
 
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Intent;
@@ -9,9 +22,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
+import csse3005.contactaniser.library.InternetCheck;
 import csse3005.contactaniser.models.TabsAdapter;
+import csse3005.contactaniser.models.Task;
 import csse3005.contactaniserapp.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -22,6 +38,8 @@ public class ProjectActivity extends FragmentActivity {
 	 Long mRowId;
 	 private UserDataSource userdatasource;
 	 private User_ProjectDataSource userprojectdatasource;
+	 private TaskDataSource taskdatasource;
+	 private MenuItem menuItem;
 	 
 		@Override
 	    public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +50,9 @@ public class ProjectActivity extends FragmentActivity {
 
 		    userprojectdatasource = new User_ProjectDataSource(this);
 		    userprojectdatasource.open();
+		    
+		    taskdatasource = new TaskDataSource(this);
+		    taskdatasource.open();
 	        
 	        //create a new ViewPager and set to the pager in Ids.xml
 	        ViewPager = new ViewPager(this);
@@ -72,6 +93,7 @@ public class ProjectActivity extends FragmentActivity {
 		return true;
 	}
 	
+	@SuppressLint("NewApi")
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
@@ -93,6 +115,71 @@ public class ProjectActivity extends FragmentActivity {
         	case R.id.add_task_bar: 
         		openNewTaskActivity();
         		return true;
+        		
+        	case R.id.menu_refresh:
+        		menuItem = item;
+        	    menuItem.setActionView(R.layout.progressbar);
+        	    
+            	InternetCheck internet = new InternetCheck();
+    			boolean internetOn = internet.internetOn(this);
+    			if (!internetOn) {
+    				internet.NetworkError(this);
+    				menuItem.collapseActionView();
+			    	menuItem.setActionView(null);
+			    	return super.onOptionsItemSelected(item); 
+    			}
+    			
+    			//implement syncuptask here
+    			
+    			JSONParserSend syncuptask = new JSONParserSend();
+        		syncuptask.setContext(ProjectActivity.this);
+        		
+        		JSONArray jsonArray = new JSONArray();
+        		ArrayList<Task> tasklist = taskdatasource.getALLTasks();
+        		
+        		for (int z = 0;z<tasklist.size();z++){
+        			JSONObject object = new JSONObject();
+        			Task task = tasklist.get(z);
+        			try {
+        				object.put("taskid", task.getTaskid());
+            		    object.put("projectid", task.getTaskProjectid());
+            		    object.put("taskname", task.getTaskName());
+            		    object.put("taskdescription", task.getTaskDescription());
+            		    object.put("taskimportanceindex", task.getTaskImportanceLevel());
+            		    object.put("duedate", task.getTaskDueDate());
+            		    object.put("completion", task.getTaskCompletion());
+            		    object.put("category", task.getTaskCategory());
+            		    
+            		    jsonArray.put(object); 
+        			} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+            		    
+            	
+        		}
+        		
+        		System.out.println(jsonArray.toString());
+
+        		HttpPost httpPost = new HttpPost("http://protivity.triple11.com/android/syncUpTask.php");
+            	
+    		    List<NameValuePair> nvp = new ArrayList<NameValuePair>(1);
+            	nvp.add(new BasicNameValuePair("projectList", jsonArray.toString()));
+            	try {
+        			httpPost.setEntity(new UrlEncodedFormEntity(nvp));
+        		} catch (UnsupportedEncodingException e) {
+        			e.printStackTrace();
+        		}
+            	
+            	syncuptask.setHttpPost(httpPost);
+            	syncuptask.execute();
+            	
+            	//end
+    			
+    			/*SyncUpData syncup = new SyncUpData();
+    			syncup.execute();*/
+    			menuItem.collapseActionView();
+    	    	menuItem.setActionView(null);
 	        
 	        default:
 	            return super.onOptionsItemSelected(item);
