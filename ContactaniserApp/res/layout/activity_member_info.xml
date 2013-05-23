@@ -1,116 +1,125 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="5dp" >
-
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF"
+    android:layout_marginBottom="5dp" >
+    
+<LinearLayout
+            android:layout_width="match_parent"
+   			android:layout_height="wrap_content"
+        	android:paddingLeft="40dp"
+        	android:paddingRight="40dp"
+            android:orientation="vertical" >
+   
     <TextView
         android:id="@+id/nametextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
+        android:text="@string/member_role"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="18dp" 
+        android:textStyle="italic" />
+    
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/rolet"
+        android:layout_marginTop="18dp" 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/member_role"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_below="@id/nametextView" />
+        android:text="Role"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/roletextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@id/textView2" />
-
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+     
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textViewPhoneNumber"
+        android:layout_marginTop="18dp" 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-         android:layout_below="@id/roletextView"
         android:text="Phone Number"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-    
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="italic" />
+
     <TextView
         android:id="@+id/phoneNumberTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView1"
         android:text=""
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-    
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
     <TextView
         android:id="@+id/textViewEmail"
+        android:layout_marginTop="18dp" 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-         android:layout_below="@id/phoneNumberTextView"
         android:text="Email"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="italic" />
     
     <TextView
         android:id="@+id/EmailTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewEmail"
         android:text=""
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-    
-     <View
-        android:id="@+id/line"
-        android:layout_width="fill_parent"
-        android:layout_height="3dp"
-        android:layout_below="@id/EmailTextView"
-        android:background="@android:color/darker_gray" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
      
      <TextView
-        android:id="@+id/textViewMsg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/line"
-        android:paddingTop="10dp"
-        android:text="Quick Message : "
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+         android:id="@+id/textViewMsg"
+         android:layout_marginTop="18dp" 
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:paddingTop="10dp"
+         android:text="Message:"
+         android:textAppearance="?android:attr/textAppearanceLarge" />
      
      <EditText
-        android:id="@+id/editTextMsg"
-        android:layout_width="fill_parent"
-        style="@style/TextBox"
-        android:inputType="textMultiLine"
-        android:lines="7"
-        android:gravity="top|left"
-        android:layout_below="@id/textViewMsg"/>
+         android:id="@+id/editTextMsg"
+         style="@style/TextBox"
+         android:layout_width="fill_parent"
+         android:gravity="top|left"
+         android:inputType="textMultiLine"
+         android:lines="7" />
      
-     <ImageButton
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="right"
+    android:orientation="horizontal"
+    android:paddingTop="5dp" >
+    
+    <ImageButton
         android:id="@+id/emailButton"
         style="@style/BlueButton"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="15dp"
-        android:layout_toLeftOf="@+id/smsButton"
-        android:src="@drawable/email" />
-
-    <ImageButton
-        android:id="@+id/callButton"
-        style="@style/BlueButton"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/smsButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="fitCenter"
         android:src="@drawable/call" />
-
+    
+    <ImageButton
+    	    android:id="@+id/callButton"
+    	    style="@style/BlueButton"
+    	    android:layout_width="55dp"
+    	    android:layout_height="55dp"
+    	    android:layout_marginRight="10dp"
+    	    android:fitsSystemWindows="false"
+    	    android:scaleType="fitCenter"
+    	    android:src="@drawable/email" />
+    
     <ImageButton
         android:id="@+id/smsButton"
         style="@style/BlueButton"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:scaleType="fitCenter"
         android:src="@drawable/sms" />
 
-</RelativeLayout>
+</LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
