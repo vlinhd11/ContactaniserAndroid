@@ -37,6 +37,7 @@ public class TaskActivity extends Activity {
 	private static TextView taskcategorytextview;
 	private static TextView taskimportancetextview;
 	private static TextView taskduedatetextview;
+	private static TextView membertextview;
 	private static Button UpdateButton;
 	private static Button CompleteButton;
 	
@@ -138,6 +139,12 @@ public class TaskActivity extends Activity {
 		
     	final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
 		ArrayList<User_Task> values = usertaskdatasource.getAllUserbyTaskId(mrowtaskid);
+		
+		if (values.size()==1)
+		{
+			View b = findViewById(R.id.tasktextView11);
+        	b.setVisibility(View.GONE);
+		}
 		ArrayList<User> userlist = new ArrayList<User>();
 	        for (int i=0; i<values.size(); i++){
 	        	
@@ -156,6 +163,7 @@ public class TaskActivity extends Activity {
 				c.close();
 	            
 	            }
+	           
 	         }
 	        
 	        
