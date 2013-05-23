@@ -24,7 +24,9 @@ public class ActiveProjects extends ListFragment {
 		
 		projectdatasource = new ProjectDataSource(getActivity());
         projectdatasource.open();
-		return super.onCreateView(inflater, container, savedInstanceState);
+        
+        View view = inflater.inflate(R.layout.project_list_active, null);
+        return view;
 	}
 	
 	
@@ -36,14 +38,12 @@ public class ActiveProjects extends ListFragment {
                 R.layout.active_row, R.id.label, values);
         adapter.notifyDataSetChanged();
         setListAdapter(adapter);
-        
-            
     }
 	
 	@Override
     public void onStart() {
         super.onStart();
-        setEmptyText("No active projects");
+//        setEmptyText("No active projects");
 		fillData();
     }
 

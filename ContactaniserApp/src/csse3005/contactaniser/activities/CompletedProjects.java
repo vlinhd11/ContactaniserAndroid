@@ -24,7 +24,9 @@ public class CompletedProjects extends ListFragment{
 		
 		projectdatasource = new ProjectDataSource(getActivity());
         projectdatasource.open();
-		return super.onCreateView(inflater, container, savedInstanceState);
+
+        View view = inflater.inflate(R.layout.project_list_completed, null);
+        return view;
 	}
 	
 	
@@ -40,7 +42,6 @@ public class CompletedProjects extends ListFragment{
 	@Override
     public void onStart() {
             super.onStart();
-            setEmptyText("No completed projects");
             fillData();
             
     }

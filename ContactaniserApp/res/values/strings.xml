@@ -80,5 +80,7 @@
     <string name="orderby_importance">Order by: Importance</string>
     <string name="sms_confirm">Confirm sending message?</string>
     <string name="confirm">Confirmation</string>
+    <string name="no_active_projects">No active projects</string>
+    <string name="no_completed_projects">No completed projects</string>
     
 </resources>

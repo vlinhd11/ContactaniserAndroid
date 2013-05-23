@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+//import android.support.v7.widget.GridLayout;
 import android.widget.GridLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -177,7 +178,7 @@ public class ActiveTasks extends Fragment {
 			
 			taskTile.addView(taskName, nameParams);
 			taskTile.addView(taskDueDate, dueDateParams);
-			if (calcTaskImportance(taskList.get(i), byDate) != 0)
+//			if (calcTaskImportance(taskList.get(i), byDate) != 0)  // changed my mind about not displaying members in small tile hence comment-out
 				taskTile.addView(taskMembers, memberParams);
 			
 			// start task view activity on click

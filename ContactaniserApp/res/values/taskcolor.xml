@@ -5,6 +5,29 @@
  
  <color name="task_tile_text_color">@color/White</color>
  
+ <color name="type_1">#E30000</color>
+ <color name="type_1_selected">#D10000</color>
+  
+ <color name="type_2">#0033FF</color>
+ <color name="type_2_selected">#0029CF</color> 
+ 
+ <color name="type_3">#00BF1D</color>
+ <color name="type_3_selected">#009917</color>
+  
+ <color name="type_4">#7E00DE</color>
+ <color name="type_4_selected">#6F00C4</color>
+ 
+ <color name="type_5">@color/Orange</color>
+ <color name="type_5_selected">@color/DarkOrange</color>
+</resources>
+
+<!-- <?xml version="1.0" encoding="utf-8"?>
+<resources>
+ <color name="border_color">@color/Transparent</color>
+ <dimen name="border_thickness">1dp</dimen>
+ 
+ <color name="task_tile_text_color">@color/White</color>
+ 
  <color name="type_1">@color/Red</color>
  <color name="type_1_selected">@color/DarkRed</color>
   
@@ -19,4 +42,4 @@
  
  <color name="type_5">@color/Orange</color>
  <color name="type_5_selected">@color/DarkOrange</color>
-</resources>
+</resources> -->
