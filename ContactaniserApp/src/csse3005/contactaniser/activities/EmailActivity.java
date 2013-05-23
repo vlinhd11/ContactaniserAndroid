@@ -9,7 +9,8 @@ import csse3005.contactaniser.library.InternetCheck;
 
 public class EmailActivity extends Activity {
 	
-	String useremail;
+	private String useremail;
+	private String msg;
 	Button emailButton;
 	EditText textTo;
 	EditText textSubject;
@@ -20,6 +21,7 @@ public class EmailActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		useremail = getIntent().getExtras().getString("email");
+		msg = getIntent().getExtras().getString("message");
 			
 			InternetCheck internet = new InternetCheck();
 			boolean internetOn = internet.internetOn(this);
@@ -27,6 +29,7 @@ public class EmailActivity extends Activity {
 			  Intent email = new Intent(Intent.ACTION_SEND);
 			  email.putExtra(Intent.EXTRA_EMAIL, new String[]{ useremail});
 			  email.putExtra(Intent.EXTRA_SUBJECT, "Protivity");
+			  email.putExtra(Intent.EXTRA_TEXT, msg);
 			  //need this to prompts email client only
 			  email.setType("message/rfc822");
 			  startActivity(Intent.createChooser(email, "Choose an Email client :"));

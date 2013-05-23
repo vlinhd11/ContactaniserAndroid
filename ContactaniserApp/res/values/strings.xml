@@ -40,7 +40,7 @@
     <string name="title_activity_project_info">ProjectInfoActivity</string>
     <string name="title_activity_task">TaskActivity</string>
     <string name="change_password">Change Password</string>
-    <string name="change_password_success">Password updated successfully</string>
+    <string name="change_password_success">Success, Password changed</string>
     <string name="change_password_fail">Incorrect password</string>
     <string name="string_requirement">Must contain upper &amp; lowercase characters, numbers, special chars. Min. of 8 characters</string>
     <string name="menu_sync">Sync</string>
@@ -78,16 +78,7 @@
     <string name="task_category">Category</string><string name="button_update">Update</string><string name="button_complete">Complete</string><string name="title_activity_update">Update Task</string>
     <string name="orderby_date">Order by: Date</string>
     <string name="orderby_importance">Order by: Importance</string>
+    <string name="sms_confirm">Confirm sending message?</string>
+    <string name="confirm">Confirmation</string>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
 </resources>

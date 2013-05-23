@@ -1,7 +1,9 @@
 package csse3005.contactaniser.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,8 +13,10 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
 import csse3005.contactaniser.models.MySQLHelper;
@@ -22,8 +26,11 @@ public class MemberInfoActivity extends Activity {
 	
 	private static TextView userName;
 	private static TextView userRole;
+	private EditText quickMsgBox;
+	private String quickMsg;
 	String phonenumber;
 	String phoneemail;
+	
 	private UserDataSource userdatasource;
 	private User_ProjectDataSource userprojectdatasource;
 	long ProjectId;
@@ -38,7 +45,6 @@ public class MemberInfoActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_member_info);
-		addListenerOnButton();
 		
 		userdatasource = new UserDataSource(this);
 		userdatasource.open();
@@ -48,6 +54,7 @@ public class MemberInfoActivity extends Activity {
 		
 		userName = (TextView) findViewById(R.id.nametextView);
 		userRole = (TextView) findViewById(R.id.roletextView);
+		quickMsgBox = (EditText) findViewById(R.id.editTextMsg);
 		
 		ProjectId = getIntent().getExtras().getLong("projectid"); //masuk
 		UserId = getIntent().getExtras().getLong("userid"); //masuk
@@ -56,15 +63,11 @@ public class MemberInfoActivity extends Activity {
 		Cursor role = userprojectdatasource.fetchUserProjectById(UserId, ProjectId);
 		userName.setText(user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERNAME)));
 		userRole.setText(role.getString(role.getColumnIndexOrThrow(MySQLHelper.COLUMN_ROLE)));
-		
-		
+	
 		phonenumber = user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERPHONENUMBER));
 		phoneemail = user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USEREMAIL));
-
 		
-		
-			
-		
+		addListenerOnButton();
 	}
 	
 	public void addListenerOnButton() {
@@ -72,7 +75,8 @@ public class MemberInfoActivity extends Activity {
 		emailButton = (ImageButton) findViewById(R.id.emailButton);
 		smsButton = (ImageButton) findViewById(R.id.smsButton);
 		callButton = (ImageButton) findViewById(R.id.callButton);
- 
+		
+		
 		emailButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -108,18 +112,42 @@ public class MemberInfoActivity extends Activity {
 	}
 	
 	private void ContinueToEmail() {
+		quickMsg = quickMsgBox.getText().toString();
 		Intent i = new Intent(this, EmailActivity.class);
 		i.putExtra("email", phoneemail);
+		i.putExtra("message", quickMsg);
 		startActivity(i);
 	}
 	
 	private void ContinueToSms() {
-		Intent i = new Intent(this, PhoneActivity.class);
-		i.putExtra("phonenumber",phonenumber);
-		i.putExtra("username", userName.getText().toString());
-		startActivity(i);
+		quickMsg = quickMsgBox.getText().toString();
+		if (!quickMsg.isEmpty()) {
+			sendSmsConfirmation(); 
+		} else {
+			Toast.makeText(getApplicationContext(), "Please type in a message", Toast.LENGTH_LONG).show();
+		}
 	}
 	
+	private void sendSmsConfirmation() {
+		new AlertDialog.Builder(this)
+	    .setTitle(R.string.confirm)
+	    .setMessage(R.string.sms_confirm)
+	    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+				Intent i = new Intent(MemberInfoActivity.this, PhoneActivity.class);
+				i.putExtra("phonenumber",phonenumber);
+				i.putExtra("username", userName.getText().toString());
+				i.putExtra("message", quickMsg);
+				startActivity(i);
+	        }
+	     })
+	    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            // do nothing
+	        }
+	     })
+	     .show();
+	}
 	
 	//monitor phone call activities
 		private class PhoneCallListener extends PhoneStateListener {

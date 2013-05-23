@@ -17,6 +17,8 @@ import org.json.JSONObject;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -184,6 +186,18 @@ public class ChangePassword extends Activity {
     	return false;
 	}
 	
+	private void showPwdChangeDialog() {
+		new AlertDialog.Builder(this)
+	    .setTitle(R.string.success)
+	    .setMessage(R.string.change_password_success)
+	    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            finish();
+	        }
+	     })
+	     .show();
+	}
+	
 	
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
@@ -201,9 +215,10 @@ public class ChangePassword extends Activity {
 			changePwdTask = null;
 			
 			if (success) {
-				Toast.makeText(getApplicationContext(), "Success, Password changed", Toast.LENGTH_LONG).show();
+				showPwdChangeDialog();
+//				Toast.makeText(getApplicationContext(), "Success, Password changed", Toast.LENGTH_LONG).show();
 			} else {
-				Toast.makeText(getApplicationContext(), "Failed, Incorrect Password", Toast.LENGTH_LONG).show();
+//				Toast.makeText(getApplicationContext(), "Failed, Incorrect Password", Toast.LENGTH_LONG).show();
 
 				txtOldPwd.setError(getString(R.string.error_incorrect_password));
 				txtOldPwd.setText(null);
