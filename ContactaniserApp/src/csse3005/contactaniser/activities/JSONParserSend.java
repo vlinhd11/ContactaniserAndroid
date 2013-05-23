@@ -29,10 +29,6 @@ public class JSONParserSend extends AsyncTask<String, Void, String> {
 	private HttpPost httpPost;
 	protected int userid;
 	
-	public void setUserid(int userid) {
-		this.userid = userid;
-	}
-
 	public void setContext(Context context) {
 		this.context = context;
 	}
@@ -49,7 +45,7 @@ public class JSONParserSend extends AsyncTask<String, Void, String> {
     {       
         super.onPreExecute();
         progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("... Loading ...");
+        progressDialog.setMessage("Sync");
         progressDialog.show();
         
     }

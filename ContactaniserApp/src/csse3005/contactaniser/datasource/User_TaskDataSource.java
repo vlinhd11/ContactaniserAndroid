@@ -150,8 +150,8 @@ public class User_TaskDataSource {
 			private User_Task cursorToUser_Task(Cursor cursor) {
 				User_Task user_task = new User_Task();
 				user_task.setUTid(cursor.getLong(0));
-				user_task.setUTUid(cursor.getInt(1));
-				user_task.setUTTid(cursor.getInt(2));
+				user_task.setUTUid(cursor.getLong(1));
+				user_task.setUTTid(cursor.getLong(2));
 				Date lu = Date.valueOf(cursor.getString(3));
 				user_task.setUTLastUpdate(lu);
 				user_task.setUTStatus(cursor.getInt(4));

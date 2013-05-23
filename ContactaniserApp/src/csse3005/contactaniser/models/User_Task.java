@@ -12,10 +12,10 @@ public class User_Task {
 	private long usertaskid;
 	
 	/** The usertaskuserid. */
-	private int usertaskuserid;
+	private long usertaskuserid;
 	
 	/** The usertasktaskid. */
-	private int usertasktaskid;
+	private long usertasktaskid;
 	
 	/** The usertasklastupdate. */
 	private Date usertasklastupdate;
@@ -55,7 +55,7 @@ public class User_Task {
 	 *
 	 * @param usertaskuserid the new uT uid
 	 */
-	public void setUTUid(int usertaskuserid) {
+	public void setUTUid(long usertaskuserid) {
 		this.usertaskuserid = usertaskuserid;
 	}
 	
@@ -73,7 +73,7 @@ public class User_Task {
 	 *
 	 * @param usertasktaskid the new uT tid
 	 */
-	public void setUTTid(int usertasktaskid) {
+	public void setUTTid(long usertasktaskid) {
 		this.usertasktaskid = usertasktaskid;
 	}
 	

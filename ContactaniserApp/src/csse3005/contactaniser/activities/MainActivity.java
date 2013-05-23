@@ -31,6 +31,8 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+import csse3005.contactaniser.activities.LoginActivity.UserLoginTask;
 import csse3005.contactaniser.datasource.ProjectDataSource;
 import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
@@ -100,7 +102,7 @@ public class MainActivity extends FragmentActivity {
 	    if (savedInstanceState != null) {
 	        bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
 	    }   
-	    /*
+	    
 	    DownSycnUserProjectAuto dsUPAuto = new DownSycnUserProjectAuto();
 		dsUPAuto.setContext(this);
 		
@@ -125,7 +127,7 @@ public class MainActivity extends FragmentActivity {
 		}
     	dsUPAuto.setHttpPost(httpPost);
     	
-    	dsUPAuto.setUserid(userid);
+
     	
     	dsUPAuto.execute();
     	
@@ -140,7 +142,7 @@ public class MainActivity extends FragmentActivity {
 		}
     	dsPAuto.setHttpPost(httpPostProject);
     	
-    	dsPAuto.setUserid(userid);
+
     	
     	dsPAuto.execute();
     	
@@ -156,9 +158,9 @@ public class MainActivity extends FragmentActivity {
 		}
     	dsUAuto.setHttpPost(httpPostUser);
     	
-    	dsUAuto.setUserid(userid);
+
     	
-    	dsUAuto.execute();*/
+    	dsUAuto.execute();
 	}
 
 	@SuppressLint("NewApi")
@@ -197,74 +199,76 @@ public class MainActivity extends FragmentActivity {
         		
         	    menuItem = item;
         	    menuItem.setActionView(R.layout.progressbar);
+
         	    
-            	InternetCheck internet = new InternetCheck();
+    			InternetCheck internet = new InternetCheck();
     			boolean internetOn = internet.internetOn(this);
-    			if (!internetOn) {
-    				internet.NetworkError(this);
+    			if (internetOn) {
+    				DownSycnUserProject dsUP = new DownSycnUserProject();
+            		dsUP.setContext(this);
+            		
+            		DownSycnProject dsP = new DownSycnProject();
+            		dsP.setContext(this);
+            		
+            		DownSycnUser dsU = new DownSycnUser();
+            		dsU.setContext(this);
+            	        
+            	    
+            	    int userid = getIntent().getIntExtra("userID", 0);
+            	    String useridstring = String.valueOf(userid);
+            	    
+            	    //UserProjectList
+            	    HttpPost httpPost = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUserProject.php");
+                	List<NameValuePair> nvp = new ArrayList<NameValuePair>(1);
+                	nvp.add(new BasicNameValuePair("userID", useridstring));
+                	try {
+            			httpPost.setEntity(new UrlEncodedFormEntity(nvp));
+            		} catch (UnsupportedEncodingException e) {
+            			e.printStackTrace();
+            		}
+                	dsUP.setHttpPost(httpPost);
+                	
+                	
+                	dsUP.execute();
+                	
+                	//ProjectList
+                	HttpPost httpPostProject = new HttpPost("http://triple11.com/BlueTeam/android/syncDownProject.php");
+                	List<NameValuePair> nvp1 = new ArrayList<NameValuePair>(1);
+                	nvp1.add(new BasicNameValuePair("userID", useridstring));
+                	try {
+            			httpPostProject.setEntity(new UrlEncodedFormEntity(nvp1));
+            		} catch (UnsupportedEncodingException e) {
+            			e.printStackTrace();
+            		}
+                	dsP.setHttpPost(httpPostProject);
+       
+                	
+                	dsP.execute();
+                	
+                	
+                	//UserList
+                	HttpPost httpPostUser = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUser.php");
+                	List<NameValuePair> nvp2 = new ArrayList<NameValuePair>(1);
+                	nvp2.add(new BasicNameValuePair("userID", useridstring));
+                	try {
+            			httpPostUser.setEntity(new UrlEncodedFormEntity(nvp2));
+            		} catch (UnsupportedEncodingException e) {
+            			e.printStackTrace();
+            		}
+                	dsU.setHttpPost(httpPostUser);
+                	
+                	dsU.execute();
+    			}
+    			else {
+    				
     				menuItem.collapseActionView();
 			    	menuItem.setActionView(null);
-			    	return super.onOptionsItemSelected(item); 
+			    	internet.NetworkError(this);
+    				
     			}
+    			
+    			
         	    
-        	    DownSycnUserProject dsUP = new DownSycnUserProject();
-        		dsUP.setContext(this);
-        		
-        		DownSycnProject dsP = new DownSycnProject();
-        		dsP.setContext(this);
-        		
-        		DownSycnUser dsU = new DownSycnUser();
-        		dsU.setContext(this);
-        	        
-        	    
-        	    int userid = getIntent().getIntExtra("userID", 0);
-        	    String useridstring = String.valueOf(userid);
-        	    
-        	    //UserProjectList
-        	    HttpPost httpPost = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUserProject.php");
-            	List<NameValuePair> nvp = new ArrayList<NameValuePair>(1);
-            	nvp.add(new BasicNameValuePair("userID", useridstring));
-            	try {
-        			httpPost.setEntity(new UrlEncodedFormEntity(nvp));
-        		} catch (UnsupportedEncodingException e) {
-        			e.printStackTrace();
-        		}
-            	dsUP.setHttpPost(httpPost);
-            	
-            	dsUP.setUserid(userid);
-            	
-            	dsUP.execute();
-            	
-            	//ProjectList
-            	HttpPost httpPostProject = new HttpPost("http://triple11.com/BlueTeam/android/syncDownProject.php");
-            	List<NameValuePair> nvp1 = new ArrayList<NameValuePair>(1);
-            	nvp1.add(new BasicNameValuePair("userID", useridstring));
-            	try {
-        			httpPostProject.setEntity(new UrlEncodedFormEntity(nvp1));
-        		} catch (UnsupportedEncodingException e) {
-        			e.printStackTrace();
-        		}
-            	dsP.setHttpPost(httpPostProject);
-            	
-            	dsP.setUserid(userid);
-            	
-            	dsP.execute();
-            	
-            	
-            	//UserList
-            	HttpPost httpPostUser = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUser.php");
-            	List<NameValuePair> nvp2 = new ArrayList<NameValuePair>(1);
-            	nvp2.add(new BasicNameValuePair("userID", useridstring));
-            	try {
-        			httpPostUser.setEntity(new UrlEncodedFormEntity(nvp2));
-        		} catch (UnsupportedEncodingException e) {
-        			e.printStackTrace();
-        		}
-            	dsU.setHttpPost(httpPostUser);
-            	
-            	dsU.setUserid(userid);
-            	
-            	dsU.execute();
         	 
         		return true;
         	 

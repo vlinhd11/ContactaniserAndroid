@@ -127,7 +127,7 @@ public class UpdateTaskActivity extends Activity {
 			while (!c.isAfterLast()) {
 				User user = cursorToUser(c);
 				Cursor usercursor = usertaskdatasource.fetchUserTaskByUserIdTaskId(taskidsaved, user.getUserid());
-				if (usercursor.getCount()>0){
+				if (usercursor.getInt(usercursor.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKSTATUS)) != 1){
 					user.setSelected(true);
 					}
 					else
@@ -152,7 +152,7 @@ public class UpdateTaskActivity extends Activity {
                 R.layout.member_checkbox,  userlistcreate);
 
         int height = userlistcreate.size();
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height*103);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height*153);
         layoutParams.gravity=Gravity.CENTER;
         listviewmembercreate.setLayoutParams(layoutParams);
         listviewmembercreate.setAdapter(adapter);

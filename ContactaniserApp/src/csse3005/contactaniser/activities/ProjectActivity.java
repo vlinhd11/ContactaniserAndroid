@@ -1,8 +1,13 @@
 package csse3005.contactaniser.activities;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -84,8 +89,25 @@ public class ProjectActivity extends FragmentActivity {
 	        TabsAdapter.onPageSelected(1);
 	        
 //	        TabsAdapter.getItem(1)
-	 
+	        int userid = getIntent().getIntExtra("userid", 0);
+    	    String useridstring = String.valueOf(userid);
 	    
+	        DownSycnTaskAndUserTask dsUT = new DownSycnTaskAndUserTask();
+			dsUT.setContext(this);
+			
+
+    	    HttpPost httpPost = new HttpPost("http://triple11.com/BlueTeam/android/syncDownTask.php");
+        	List<NameValuePair> nvp = new ArrayList<NameValuePair>(1);
+        	nvp.add(new BasicNameValuePair("userID", useridstring));
+        	try {
+    			httpPost.setEntity(new UrlEncodedFormEntity(nvp));
+    		} catch (UnsupportedEncodingException e) {
+    			e.printStackTrace();
+    		}
+        	dsUT.setHttpPost(httpPost);
+        	dsUT.execute();
+
+	        
 	        if (savedInstanceState != null) {
 	            bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
 	        }
@@ -134,8 +156,6 @@ public class ProjectActivity extends FragmentActivity {
 			    	menuItem.setActionView(null);
 			    	return super.onOptionsItemSelected(item); 
     			}
-    			
-    			
     			
     			//implement syncuptask here
     			JSONParserSend syncuptask = new JSONParserSend();
@@ -242,5 +262,115 @@ public class ProjectActivity extends FragmentActivity {
 		intent.putExtra("userid", getIntent().getIntExtra("userid", 0));
 		startActivity(intent);
 	}
+	
+	private class DownSycnTaskAndUserTask extends JSONParser {
+
+		@SuppressLint("NewApi")
+			@Override
+			public void processJSON(JSONObject json) {
+				try {
+					// if the JSON comes back successfully
+
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+					
+						JSONArray jsonArrayDSTask = json.getJSONArray("taskUserList");
+						//JSONArray jsonArray = json.getJSONArray("userProjectList");
+						for (int g = 0; g < jsonArrayDSTask.length(); g++) {
+
+
+								// if the JSON object contains a staff update get the information
+								// about the staff that needs to be updated
+								JSONObject DwUserTaskObject = jsonArrayDSTask.getJSONObject(g);
+								//JSONObject userprojectObject = jsonArray.getJSONObject(i);
+								
+								String usertaskid = DwUserTaskObject.getString("userTaskId");
+								String user_taskstring = DwUserTaskObject.getString("UserId");
+								long user_task = Long.parseLong(user_taskstring);
+								String task_taskstring = DwUserTaskObject.getString("TaskId");
+								long task_task = Long.parseLong(task_taskstring);
+								String statusstring = DwUserTaskObject.getString("Status");
+								int status = Integer.parseInt(statusstring);
+
+		             		    
+								Calendar CalNow = Calendar.getInstance();
+					        	Date DateNow = new Date(CalNow.getTimeInMillis());
+
+					        	usertaskdatasource.createUser_Task(usertaskid, user_task, task_task, DateNow, status);
+					        	
+
+							}
+						
+						
+						JSONArray jsonArrayDSUserTask = json.getJSONArray("taskList");
+						//JSONArray jsonArray = json.getJSONArray("userProjectList");
+						for (int f = 0; f < jsonArrayDSUserTask.length(); f++) {
+
+
+								// if the JSON object contains a staff update get the information
+								// about the staff that needs to be updated
+								JSONObject DwTaskObject = jsonArrayDSUserTask.getJSONObject(f);
+								//JSONObject userprojectObject = jsonArray.getJSONObject(i);
+								
+								String taskid = DwTaskObject.getString("TaskId");
+								String taskprojectidstring = DwTaskObject.getString("ProjectId");
+								long taskprojectid = Long.parseLong(taskprojectidstring);
+								String taskname = DwTaskObject.getString("TaskName");
+								String taskdescription = DwTaskObject.getString("TaskDescription");
+								String taskimportancelevelstring = DwTaskObject.getString("TaskILevel");
+								int taskimportance = Integer.parseInt(taskimportancelevelstring);
+								String DueDateString = DwTaskObject.getString("TaskDD");
+								java.util.Date DueDateUtil =  df.parse(DueDateString);
+								java.sql.Date taskduedate = new java.sql.Date(DueDateUtil.getTime());
+								
+								String taskcompletionstring = DwTaskObject.getString("TaskCompletion");
+								int taskcompletion = Integer.parseInt(taskcompletionstring);
+								String taskcategorystring = DwTaskObject.getString("Category");
+								int taskcategory = Integer.parseInt(taskcategorystring);
+								Calendar CalNow = Calendar.getInstance();
+					        	Date DateNow = new Date(CalNow.getTimeInMillis());
+
+					        	
+					        	taskdatasource.createTask(taskid, taskprojectid, taskname, taskdescription, taskimportance, taskduedate, taskcompletion, DateNow, taskcategory);
+					        	
+					        	ActiveTasks fragment = (ActiveTasks) getSupportFragmentManager().findFragmentByTag(
+				                        "android:switcher:"+R.id.projectListPager+":1");
+				        	    CompletedTasks fragment2 = (CompletedTasks) getSupportFragmentManager().findFragmentByTag(
+				                        "android:switcher:"+R.id.projectListPager+":2");
+				        	    if(fragment != null)  // could be null if not instantiated yet
+				        	      {
+				        	         if(fragment.getView() != null) 
+				        	         {
+				        	            // no need to call if fragment's onDestroyView() 
+				        	            //has since been called.
+				        	            fragment.fillTaskData(); // do what updates are required
+				        	         }
+				        	      }
+
+				        	    if(fragment2 != null)  // could be null if not instantiated yet
+					      	      {
+					      	         if(fragment2.getView() != null) 
+					      	         {
+					      	            // no need to call if fragment's onDestroyView() 
+					      	            //has since been called.
+					      	            fragment2.fillTaskData(); // do what updates are required
+					      	         }
+					      	      }
+
+							}
+						
+						 
+						
+
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+
+	    }
 	
 }
