@@ -88,5 +88,8 @@
     <string name="phone_number">Phone Number</string>
     <string name="email">Email</string>
     <string name="message">Message:</string>
+    <string name="call_button">Call member button</string>
+    <string name="email_button">Email member button</string>
+    <string name="sms_button">SMS member button</string>
     
 </resources>

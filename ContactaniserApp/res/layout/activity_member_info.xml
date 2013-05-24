@@ -99,7 +99,8 @@
         android:layout_height="55dp"
         android:layout_marginRight="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/email" />
+        android:src="@drawable/email"
+        android:contentDescription="@string/email_button" />
     
     <ImageButton
     	    android:id="@+id/callButton"
@@ -109,7 +110,8 @@
     	    android:layout_marginRight="10dp"
     	    android:fitsSystemWindows="false"
     	    android:scaleType="fitCenter"
-    	    android:src="@drawable/call" />
+    	    android:src="@drawable/call"
+        android:contentDescription="@string/call_button" />
     
     <ImageButton
         android:id="@+id/smsButton"
@@ -117,7 +119,8 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_sms2" />
+        android:src="@drawable/ic_sms2"
+        android:contentDescription="@string/sms_button" />
 
 </LinearLayout>
 
