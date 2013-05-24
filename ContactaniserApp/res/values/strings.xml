@@ -70,7 +70,7 @@
     <string name="no_completed_tasks">No completed tasks</string>
     <string name="project_list_title">Projects</string>
     <string name="invalid_email">Incorrect email format</string>
-    <string name="project_member">Member</string><string name="member_email">Email</string>
+    <string name="project_member">Other Member(s)</string><string name="member_email">Email</string>
     <string name="member_phone">Call/Text</string>
     <string name="member_contact">Contact</string>
     <string name="member_role">Role</string>
@@ -84,5 +84,9 @@
     <string name="no_active_projects">No active projects</string>
     <string name="no_completed_projects">No completed projects</string>
     <string name="activity_member_info_title">Member Info</string>
+    <string name="role">Role</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="email">Email</string>
+    <string name="message">Message:</string>
     
 </resources>

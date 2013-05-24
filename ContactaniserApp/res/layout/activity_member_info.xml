@@ -26,7 +26,7 @@
         android:layout_marginTop="18dp" 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Role"
+        android:text="@string/role"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -41,7 +41,7 @@
         android:layout_marginTop="18dp" 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Phone Number"
+        android:text="@string/phone_number"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="italic" />
 
@@ -57,7 +57,7 @@
         android:layout_marginTop="18dp" 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email"
+        android:text="@string/email"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="italic" />
     
@@ -74,7 +74,7 @@
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:paddingTop="10dp"
-         android:text="Message:"
+         android:text="@string/message"
          android:textAppearance="?android:attr/textAppearanceLarge" />
      
      <EditText
@@ -99,7 +99,7 @@
         android:layout_height="55dp"
         android:layout_marginRight="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/call" />
+        android:src="@drawable/email" />
     
     <ImageButton
     	    android:id="@+id/callButton"
@@ -109,7 +109,7 @@
     	    android:layout_marginRight="10dp"
     	    android:fitsSystemWindows="false"
     	    android:scaleType="fitCenter"
-    	    android:src="@drawable/email" />
+    	    android:src="@drawable/call" />
     
     <ImageButton
         android:id="@+id/smsButton"

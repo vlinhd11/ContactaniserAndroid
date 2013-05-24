@@ -129,7 +129,7 @@ public class TaskActivityComplete extends Activity {
 		ArrayList<User_Task> values = usertaskdatasource.getAllUserbyTaskId(mrowtaskid);
 		if (values.size()==1)
 		{
-			View b = findViewById(R.id.tasktextView11);
+			View b = findViewById(R.id.memberlabel);
         	b.setVisibility(View.GONE);
 		}
 		ArrayList<User> userlist = new ArrayList<User>();

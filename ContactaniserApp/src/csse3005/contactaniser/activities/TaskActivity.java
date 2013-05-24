@@ -142,7 +142,7 @@ public class TaskActivity extends Activity {
 		
 		if (values.size()==1)
 		{
-			View b = findViewById(R.id.tasktextView11);
+			View b = findViewById(R.id.memberlabel);
         	b.setVisibility(View.GONE);
 		}
 		ArrayList<User> userlist = new ArrayList<User>();
@@ -203,15 +203,12 @@ public class TaskActivity extends Activity {
 		        		taskdatasource.createTask(mrowtaskidString, mrowprojectid, taskname, taskdescription, taskimportanceindex, DueDate, 1, DateNow, taskcategoryindex);
 		        		finish();
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} 
 	        		
 	            }
 	        });
-	        
 	        setTitle("Task: " + taskname);
-		
 	}
 
 	@Override
@@ -236,7 +233,6 @@ public class TaskActivity extends Activity {
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		tasknametextview = (TextView) findViewById(R.id.tasktextViewName);
 		taskdescriptiontextview = (TextView) findViewById(R.id.tasktextViewDescription);
@@ -359,12 +355,13 @@ public class TaskActivity extends Activity {
 		        		taskdatasource.createTask(mrowtaskidString, mrowprojectid, taskname, taskdescription, taskimportanceindex, DueDate, 1, DateNow, taskcategoryindex);
 		        		finish();
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} 
 	        		
 	            }
 	        });
+	        
+	        setTitle("Task: " + taskname);
 	}
 	
 	
