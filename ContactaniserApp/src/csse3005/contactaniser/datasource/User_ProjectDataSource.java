@@ -83,12 +83,12 @@ public class User_ProjectDataSource {
 				}
 
 
-				public List<User_Project> getAllUser_Project(String uid, String pid) {
-					List<User_Project> User_Projects = new ArrayList<User_Project>();
+				public ArrayList<User_Project> getAllUser_Project() {
+					ArrayList<User_Project> User_Projects = new ArrayList<User_Project>();
 
 					//Retrieve all tasks with the tid and pid given
 					Cursor cursor = database.query(MySQLHelper.TABLE_USER_PROJECT,
-					    allColumns, MySQLHelper.COLUMN_USERPROJECTUSERFID + " = " + uid + " AND " + MySQLHelper.COLUMN_USERPROJECTPROJECTFID + " = " + pid + " AND " + MySQLHelper.COLUMN_USERPROJECTSTATUS + " =0", null, null, null, null);
+					    allColumns, MySQLHelper.COLUMN_USERPROJECTSTATUS + " =0", null, null, null, null);
 
 					cursor.moveToFirst();
 					while (!cursor.isAfterLast()) {

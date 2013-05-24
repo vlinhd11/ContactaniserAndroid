@@ -95,8 +95,8 @@ public class ProjectDataSource {
 	}
 
 
-	public List<Project> getAllProjects(int completion) {
-		List<Project> projects = new ArrayList<Project>();
+	public ArrayList<Project> getAllProjects(int completion) {
+		ArrayList<Project> projects = new ArrayList<Project>();
 
 		//Retrieve all project
 		Cursor cursor = database.query(MySQLHelper.TABLE_PROJECTS,

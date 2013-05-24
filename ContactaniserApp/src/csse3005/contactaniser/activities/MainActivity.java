@@ -106,31 +106,31 @@ public class MainActivity extends FragmentActivity {
 	    DownSycnUserProjectAuto dsUPAuto = new DownSycnUserProjectAuto();
 		dsUPAuto.setContext(this);
 		
+		DownSycnUserAuto dsUAuto = new DownSycnUserAuto();
+		dsUAuto.setContext(this);
+		
 		DownSycnProjectAuto dsPAuto = new DownSycnProjectAuto();
 		dsPAuto.setContext(this);
 		
-		DownSycnUserAuto dsUAuto = new DownSycnUserAuto();
-		dsUAuto.setContext(this);
+		
 	        
 	    
 	    int userid = getIntent().getIntExtra("userID", 0);
 	    String useridstring = String.valueOf(userid);
 	    
-	    //UserProjectList
-	    HttpPost httpPost = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUserProject.php");
-    	List<NameValuePair> nvp = new ArrayList<NameValuePair>(1);
-    	nvp.add(new BasicNameValuePair("userID", useridstring));
+	    //UserList
+    	HttpPost httpPostUser = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUser.php");
+    	List<NameValuePair> nvp2 = new ArrayList<NameValuePair>(1);
+    	nvp2.add(new BasicNameValuePair("userID", useridstring));
     	try {
-			httpPost.setEntity(new UrlEncodedFormEntity(nvp));
+			httpPostUser.setEntity(new UrlEncodedFormEntity(nvp2));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-    	dsUPAuto.setHttpPost(httpPost);
-    	
+    	dsUAuto.setHttpPost(httpPostUser);
 
-    	
-    	dsUPAuto.execute();
-    	
+    	dsUAuto.execute();
+	    
     	//ProjectList
     	HttpPost httpPostProject = new HttpPost("http://triple11.com/BlueTeam/android/syncDownProject.php");
     	List<NameValuePair> nvp1 = new ArrayList<NameValuePair>(1);
@@ -141,26 +141,131 @@ public class MainActivity extends FragmentActivity {
 			e.printStackTrace();
 		}
     	dsPAuto.setHttpPost(httpPostProject);
-    	
-
-    	
     	dsPAuto.execute();
     	
-    	
-    	//UserList
-    	HttpPost httpPostUser = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUser.php");
-    	List<NameValuePair> nvp2 = new ArrayList<NameValuePair>(1);
-    	nvp2.add(new BasicNameValuePair("userID", useridstring));
+	    //UserProjectList
+	    HttpPost httpPost = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUserProject.php");
+    	List<NameValuePair> nvp = new ArrayList<NameValuePair>(1);
+    	nvp.add(new BasicNameValuePair("userID", useridstring));
     	try {
-			httpPostUser.setEntity(new UrlEncodedFormEntity(nvp2));
+			httpPost.setEntity(new UrlEncodedFormEntity(nvp));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-    	dsUAuto.setHttpPost(httpPostUser);
-    	
+    	dsUPAuto.setHttpPost(httpPost);
 
+    	dsUPAuto.execute();
     	
-    	dsUAuto.execute();
+    	DownSycnUserProjectAuto dsUPAutoNew = new DownSycnUserProjectAuto();
+		dsUPAutoNew.setContext(this);
+		
+		DownSycnUserAuto dsUAutoNew = new DownSycnUserAuto();
+		dsUAutoNew.setContext(this);
+		
+		DownSycnProjectAuto dsPAutoNew = new DownSycnProjectAuto();
+		dsPAutoNew.setContext(this);
+		
+		
+	        
+	    
+	    //UserList
+    	HttpPost httpPostUserNew = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUser.php");
+    	List<NameValuePair> nvp2New = new ArrayList<NameValuePair>(1);
+    	nvp2New.add(new BasicNameValuePair("userID", useridstring));
+    	try {
+			httpPostUserNew.setEntity(new UrlEncodedFormEntity(nvp2New));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+    	dsUAutoNew.setHttpPost(httpPostUser);
+
+    	dsUAutoNew.execute();
+    	
+    	//ProjectList
+    	HttpPost httpPostProjectNew = new HttpPost("http://triple11.com/BlueTeam/android/syncDownProject.php");
+    	List<NameValuePair> nvp1New = new ArrayList<NameValuePair>(1);
+    	nvp1New.add(new BasicNameValuePair("userID", useridstring));
+    	try {
+			httpPostProjectNew.setEntity(new UrlEncodedFormEntity(nvp1New));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+    	dsPAutoNew.setHttpPost(httpPostProject);
+    	dsPAutoNew.execute();
+    	
+	    //UserProjectList
+	    HttpPost httpPostNew = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUserProject.php");
+    	List<NameValuePair> nvpNew = new ArrayList<NameValuePair>(1);
+    	nvpNew.add(new BasicNameValuePair("userID", useridstring));
+    	try {
+			httpPostNew.setEntity(new UrlEncodedFormEntity(nvpNew));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+    	dsUPAutoNew.setHttpPost(httpPost);
+
+    	dsUPAutoNew.execute();
+    	
+    	
+    	
+    	/*DownSycnUserProjectAuto dsUPAutoNew2 = new DownSycnUserProjectAuto();
+		dsUPAutoNew2.setContext(this);
+		
+		DownSycnUserAuto dsUAutoNew2 = new DownSycnUserAuto();
+		dsUAutoNew2.setContext(this);
+		
+		DownSycnProjectAuto dsPAutoNew2 = new DownSycnProjectAuto();
+		dsPAutoNew2.setContext(this);
+		
+		
+	        
+	    
+	    //UserList
+    	HttpPost httpPostUserNew2 = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUser.php");
+    	List<NameValuePair> nvp2New2 = new ArrayList<NameValuePair>(1);
+    	nvp2New2.add(new BasicNameValuePair("userID", useridstring));
+    	try {
+			httpPostUserNew2.setEntity(new UrlEncodedFormEntity(nvp2New2));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+    	dsUAutoNew2.setHttpPost(httpPostUser);
+
+    	dsUAutoNew2.execute();
+    	
+    	//ProjectList
+    	HttpPost httpPostProjectNew2 = new HttpPost("http://triple11.com/BlueTeam/android/syncDownProject.php");
+    	List<NameValuePair> nvp1New2 = new ArrayList<NameValuePair>(1);
+    	nvp1New2.add(new BasicNameValuePair("userID", useridstring));
+    	try {
+			httpPostProjectNew2.setEntity(new UrlEncodedFormEntity(nvp1New2));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+    	dsPAutoNew2.setHttpPost(httpPostProject);
+    	dsPAutoNew2.execute();
+    	
+	    //UserProjectList
+	    HttpPost httpPostNew2 = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUserProject.php");
+    	List<NameValuePair> nvpNew2 = new ArrayList<NameValuePair>(1);
+    	nvpNew2.add(new BasicNameValuePair("userID", useridstring));
+    	try {
+			httpPostNew2.setEntity(new UrlEncodedFormEntity(nvpNew2));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+    	dsUPAutoNew2.setHttpPost(httpPost);
+
+    	dsUPAutoNew2.execute();
+    	
+    	
+    	
+*/
+    	
+    	
+    	
+    	
+    	
 	}
 
 	@SuppressLint("NewApi")
@@ -204,32 +309,19 @@ public class MainActivity extends FragmentActivity {
     			InternetCheck internet = new InternetCheck();
     			boolean internetOn = internet.internetOn(this);
     			if (internetOn) {
-    				DownSycnUserProject dsUP = new DownSycnUserProject();
-            		dsUP.setContext(this);
-            		
-            		DownSycnProject dsP = new DownSycnProject();
+    				DownSycnProject dsP = new DownSycnProject();
             		dsP.setContext(this);
             		
             		DownSycnUser dsU = new DownSycnUser();
             		dsU.setContext(this);
-            	        
-            	    
+    				
+    				DownSycnUserProject dsUP = new DownSycnUserProject();
+            		dsUP.setContext(this);
+
             	    int userid = getIntent().getIntExtra("userID", 0);
             	    String useridstring = String.valueOf(userid);
-            	    
-            	    //UserProjectList
-            	    HttpPost httpPost = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUserProject.php");
-                	List<NameValuePair> nvp = new ArrayList<NameValuePair>(1);
-                	nvp.add(new BasicNameValuePair("userID", useridstring));
-                	try {
-            			httpPost.setEntity(new UrlEncodedFormEntity(nvp));
-            		} catch (UnsupportedEncodingException e) {
-            			e.printStackTrace();
-            		}
-                	dsUP.setHttpPost(httpPost);
+
                 	
-                	
-                	dsUP.execute();
                 	
                 	//ProjectList
                 	HttpPost httpPostProject = new HttpPost("http://triple11.com/BlueTeam/android/syncDownProject.php");
@@ -258,6 +350,18 @@ public class MainActivity extends FragmentActivity {
                 	dsU.setHttpPost(httpPostUser);
                 	
                 	dsU.execute();
+                	
+                	//UserProjectList
+            	    HttpPost httpPost = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUserProject.php");
+                	List<NameValuePair> nvp = new ArrayList<NameValuePair>(1);
+                	nvp.add(new BasicNameValuePair("userID", useridstring));
+                	try {
+            			httpPost.setEntity(new UrlEncodedFormEntity(nvp));
+            		} catch (UnsupportedEncodingException e) {
+            			e.printStackTrace();
+            		}
+                	dsUP.setHttpPost(httpPost);
+                	dsUP.execute();
     			}
     			else {
     				
@@ -266,10 +370,7 @@ public class MainActivity extends FragmentActivity {
 			    	internet.NetworkError(this);
     				
     			}
-    			
-    			
-        	    
-        	 
+
         		return true;
         	 
 
@@ -331,6 +432,9 @@ public class MainActivity extends FragmentActivity {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					//Stop the progress on the syncing icon
+			    	menuItem.collapseActionView();
+			    	menuItem.setActionView(null);
 					
 				}
 
@@ -445,9 +549,7 @@ public class MainActivity extends FragmentActivity {
 						e.printStackTrace();
 					}
 
-			    	//Stop the progress on the syncing icon
-			    	menuItem.collapseActionView();
-			    	menuItem.setActionView(null);
+			    	
 			}
 
 	    }
@@ -470,12 +572,17 @@ public class MainActivity extends FragmentActivity {
 									JSONObject userprojectObject = jsonArray.getJSONObject(i);
 									//JSONObject userprojectObject = jsonArray.getJSONObject(i);
 									String upid = userprojectObject.getString("Id");
+									Log.i("messageUT", upid);
 									String upufidstring = userprojectObject.getString("uId");
+									Log.i("messageUT", upufidstring);
 									int upufid = Integer.parseInt(upufidstring);
 									String uppfidstring = userprojectObject.getString("pId");
+									Log.i("messageUT", uppfidstring);
 									int uppfid = Integer.parseInt(uppfidstring);
 									String role = userprojectObject.getString("role");
+									Log.i("messageUT", role);
 									String status = userprojectObject.getString("status");
+									Log.i("messageUT", status);
 									Calendar CalNow = Calendar.getInstance();
 						        	Date DateNow = new Date(CalNow.getTimeInMillis());
 
@@ -510,18 +617,24 @@ public class MainActivity extends FragmentActivity {
 
 								JSONObject jsonObject = jsonArray.getJSONObject(i);
 								String ID = jsonObject.getString("Id");
+								Log.i("messageP", ID);
 								String Name = jsonObject.getString("Name");
-
+								Log.i("messageP", Name);
+								
 								String Description = jsonObject.getString("Description");
+								Log.i("messageP", Description);
 								String StartDateString = jsonObject.getString("StartDate");
+								Log.i("messageP", StartDateString);
 								java.util.Date StartDateUtil =  df.parse(StartDateString); 
 								java.sql.Date StartDate = new java.sql.Date(StartDateUtil.getTime());
 								String DueDateString = jsonObject.getString("DueDate");
+								Log.i("messageP", DueDateString);
 								java.util.Date DueDateUtil =  df.parse(DueDateString);
 								java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
 								String Completion = jsonObject.getString("Completion");
+								Log.i("messageP", Completion);
 								String Status = jsonObject.getString("Status");
-
+								Log.i("messageP", Status);
 								Calendar CalNow = Calendar.getInstance();
 					        	Date DateNow = new Date(CalNow.getTimeInMillis());
 
@@ -582,12 +695,15 @@ public class MainActivity extends FragmentActivity {
 
 								JSONObject jsonObject = jsonArray.getJSONObject(i);
 								String ID = jsonObject.getString("uId");
-								//Log.i("useridmasuk", ID);
+								Log.i("usermasuk", ID);
 								String User_Username = jsonObject.getString("uUsername");
+								Log.i("usermasuk", User_Username);
 								String Username = jsonObject.getString("uName");
-								//Log.i("namanyamasuk", Username);
+								Log.i("usermasuk", Username);
 								String Phonenumber = jsonObject.getString("uPhone");
+								Log.i("usermasuk", Phonenumber);
 								String Email = User_Username;
+								Log.i("usermasuk", Email);
 
 								Calendar CalNow = Calendar.getInstance();
 					        	Date DateNow = new Date(CalNow.getTimeInMillis());
