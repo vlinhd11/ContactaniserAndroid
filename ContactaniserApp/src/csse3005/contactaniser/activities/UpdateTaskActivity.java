@@ -152,7 +152,7 @@ public class UpdateTaskActivity extends Activity {
                 R.layout.member_checkbox,  userlistcreate);
 
         int height = userlistcreate.size();
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height*153);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height*103);
         layoutParams.gravity=Gravity.CENTER;
         listviewmembercreate.setLayoutParams(layoutParams);
         listviewmembercreate.setAdapter(adapter);
