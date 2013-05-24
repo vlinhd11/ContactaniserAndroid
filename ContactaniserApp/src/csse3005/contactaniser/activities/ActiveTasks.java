@@ -269,7 +269,7 @@ public class ActiveTasks extends Fragment {
 		String[] splitName;
 		StringBuilder initList = new StringBuilder();
 		
-		for (int i=0; i< userList.size(); i++) {
+		for (int i=0; i< userList.size()-1; i++) {
 			if (initList.length()!=0) initList.append(" ");
 //			initList.append(userList.get(i).getUserName());
 			splitName = userList.get(i).getUserName().split(" ");
