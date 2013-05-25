@@ -216,7 +216,7 @@ public class MainActivity extends FragmentActivity {
 			public void processJSON(JSONObject json) {
 				try {
 					
-					/**
+					/*
 					 * 
 					 * Sycn Down All Project
 					 * 
@@ -268,7 +268,7 @@ public class MainActivity extends FragmentActivity {
 			      	         }
 			      	      }
 		        	    
-		        	    /**
+		        	    /*
 						 * 
 						 * Sycn Down All User
 						 * 
@@ -288,17 +288,11 @@ public class MainActivity extends FragmentActivity {
 					        	Date DateNow = new Date(CalNow.getTimeInMillis());
 
 					        	userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+							
 
 							}
 						
-						/**
+						/*
 						 * 
 						 * Sycn Down All UserProject
 						 * 
@@ -326,7 +320,7 @@ public class MainActivity extends FragmentActivity {
 
 							}
 						
-						/**
+						/*
 						 * 
 						 * Sycn Down All UserTask
 						 * 
@@ -360,7 +354,7 @@ public class MainActivity extends FragmentActivity {
 							}
 						
 						
-						/**
+						/*
 						 * 
 						 * Sycn Down All Task
 						 * 
@@ -496,14 +490,7 @@ public class MainActivity extends FragmentActivity {
 					        	Date DateNow = new Date(CalNow.getTimeInMillis());
 
 								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
-
+								
 							}
 						
 						/*

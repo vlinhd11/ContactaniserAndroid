@@ -60,6 +60,7 @@ public class UserDataSource {
 			}
 			else
 			{
+			values.put(MySQLHelper.COLUMN_USERID, userid);
 		    long insertId = database.insert(MySQLHelper.TABLE_USER, null,
 		        values);
 		    Cursor cursor = database.query(MySQLHelper.TABLE_USER,
