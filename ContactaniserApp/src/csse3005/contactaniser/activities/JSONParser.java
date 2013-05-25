@@ -48,6 +48,7 @@ public abstract class JSONParser extends AsyncTask<String, Void, String> {
         super.onPreExecute();
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Sync");
+        progressDialog.setCancelable(false);
         progressDialog.show();
     }
 	
