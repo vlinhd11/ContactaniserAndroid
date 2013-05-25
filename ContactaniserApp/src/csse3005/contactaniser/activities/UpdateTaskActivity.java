@@ -1,18 +1,5 @@
 package csse3005.contactaniser.activities;
 
-import android.app.Activity;
-import csse3005.contactaniser.datasource.TaskDataSource;
-import csse3005.contactaniser.datasource.UserDataSource;
-import csse3005.contactaniser.datasource.User_ProjectDataSource;
-import csse3005.contactaniser.datasource.User_TaskDataSource;
-import csse3005.contactaniser.models.MySQLHelper;
-import csse3005.contactaniser.models.User;
-import csse3005.contactaniser.models.User_Project;
-import csse3005.contactaniserapp.R;
-import android.os.Bundle;
-import android.app.Activity;
-import android.util.Log;
-import android.view.Menu;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,16 +7,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -39,7 +30,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.Toast;
+import csse3005.contactaniser.datasource.TaskDataSource;
+import csse3005.contactaniser.datasource.UserDataSource;
+import csse3005.contactaniser.datasource.User_ProjectDataSource;
+import csse3005.contactaniser.datasource.User_TaskDataSource;
+import csse3005.contactaniser.models.MySQLHelper;
+import csse3005.contactaniser.models.User;
+import csse3005.contactaniser.models.User_Project;
+import csse3005.contactaniserapp.R;
 
 public class UpdateTaskActivity extends Activity {
 
@@ -49,7 +47,6 @@ public class UpdateTaskActivity extends Activity {
 	private int year;
 	private int month;
 	private int day;
-	private long taskid;
 	private String tasknamestring;
 	private String taskdescriptionstring;
 	

@@ -1,31 +1,19 @@
 package csse3005.contactaniser.activities;
 
-import csse3005.contactaniser.datasource.TaskDataSource;
-import csse3005.contactaniser.datasource.UserDataSource;
-import csse3005.contactaniser.datasource.User_ProjectDataSource;
-import csse3005.contactaniser.datasource.User_TaskDataSource;
-import csse3005.contactaniser.models.MySQLHelper;
-import csse3005.contactaniser.models.User;
-import csse3005.contactaniser.models.User_Project;
-import csse3005.contactaniserapp.R;
-import android.os.Bundle;
-import android.app.Activity;
-import android.util.Log;
-import android.view.Menu;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -37,10 +25,15 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.Toast;
+import csse3005.contactaniser.datasource.TaskDataSource;
+import csse3005.contactaniser.datasource.UserDataSource;
+import csse3005.contactaniser.datasource.User_ProjectDataSource;
+import csse3005.contactaniser.datasource.User_TaskDataSource;
+import csse3005.contactaniser.models.User;
+import csse3005.contactaniser.models.User_Project;
+import csse3005.contactaniserapp.R;
 
 public class CreateTaskActivity extends Activity {
 

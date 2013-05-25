@@ -1,17 +1,14 @@
 package csse3005.contactaniser.datasource;
-import csse3005.contactaniser.models.MySQLHelper;
-import csse3005.contactaniser.models.User_Project;
-import csse3005.contactaniser.models.User_Task;
-
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import csse3005.contactaniser.models.MySQLHelper;
+import csse3005.contactaniser.models.User_Task;
 
 public class User_TaskDataSource {
 

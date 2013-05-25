@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 import csse3005.contactaniser.library.InternetCheck;
 import csse3005.contactaniser.library.MCrypt;
 import csse3005.contactaniser.library.PasswordValidator;

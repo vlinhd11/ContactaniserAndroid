@@ -1,33 +1,26 @@
 package csse3005.contactaniser.activities;
 
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import csse3005.contactaniser.datasource.ProjectDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
 import csse3005.contactaniser.models.MySQLHelper;
-import csse3005.contactaniser.models.Project;
-import csse3005.contactaniser.models.User_Project;
 import csse3005.contactaniser.models.User;
+import csse3005.contactaniser.models.User_Project;
 import csse3005.contactaniserapp.R;
 
 public class ProjectInfoActivity extends Fragment {

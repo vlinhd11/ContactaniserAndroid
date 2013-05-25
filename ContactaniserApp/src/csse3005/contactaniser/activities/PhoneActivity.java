@@ -1,16 +1,9 @@
 package csse3005.contactaniser.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.telephony.SmsManager;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-import csse3005.contactaniserapp.R;
 
 public class PhoneActivity extends Activity {
  

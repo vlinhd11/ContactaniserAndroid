@@ -1,17 +1,15 @@
 package csse3005.contactaniser.datasource;
 
-import csse3005.contactaniser.models.MySQLHelper;
-import csse3005.contactaniser.models.Project;
-
-import java.util.ArrayList;
 import java.sql.Date;
-import java.util.List;
+import java.util.ArrayList;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import csse3005.contactaniser.models.MySQLHelper;
+import csse3005.contactaniser.models.Project;
 
 
 public class ProjectDataSource {

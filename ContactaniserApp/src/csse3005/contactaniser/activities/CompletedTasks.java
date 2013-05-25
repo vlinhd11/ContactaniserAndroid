@@ -112,7 +112,6 @@ public class CompletedTasks extends Fragment {
 			noTasks.setVisibility(View.GONE);
 		}
 		
-		boolean p1Right = false;
 		ArrayList<Task> taskList = orderTasks(rawList, byDate);
 		
 		for (int i=0; i < taskList.size(); i++) {

@@ -7,26 +7,23 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_TaskDataSource;
 import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.User;
-import csse3005.contactaniser.models.User_Project;
 import csse3005.contactaniser.models.User_Task;
 import csse3005.contactaniserapp.R;
 
@@ -37,7 +34,6 @@ public class TaskActivity extends Activity {
 	private static TextView taskcategorytextview;
 	private static TextView taskimportancetextview;
 	private static TextView taskduedatetextview;
-	private static TextView membertextview;
 	private static Button UpdateButton;
 	private static Button CompleteButton;
 	

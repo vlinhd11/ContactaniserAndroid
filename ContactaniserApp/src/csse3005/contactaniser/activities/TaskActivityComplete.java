@@ -1,32 +1,24 @@
 package csse3005.contactaniser.activities;
 
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_TaskDataSource;
 import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.User;
-import csse3005.contactaniser.models.User_Project;
 import csse3005.contactaniser.models.User_Task;
 import csse3005.contactaniserapp.R;
 
@@ -203,9 +195,9 @@ public class TaskActivityComplete extends Activity {
 		taskduedatetextview = (TextView) findViewById (R.id.tasktextDueDate);
 
 		
-		final long mrowprojectid = getIntent().getExtras().getLong("projectid");
+//		final long mrowprojectid = getIntent().getExtras().getLong("projectid");
 		long mrowtaskid = getIntent().getExtras().getLong("taskid");
-		final String mrowtaskidString = String.valueOf(mrowtaskid);
+//		final String mrowtaskidString = String.valueOf(mrowtaskid);
 		long mrowuserid = getIntent().getIntExtra("userid", 0);
 		Cursor task = taskdatasource.fetchTaskById(mrowtaskid);
 		
