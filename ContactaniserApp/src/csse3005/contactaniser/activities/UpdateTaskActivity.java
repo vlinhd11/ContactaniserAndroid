@@ -93,7 +93,6 @@ public class UpdateTaskActivity extends Activity {
 		usertaskdatasource.open();
 		
 		projectid = getIntent().getExtras().getLong("projectid");
-		//Log.i("taskid", String.valueOf(taskid));
 		listviewmembercreate = (ListView) findViewById(R.id.listMemberCreate);
 		taskname = (EditText) findViewById(R.id.task_name);
 		taskdescription = (EditText) findViewById(R.id.task_description);
@@ -149,7 +148,7 @@ public class UpdateTaskActivity extends Activity {
                 R.layout.member_checkbox,  userlistcreate);
 
         int height = userlistcreate.size();
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height*103);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height*153);
         layoutParams.gravity=Gravity.CENTER;
         listviewmembercreate.setLayoutParams(layoutParams);
         listviewmembercreate.setAdapter(adapter);
@@ -171,7 +170,6 @@ public class UpdateTaskActivity extends Activity {
             		
             		projectid = getIntent().getExtras().getLong("projectid");
             		userid = getIntent().getExtras().getInt("userid");
-            		//Log.i("useridmasukpascreate", String.valueOf(userid));
             		tasknamestring = taskname.getText().toString();
             		taskdescriptionstring = 
             				taskdescription.getText().toString();
@@ -202,14 +200,12 @@ public class UpdateTaskActivity extends Activity {
             	     Cursor c = usertaskdatasource.fetchUserTaskByUserIdTaskId(taskidsaved, user.getUserid() );
             	     if(user.isSelected()){
             	    	 	
-            	    	 Log.i("masuk","masuk update tetep ada");
             	    		 usertaskdatasource.createUser_Task(c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)), user.getUserid(), taskidsaved, datenow, 0);
 
             	     }
             	     else
             	    	 
             	     {   
-            	    	 Log.i("masuk :", "masuk update dihapus");
             	    	 usertaskdatasource.createUser_Task(c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)), user.getUserid(), taskidsaved, datenow, 1);
             	     }
             	    }

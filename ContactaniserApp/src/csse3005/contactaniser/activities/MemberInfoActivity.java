@@ -60,9 +60,8 @@ public class MemberInfoActivity extends Activity {
 		userPhone = (TextView) findViewById(R.id.phoneNumberTextView);
 		quickMsgBox = (EditText) findViewById(R.id.editTextMsg);
 		
-		ProjectId = getIntent().getExtras().getLong("projectid"); //masuk
-		UserId = getIntent().getExtras().getLong("userid"); //masuk
-		//Log.i("useridmasuk", String.valueOf(UserId));
+		ProjectId = getIntent().getExtras().getLong("projectid"); 
+		UserId = getIntent().getExtras().getLong("userid"); 
 		Cursor user = userdatasource.fetchUserById(UserId);
 		Cursor role = userprojectdatasource.fetchUserProjectById(UserId, ProjectId);
 		userName.setText(user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERNAME)));
