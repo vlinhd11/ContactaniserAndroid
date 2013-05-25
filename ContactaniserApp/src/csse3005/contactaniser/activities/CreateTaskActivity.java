@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -24,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -31,6 +33,7 @@ import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
 import csse3005.contactaniser.datasource.User_TaskDataSource;
+import csse3005.contactaniser.library.MeasureHeight;
 import csse3005.contactaniser.models.User;
 import csse3005.contactaniser.models.User_Project;
 import csse3005.contactaniserapp.R;
@@ -122,14 +125,9 @@ public class CreateTaskActivity extends Activity {
         final MyCustomAdapter adapter = new MyCustomAdapter(this,
                 R.layout.member_checkbox,  userlistcreate);
         
-        int height = userlistcreate.size();
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height*103);
-        layoutParams.gravity=Gravity.CENTER;
-        
-        listviewmembercreate.setLayoutParams(layoutParams);
         listviewmembercreate.setAdapter(adapter);
+        MeasureHeight.setListViewHeightBasedOnChildren(listviewmembercreate);
         
-		
 		taskcreatebutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
             
@@ -340,7 +338,7 @@ public class CreateTaskActivity extends Activity {
 			   holder.membercheck.setText(users.getUserName());
 			   holder.membercheck.setChecked(users.isSelected());
 			   holder.membercheck.setTag(users);
-			 
+			   
 			   return convertView;
 			 
 			  }
@@ -348,5 +346,8 @@ public class CreateTaskActivity extends Activity {
 			 }
 		
 		
-
 }
+		
+		
+
+

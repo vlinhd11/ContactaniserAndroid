@@ -23,12 +23,10 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import csse3005.contactaniser.datasource.ProjectDataSource;
@@ -37,9 +35,8 @@ import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
 import csse3005.contactaniser.datasource.User_TaskDataSource;
 import csse3005.contactaniser.library.InternetCheck;
-import csse3005.contactaniser.models.MySQLHelper;
+import csse3005.contactaniser.library.JSONParser;
 import csse3005.contactaniser.models.TabsAdapter;
-import csse3005.contactaniser.models.User;
 import csse3005.contactaniserapp.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)

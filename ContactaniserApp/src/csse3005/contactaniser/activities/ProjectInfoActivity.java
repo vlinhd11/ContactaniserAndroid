@@ -18,6 +18,7 @@ import android.widget.TextView;
 import csse3005.contactaniser.datasource.ProjectDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
+import csse3005.contactaniser.library.MeasureHeight;
 import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.User;
 import csse3005.contactaniser.models.User_Project;
@@ -117,6 +118,7 @@ public class ProjectInfoActivity extends Fragment {
         //final ArrayAdapter<User_Project> adapter = new ArrayAdapter<User_Project>(getActivity(),
           //      R.layout.member_row, R.id.memberLable, values);
         listviewmember.setAdapter(adapter);
+        MeasureHeight.setListViewHeightBasedOnChildren(listviewmember);
         
         listviewmember.setOnItemClickListener(new OnItemClickListener() {
 			@Override

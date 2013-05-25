@@ -27,6 +27,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -34,6 +35,7 @@ import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
 import csse3005.contactaniser.datasource.User_TaskDataSource;
+import csse3005.contactaniser.library.MeasureHeight;
 import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.User;
 import csse3005.contactaniser.models.User_Project;
@@ -147,11 +149,8 @@ public class UpdateTaskActivity extends Activity {
         final MyCustomAdapter adapter = new MyCustomAdapter(this,
                 R.layout.member_checkbox,  userlistcreate);
 
-        int height = userlistcreate.size();
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, height*103);
-        layoutParams.gravity=Gravity.CENTER;
-        listviewmembercreate.setLayoutParams(layoutParams);
         listviewmembercreate.setAdapter(adapter);
+        MeasureHeight.setListViewHeightBasedOnChildren(listviewmembercreate);
         
 		
 		taskcreatebutton.setText("Update Task");
@@ -392,6 +391,7 @@ public class UpdateTaskActivity extends Activity {
 			  }
 			 
 			 }
+		
 		
 		
 

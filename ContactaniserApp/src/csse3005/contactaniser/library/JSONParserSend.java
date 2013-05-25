@@ -1,4 +1,4 @@
-package csse3005.contactaniser.activities;
+package csse3005.contactaniser.library;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,7 +45,7 @@ public class JSONParserSend extends AsyncTask<String, Void, String> {
     {       
         super.onPreExecute();
         progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Sync");
+        progressDialog.setMessage("Syncing");
         progressDialog.setCancelable(false);
         progressDialog.show();
         
