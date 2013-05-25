@@ -25,32 +25,46 @@
         android:theme="@style/AppTheme" android:debuggable="true">
         <activity
             android:name="csse3005.contactaniser.activities.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:configChanges="keyboardHidden|orientation" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.ChangePassword"
-            android:label="@string/title_activity_change_password" >
+            android:label="@string/title_activity_change_password" 
+            android:configChanges="keyboardHidden|orientation" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.UpdateTaskActivity"
-            android:label="@string/title_activity_update" >
+            android:label="@string/title_activity_update" 
+            android:configChanges="keyboardHidden|orientation" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.EmailActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:configChanges="keyboardHidden|orientation" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.PhoneActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:configChanges="keyboardHidden|orientation" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.MemberInfoActivity"
-            android:label="@string/activity_member_info_title" >
+            android:label="@string/activity_member_info_title" 
+            android:configChanges="keyboardHidden|orientation" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.LoginActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:windowSoftInputMode="adjustResize|stateVisible" 
+            android:configChanges="keyboardHidden|orientation" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -59,27 +73,39 @@
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.TaskList"
-            android:label="@string/title_activity_task_list" >
+            android:label="@string/title_activity_task_list" 
+            android:configChanges="keyboardHidden|orientation" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.ProjectActivity"
-            android:label="@string/title_activity_project" >
+            android:label="@string/title_activity_project" 
+            android:configChanges="keyboardHidden|orientation" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.ProjectInfoActivity"
-            android:label="@string/title_activity_project_info" >
+            android:label="@string/title_activity_project_info" 
+            android:configChanges="keyboardHidden|orientation" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.TaskActivity"
-            android:label="@string/title_activity_task" >
+            android:label="@string/title_activity_task" 
+            android:configChanges="keyboardHidden|orientation" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.TaskActivityComplete"
-            android:label="@string/title_activity_task_completed" >
+            android:label="@string/title_activity_task_completed" 
+            android:configChanges="keyboardHidden|orientation" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="csse3005.contactaniser.activities.CreateTaskActivity"
-            android:label="@string/title_activity_create_task" >
+            android:label="@string/title_activity_create_task" 
+            android:configChanges="keyboardHidden|orientation" 
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
