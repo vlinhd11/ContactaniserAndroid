@@ -23,10 +23,12 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import csse3005.contactaniser.datasource.ProjectDataSource;
@@ -35,7 +37,9 @@ import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
 import csse3005.contactaniser.datasource.User_TaskDataSource;
 import csse3005.contactaniser.library.InternetCheck;
+import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.TabsAdapter;
+import csse3005.contactaniser.models.User;
 import csse3005.contactaniserapp.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -99,102 +103,24 @@ public class MainActivity extends FragmentActivity {
 	        bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
 	    }   
 	    
-	    DownSycnUserProjectAuto dsUPAuto = new DownSycnUserProjectAuto();
-		dsUPAuto.setContext(this);
-		
-		DownSycnUserAuto dsUAuto = new DownSycnUserAuto();
-		dsUAuto.setContext(this);
-		
-		DownSycnProjectAuto dsPAuto = new DownSycnProjectAuto();
-		dsPAuto.setContext(this);
-		
 	    int userid = getIntent().getIntExtra("userID", 0);
 	    String useridstring = String.valueOf(userid);
 	    
-	    //UserList
-    	HttpPost httpPostUser = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUser.php");
-    	List<NameValuePair> nvp2 = new ArrayList<NameValuePair>(1);
-    	nvp2.add(new BasicNameValuePair("userID", useridstring));
-    	try {
-			httpPostUser.setEntity(new UrlEncodedFormEntity(nvp2));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-    	dsUAuto.setHttpPost(httpPostUser);
-
-    	dsUAuto.execute();
+	    DownSycnAllAuto dsAllAuto = new DownSycnAllAuto();
+	    dsAllAuto.setContext(this);
 	    
-    	//ProjectList
-    	HttpPost httpPostProject = new HttpPost("http://triple11.com/BlueTeam/android/syncDownProject.php");
-    	List<NameValuePair> nvp1 = new ArrayList<NameValuePair>(1);
-    	nvp1.add(new BasicNameValuePair("userID", useridstring));
+	    HttpPost httpPostAll= new HttpPost("http://triple11.com/BlueTeam/android/syncDown.php");
+    	List<NameValuePair> nvpAll = new ArrayList<NameValuePair>(1);
+    	nvpAll.add(new BasicNameValuePair("userID", useridstring));
     	try {
-			httpPostProject.setEntity(new UrlEncodedFormEntity(nvp1));
+			httpPostAll.setEntity(new UrlEncodedFormEntity(nvpAll));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-    	dsPAuto.setHttpPost(httpPostProject);
-    	dsPAuto.execute();
-    	
-	    //UserProjectList
-	    HttpPost httpPost = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUserProject.php");
-    	List<NameValuePair> nvp = new ArrayList<NameValuePair>(1);
-    	nvp.add(new BasicNameValuePair("userID", useridstring));
-    	try {
-			httpPost.setEntity(new UrlEncodedFormEntity(nvp));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-    	dsUPAuto.setHttpPost(httpPost);
+    	dsAllAuto.setHttpPost(httpPostAll);
 
-    	dsUPAuto.execute();
-    	
-    	DownSycnUserProjectAuto dsUPAutoNew = new DownSycnUserProjectAuto();
-		dsUPAutoNew.setContext(this);
-		
-		DownSycnUserAuto dsUAutoNew = new DownSycnUserAuto();
-		dsUAutoNew.setContext(this);
-		
-		DownSycnProjectAuto dsPAutoNew = new DownSycnProjectAuto();
-		dsPAutoNew.setContext(this);
-
-	    //UserList
-    	HttpPost httpPostUserNew = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUser.php");
-    	List<NameValuePair> nvp2New = new ArrayList<NameValuePair>(1);
-    	nvp2New.add(new BasicNameValuePair("userID", useridstring));
-    	try {
-			httpPostUserNew.setEntity(new UrlEncodedFormEntity(nvp2New));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-    	dsUAutoNew.setHttpPost(httpPostUser);
-
-    	dsUAutoNew.execute();
-    	
-    	//ProjectList
-    	HttpPost httpPostProjectNew = new HttpPost("http://triple11.com/BlueTeam/android/syncDownProject.php");
-    	List<NameValuePair> nvp1New = new ArrayList<NameValuePair>(1);
-    	nvp1New.add(new BasicNameValuePair("userID", useridstring));
-    	try {
-			httpPostProjectNew.setEntity(new UrlEncodedFormEntity(nvp1New));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-    	dsPAutoNew.setHttpPost(httpPostProject);
-    	dsPAutoNew.execute();
-    	
-	    //UserProjectList
-	    HttpPost httpPostNew = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUserProject.php");
-    	List<NameValuePair> nvpNew = new ArrayList<NameValuePair>(1);
-    	nvpNew.add(new BasicNameValuePair("userID", useridstring));
-    	try {
-			httpPostNew.setEntity(new UrlEncodedFormEntity(nvpNew));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-    	dsUPAutoNew.setHttpPost(httpPost);
-
-    	dsUPAutoNew.execute();
+    	dsAllAuto.execute();
+	    
     		
 	}
 
@@ -234,59 +160,23 @@ public class MainActivity extends FragmentActivity {
     			InternetCheck internet = new InternetCheck();
     			boolean internetOn = internet.internetOn(this);
     			if (internetOn) {
-    				DownSycnProject dsP = new DownSycnProject();
-            		dsP.setContext(this);
-            		
-            		DownSycnUser dsU = new DownSycnUser();
-            		dsU.setContext(this);
+    				int userid = getIntent().getIntExtra("userID", 0);
+    			    String useridstring = String.valueOf(userid);
     				
-    				DownSycnUserProject dsUP = new DownSycnUserProject();
-            		dsUP.setContext(this);
+    				DownSycnAll dsAll = new DownSycnAll();
+    			    dsAll.setContext(this);
+    			    
+    			    HttpPost httpPostAll= new HttpPost("http://triple11.com/BlueTeam/android/syncDown.php");
+    		    	List<NameValuePair> nvpAll = new ArrayList<NameValuePair>(1);
+    		    	nvpAll.add(new BasicNameValuePair("userID", useridstring));
+    		    	try {
+    					httpPostAll.setEntity(new UrlEncodedFormEntity(nvpAll));
+    				} catch (UnsupportedEncodingException e) {
+    					e.printStackTrace();
+    				}
+    		    	dsAll.setHttpPost(httpPostAll);
 
-            	    int userid = getIntent().getIntExtra("userID", 0);
-            	    String useridstring = String.valueOf(userid);
-
-                	
-                	
-                	//ProjectList
-                	HttpPost httpPostProject = new HttpPost("http://triple11.com/BlueTeam/android/syncDownProject.php");
-                	List<NameValuePair> nvp1 = new ArrayList<NameValuePair>(1);
-                	nvp1.add(new BasicNameValuePair("userID", useridstring));
-                	try {
-            			httpPostProject.setEntity(new UrlEncodedFormEntity(nvp1));
-            		} catch (UnsupportedEncodingException e) {
-            			e.printStackTrace();
-            		}
-                	dsP.setHttpPost(httpPostProject);
-       
-                	
-                	dsP.execute();
-                	
-                	
-                	//UserList
-                	HttpPost httpPostUser = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUser.php");
-                	List<NameValuePair> nvp2 = new ArrayList<NameValuePair>(1);
-                	nvp2.add(new BasicNameValuePair("userID", useridstring));
-                	try {
-            			httpPostUser.setEntity(new UrlEncodedFormEntity(nvp2));
-            		} catch (UnsupportedEncodingException e) {
-            			e.printStackTrace();
-            		}
-                	dsU.setHttpPost(httpPostUser);
-                	
-                	dsU.execute();
-                	
-                	//UserProjectList
-            	    HttpPost httpPost = new HttpPost("http://triple11.com/BlueTeam/android/syncDownUserProject.php");
-                	List<NameValuePair> nvp = new ArrayList<NameValuePair>(1);
-                	nvp.add(new BasicNameValuePair("userID", useridstring));
-                	try {
-            			httpPost.setEntity(new UrlEncodedFormEntity(nvp));
-            		} catch (UnsupportedEncodingException e) {
-            			e.printStackTrace();
-            		}
-                	dsUP.setHttpPost(httpPost);
-                	dsUP.execute();
+    		    	dsAll.execute();
     			}
     			else {
     				
@@ -319,285 +209,401 @@ public class MainActivity extends FragmentActivity {
 	    }
 	}
 
-
-		private class DownSycnUserProject extends JSONParser {
+		private class DownSycnAll extends JSONParser {
 
 			@SuppressLint("NewApi")
-				@Override
-				public void processJSON(JSONObject json) {
-					try {
-						
-							JSONArray jsonArray = json.getJSONArray("userProjectList");
-							
-							for (int i = 0; i < jsonArray.length(); i++) {
-
-									JSONObject userprojectObject = jsonArray.getJSONObject(i);
-									String upid = userprojectObject.getString("Id");
-									String upufidstring = userprojectObject.getString("uId");
-									int upufid = Integer.parseInt(upufidstring);
-									String uppfidstring = userprojectObject.getString("pId");
-									int uppfid = Integer.parseInt(uppfidstring);
-									String role = userprojectObject.getString("role");
-									String status = userprojectObject.getString("status");
-									Calendar CalNow = Calendar.getInstance();
-						        	Date DateNow = new Date(CalNow.getTimeInMillis());
-
-
-									userprojectdatasource.createUser_Project(upid, upufid, uppfid, role, DateNow, status);
-
-								}
-
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					//Stop the progress on the syncing icon
-			    	menuItem.collapseActionView();
-			    	menuItem.setActionView(null);
+			@Override
+			public void processJSON(JSONObject json) {
+				try {
 					
-				}
+					/**
+					 * 
+					 * Sycn Down All Project
+					 * 
+					 */
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+					JSONArray jsonArray = json.getJSONArray("projectList");
+					for (int i = 0; i < jsonArray.length(); i++) {
 
-		    }
+							
 
-		private class DownSycnProject extends JSONParser {
+							JSONObject jsonObject = jsonArray.getJSONObject(i);
+							String ID = jsonObject.getString("Id");
+							String Name = jsonObject.getString("Name");
+							
+							String Description = jsonObject.getString("Description");
+							String StartDateString = jsonObject.getString("StartDate");
+							java.util.Date StartDateUtil =  df.parse(StartDateString); 
+							java.sql.Date StartDate = new java.sql.Date(StartDateUtil.getTime());
+							String DueDateString = jsonObject.getString("DueDate");
+							java.util.Date DueDateUtil =  df.parse(DueDateString);
+							java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
+							String Completion = jsonObject.getString("Completion");
+							String Status = jsonObject.getString("Status");
+							Calendar CalNow = Calendar.getInstance();
+				        	Date DateNow = new Date(CalNow.getTimeInMillis());
 
-			@SuppressLint("NewApi")
-			@Override
-			public void processJSON(JSONObject json) {
-				try {
+							projectdatasource.createProject(ID, Name,Description,StartDate,DueDate,Completion,DateNow,Status);
 
-						JSONArray jsonArray = json.getJSONArray("projectList");
+						}
+
+		        	    ActiveProjects fragment = (ActiveProjects) getSupportFragmentManager().findFragmentByTag(
+		                        "android:switcher:"+R.id.projectListPager+":0");
+		        	    CompletedProjects fragment2 = (CompletedProjects) getSupportFragmentManager().findFragmentByTag(
+		                        "android:switcher:"+R.id.projectListPager+":1");
+		        	    if(fragment != null) 
+		        	      {
+		        	         if(fragment.getView() != null) 
+		        	         {
+
+		        	            fragment.fillData(); 
+		        	         }
+		        	      }
+
+		        	    if(fragment2 != null) 
+			      	      {
+			      	         if(fragment2.getView() != null) 
+			      	         {
+			      	            fragment2.fillData(); 
+			      	         }
+			      	      }
+		        	    
+		        	    /**
+						 * 
+						 * Sycn Down All User
+						 * 
+						 */
+		        	    
+		        	    JSONArray jsonArrayDSUser = json.getJSONArray("userList");
+
+						for (int i = 0; i < jsonArrayDSUser.length(); i++) {
+
+								JSONObject DwUserjsonObject = jsonArrayDSUser.getJSONObject(i);
+								String ID = DwUserjsonObject.getString("uId");
+								String User_Username = DwUserjsonObject.getString("uUsername");
+								String Username = DwUserjsonObject.getString("uName");
+								String Phonenumber = DwUserjsonObject.getString("uPhone");
+
+								Calendar CalNow = Calendar.getInstance();
+					        	Date DateNow = new Date(CalNow.getTimeInMillis());
+
+					        	userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+
+							}
 						
-						for (int i = 0; i < jsonArray.length(); i++) {
-
-								SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
-
-								JSONObject jsonObject = jsonArray.getJSONObject(i);
-								String ID = jsonObject.getString("Id");
-								String Name = jsonObject.getString("Name");
-
-								String Description = jsonObject.getString("Description");
-								String StartDateString = jsonObject.getString("StartDate");
-								java.util.Date StartDateUtil =  df.parse(StartDateString); 
-								java.sql.Date StartDate = new java.sql.Date(StartDateUtil.getTime());
-								String DueDateString = jsonObject.getString("DueDate");
-								java.util.Date DueDateUtil =  df.parse(DueDateString);
-								java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
-								String Completion = jsonObject.getString("Completion");
-								String Status = jsonObject.getString("Status");
-
-								Calendar CalNow = Calendar.getInstance();
-					        	Date DateNow = new Date(CalNow.getTimeInMillis());
-
-								projectdatasource.createProject(ID, Name,Description,StartDate,DueDate,Completion,DateNow,Status);
-
-							}
-
-			        	    ActiveProjects fragment = (ActiveProjects) getSupportFragmentManager().findFragmentByTag(
-			                        "android:switcher:"+R.id.projectListPager+":0");
-			        	    CompletedProjects fragment2 = (CompletedProjects) getSupportFragmentManager().findFragmentByTag(
-			                        "android:switcher:"+R.id.projectListPager+":1");
-			        	    if(fragment != null)  
-			        	      {
-			        	         if(fragment.getView() != null) 
-			        	         {
-
-			        	            fragment.fillData();
-			        	         }
-			        	      }
-
-			        	    if(fragment2 != null)  
-				      	      {
-				      	         if(fragment2.getView() != null) 
-				      	         {
-				      	            fragment2.fillData();
-				      	         }
-				      	      }
-
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			    	
-			}
-
-	    }
-
-		private class DownSycnUser extends JSONParser {
-
-			@SuppressLint("NewApi")
-			@Override
-			public void processJSON(JSONObject json) {
-				try {
-					// if the JSON comes back successfully
-
-						JSONArray jsonArray = json.getJSONArray("userList");
+						/**
+						 * 
+						 * Sycn Down All UserProject
+						 * 
+						 */
+						
+						JSONArray jsonArrayDSUserProject = json.getJSONArray("userProjectList");
 						//JSONArray jsonArray = json.getJSONArray("userProjectList");
-						for (int i = 0; i < jsonArray.length(); i++) {
+						for (int i = 0; i < jsonArrayDSUserProject.length(); i++) {
 
-								JSONObject jsonObject = jsonArray.getJSONObject(i);
-								String ID = jsonObject.getString("uId");
-								String User_Username = jsonObject.getString("uUsername");
-								String Username = jsonObject.getString("uName");
-								String Phonenumber = jsonObject.getString("uPhone");
-								String Email = User_Username;
 
+								// if the JSON object contains a staff update get the information
+								// about the staff that needs to be updated
+								JSONObject userprojectObject = jsonArrayDSUserProject.getJSONObject(i);
+								String upid = userprojectObject.getString("Id");
+								String upufidstring = userprojectObject.getString("uId");
+								int upufid = Integer.parseInt(upufidstring);
+								String uppfidstring = userprojectObject.getString("pId");
+								int uppfid = Integer.parseInt(uppfidstring);
+								String role = userprojectObject.getString("role");
+								String status = userprojectObject.getString("status");
 								Calendar CalNow = Calendar.getInstance();
 					        	Date DateNow = new Date(CalNow.getTimeInMillis());
 
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, Email, DateNow);
+								userprojectdatasource.createUser_Project(upid, upufid, uppfid, role, DateNow, status);
 
 							}
+						
+						/**
+						 * 
+						 * Sycn Down All UserTask
+						 * 
+						 */
+						
+						JSONArray jsonArrayDSTask = json.getJSONArray("taskUserList");
+						//JSONArray jsonArray = json.getJSONArray("userProjectList");
+						for (int g = 0; g < jsonArrayDSTask.length(); g++) {
 
 
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+								// if the JSON object contains a staff update get the information
+								// about the staff that needs to be updated
+								JSONObject DwUserTaskObject = jsonArrayDSTask.getJSONObject(g);
+								//JSONObject userprojectObject = jsonArray.getJSONObject(i);
+								
+								String usertaskid = DwUserTaskObject.getString("userTaskId");
+								String user_taskstring = DwUserTaskObject.getString("UserId");
+								long user_task = Long.parseLong(user_taskstring);
+								String task_taskstring = DwUserTaskObject.getString("TaskId");
+								long task_task = Long.parseLong(task_taskstring);
+								String statusstring = DwUserTaskObject.getString("Status");
+								int status = Integer.parseInt(statusstring);
 
-			    	
+		             		    
+								Calendar CalNow = Calendar.getInstance();
+					        	Date DateNow = new Date(CalNow.getTimeInMillis());
+
+					        	usertaskdatasource.createUser_Task(usertaskid, user_task, task_task, DateNow, status);
+					        	
+
+							}
+						
+						
+						/**
+						 * 
+						 * Sycn Down All Task
+						 * 
+						 */
+						
+						JSONArray jsonArrayDSUserTask = json.getJSONArray("taskList");
+						//JSONArray jsonArray = json.getJSONArray("userProjectList");
+						for (int f = 0; f < jsonArrayDSUserTask.length(); f++) {
+
+
+								// if the JSON object contains a staff update get the information
+								// about the staff that needs to be updated
+								JSONObject DwTaskObject = jsonArrayDSUserTask.getJSONObject(f);
+								//JSONObject userprojectObject = jsonArray.getJSONObject(i);
+								
+								String taskid = DwTaskObject.getString("TaskId");
+								String taskprojectidstring = DwTaskObject.getString("ProjectId");
+								long taskprojectid = Long.parseLong(taskprojectidstring);
+								String taskname = DwTaskObject.getString("TaskName");
+								String taskdescription = DwTaskObject.getString("TaskDescription");
+								String taskimportancelevelstring = DwTaskObject.getString("TaskILevel");
+								int taskimportance = Integer.parseInt(taskimportancelevelstring);
+								String DueDateString = DwTaskObject.getString("TaskDD");
+								java.util.Date DueDateUtil =  df.parse(DueDateString);
+								java.sql.Date taskduedate = new java.sql.Date(DueDateUtil.getTime());
+								
+								String taskcompletionstring = DwTaskObject.getString("TaskCompletion");
+								int taskcompletion = Integer.parseInt(taskcompletionstring);
+								String taskcategorystring = DwTaskObject.getString("Category");
+								int taskcategory = Integer.parseInt(taskcategorystring);
+								Calendar CalNow = Calendar.getInstance();
+					        	Date DateNow = new Date(CalNow.getTimeInMillis());
+
+					        	
+					        	taskdatasource.createTask(taskid, taskprojectid, taskname, taskdescription, taskimportance, taskduedate, taskcompletion, DateNow, taskcategory);
+					        	
+					        	
+
+							}
+		        	    
+
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				menuItem.collapseActionView();
+		    	menuItem.setActionView(null);
+
 			}
 
 	    }
 		
-		private class DownSycnUserProjectAuto extends JSONParser {
+		private class DownSycnAllAuto extends JSONParser {
 
 			@SuppressLint("NewApi")
-				@Override
-				public void processJSON(JSONObject json) {
-					try {
-						// if the JSON comes back successfully
-
-							JSONArray jsonArray = json.getJSONArray("userProjectList");
-							//JSONArray jsonArray = json.getJSONArray("userProjectList");
-							for (int i = 0; i < jsonArray.length(); i++) {
-
-
-									// if the JSON object contains a staff update get the information
-									// about the staff that needs to be updated
-									JSONObject userprojectObject = jsonArray.getJSONObject(i);
-									String upid = userprojectObject.getString("Id");
-									String upufidstring = userprojectObject.getString("uId");
-									int upufid = Integer.parseInt(upufidstring);
-									String uppfidstring = userprojectObject.getString("pId");
-									int uppfid = Integer.parseInt(uppfidstring);
-									String role = userprojectObject.getString("role");
-									String status = userprojectObject.getString("status");
-									Calendar CalNow = Calendar.getInstance();
-						        	Date DateNow = new Date(CalNow.getTimeInMillis());
-
-									userprojectdatasource.createUser_Project(upid, upufid, uppfid, role, DateNow, status);
-
-								}
-
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+			@Override
+			public void processJSON(JSONObject json) {
+				try {
 					
-				}
+					/*
+					 * 
+					 * Sycn Down All Project
+					 * 
+					 */
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+					JSONArray jsonArray = json.getJSONArray("projectList");
+					for (int i = 0; i < jsonArray.length(); i++) {
 
-		    }
+							
 
-		private class DownSycnProjectAuto extends JSONParser {
+							JSONObject jsonObject = jsonArray.getJSONObject(i);
+							String ID = jsonObject.getString("Id");
+							String Name = jsonObject.getString("Name");
+							
+							String Description = jsonObject.getString("Description");
+							String StartDateString = jsonObject.getString("StartDate");
+							java.util.Date StartDateUtil =  df.parse(StartDateString); 
+							java.sql.Date StartDate = new java.sql.Date(StartDateUtil.getTime());
+							String DueDateString = jsonObject.getString("DueDate");
+							java.util.Date DueDateUtil =  df.parse(DueDateString);
+							java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
+							String Completion = jsonObject.getString("Completion");
+							String Status = jsonObject.getString("Status");
+							Calendar CalNow = Calendar.getInstance();
+				        	Date DateNow = new Date(CalNow.getTimeInMillis());
 
-			@SuppressLint("NewApi")
-			@Override
-			public void processJSON(JSONObject json) {
-				try {
+							projectdatasource.createProject(ID, Name,Description,StartDate,DueDate,Completion,DateNow,Status);
 
-						JSONArray jsonArray = json.getJSONArray("projectList");
-						for (int i = 0; i < jsonArray.length(); i++) {
+						}
 
-								SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+		        	    ActiveProjects fragment = (ActiveProjects) getSupportFragmentManager().findFragmentByTag(
+		                        "android:switcher:"+R.id.projectListPager+":0");
+		        	    CompletedProjects fragment2 = (CompletedProjects) getSupportFragmentManager().findFragmentByTag(
+		                        "android:switcher:"+R.id.projectListPager+":1");
+		        	    if(fragment != null) 
+		        	      {
+		        	         if(fragment.getView() != null) 
+		        	         {
 
-								JSONObject jsonObject = jsonArray.getJSONObject(i);
-								String ID = jsonObject.getString("Id");
-								String Name = jsonObject.getString("Name");
+		        	            fragment.fillData(); 
+		        	         }
+		        	      }
+
+		        	    if(fragment2 != null) 
+			      	      {
+			      	         if(fragment2.getView() != null) 
+			      	         {
+			      	            fragment2.fillData(); 
+			      	         }
+			      	      }
+		        	    
+		        	    /*
+						 * 
+						 * Sycn Down All User
+						 * 
+						 */
+		        	    
+		        	    JSONArray jsonArrayDSUser = json.getJSONArray("userList");
+
+						for (int i = 0; i < jsonArrayDSUser.length(); i++) {
+
+								JSONObject DwUserjsonObject = jsonArrayDSUser.getJSONObject(i);
+								String ID = DwUserjsonObject.getString("uId");
+								String User_Username = DwUserjsonObject.getString("uUsername");
+								String Username = DwUserjsonObject.getString("uName");
+								String Phonenumber = DwUserjsonObject.getString("uPhone");
+
+								Calendar CalNow = Calendar.getInstance();
+					        	Date DateNow = new Date(CalNow.getTimeInMillis());
+
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+								userdatasource.createUser(ID, User_Username, Username, Phonenumber, User_Username, DateNow);
+
+							}
+						
+						/*
+						 * 
+						 * Sycn Down All UserProject
+						 * 
+						 */
+						
+						JSONArray jsonArrayDSUserProject = json.getJSONArray("userProjectList");
+						for (int i = 0; i < jsonArrayDSUserProject.length(); i++) {
+
+								JSONObject userprojectObject = jsonArrayDSUserProject.getJSONObject(i);
+								String upid = userprojectObject.getString("Id");
+								String upufidstring = userprojectObject.getString("uId");
+								int upufid = Integer.parseInt(upufidstring);
+								String uppfidstring = userprojectObject.getString("pId");
+								int uppfid = Integer.parseInt(uppfidstring);
+								String role = userprojectObject.getString("role");
+								String status = userprojectObject.getString("status");
+								Calendar CalNow = Calendar.getInstance();
+					        	Date DateNow = new Date(CalNow.getTimeInMillis());
+
+								userprojectdatasource.createUser_Project(upid, upufid, uppfid, role, DateNow, status);
+
+							}
+						
+						/*
+						 * 
+						 * Sycn Down All UserTask
+						 * 
+						 */
+						
+						JSONArray jsonArrayDSTask = json.getJSONArray("taskUserList");
+						for (int g = 0; g < jsonArrayDSTask.length(); g++) {
+
+								JSONObject DwUserTaskObject = jsonArrayDSTask.getJSONObject(g);
 								
-								String Description = jsonObject.getString("Description");
-								String StartDateString = jsonObject.getString("StartDate");
-								java.util.Date StartDateUtil =  df.parse(StartDateString); 
-								java.sql.Date StartDate = new java.sql.Date(StartDateUtil.getTime());
-								String DueDateString = jsonObject.getString("DueDate");
+								String usertaskid = DwUserTaskObject.getString("userTaskId");
+								String user_taskstring = DwUserTaskObject.getString("UserId");
+								long user_task = Long.parseLong(user_taskstring);
+								String task_taskstring = DwUserTaskObject.getString("TaskId");
+								long task_task = Long.parseLong(task_taskstring);
+								String statusstring = DwUserTaskObject.getString("Status");
+								int status = Integer.parseInt(statusstring);
+
+		             		    
+								Calendar CalNow = Calendar.getInstance();
+					        	Date DateNow = new Date(CalNow.getTimeInMillis());
+
+					        	usertaskdatasource.createUser_Task(usertaskid, user_task, task_task, DateNow, status);
+					        	
+
+							}
+						
+						
+						/*
+						 * 
+						 * Sycn Down All Task
+						 * 
+						 */
+						
+						JSONArray jsonArrayDSUserTask = json.getJSONArray("taskList");
+						for (int f = 0; f < jsonArrayDSUserTask.length(); f++) {
+
+								JSONObject DwTaskObject = jsonArrayDSUserTask.getJSONObject(f);
+								
+								String taskid = DwTaskObject.getString("TaskId");
+								String taskprojectidstring = DwTaskObject.getString("ProjectId");
+								long taskprojectid = Long.parseLong(taskprojectidstring);
+								String taskname = DwTaskObject.getString("TaskName");
+								String taskdescription = DwTaskObject.getString("TaskDescription");
+								String taskimportancelevelstring = DwTaskObject.getString("TaskILevel");
+								int taskimportance = Integer.parseInt(taskimportancelevelstring);
+								String DueDateString = DwTaskObject.getString("TaskDD");
 								java.util.Date DueDateUtil =  df.parse(DueDateString);
-								java.sql.Date DueDate = new java.sql.Date(DueDateUtil.getTime());
-								String Completion = jsonObject.getString("Completion");
-								String Status = jsonObject.getString("Status");
+								java.sql.Date taskduedate = new java.sql.Date(DueDateUtil.getTime());
+								
+								String taskcompletionstring = DwTaskObject.getString("TaskCompletion");
+								int taskcompletion = Integer.parseInt(taskcompletionstring);
+								String taskcategorystring = DwTaskObject.getString("Category");
+								int taskcategory = Integer.parseInt(taskcategorystring);
 								Calendar CalNow = Calendar.getInstance();
 					        	Date DateNow = new Date(CalNow.getTimeInMillis());
 
-								projectdatasource.createProject(ID, Name,Description,StartDate,DueDate,Completion,DateNow,Status);
+					        	
+					        	taskdatasource.createTask(taskid, taskprojectid, taskname, taskdescription, taskimportance, taskduedate, taskcompletion, DateNow, taskcategory);
+					        	
+					        	
 
 							}
+		        	    
 
-			        	    ActiveProjects fragment = (ActiveProjects) getSupportFragmentManager().findFragmentByTag(
-			                        "android:switcher:"+R.id.projectListPager+":0");
-			        	    CompletedProjects fragment2 = (CompletedProjects) getSupportFragmentManager().findFragmentByTag(
-			                        "android:switcher:"+R.id.projectListPager+":1");
-			        	    if(fragment != null) 
-			        	      {
-			        	         if(fragment.getView() != null) 
-			        	         {
-
-			        	            fragment.fillData(); 
-			        	         }
-			        	      }
-
-			        	    if(fragment2 != null) 
-				      	      {
-				      	         if(fragment2.getView() != null) 
-				      	         {
-				      	            fragment2.fillData(); 
-				      	         }
-				      	      }
-
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-			}
-
-	    }
-
-		private class DownSycnUserAuto extends JSONParser {
-
-			@SuppressLint("NewApi")
-			@Override
-			public void processJSON(JSONObject json) {
-				try {
-
-
-						JSONArray jsonArray = json.getJSONArray("userList");
-
-						for (int i = 0; i < jsonArray.length(); i++) {
-
-								JSONObject jsonObject = jsonArray.getJSONObject(i);
-								String ID = jsonObject.getString("uId");
-								String User_Username = jsonObject.getString("uUsername");
-								String Username = jsonObject.getString("uName");
-								String Phonenumber = jsonObject.getString("uPhone");
-								String Email = User_Username;
-
-								Calendar CalNow = Calendar.getInstance();
-					        	Date DateNow = new Date(CalNow.getTimeInMillis());
-
-								userdatasource.createUser(ID, User_Username, Username, Phonenumber, Email, DateNow);
-
-							}
-
-
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 
 			}
 
