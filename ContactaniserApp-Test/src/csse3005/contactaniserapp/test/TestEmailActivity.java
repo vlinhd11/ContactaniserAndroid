@@ -27,6 +27,10 @@ public class TestEmailActivity extends ActivityInstrumentationTestCase2<EmailAct
         assertNotNull("Activity should be launched successfully", EmailActivity.class);
     }
 	
+	public void testMemoryNotLow() {
+		solo.assertMemoryNotLow();
+	}
+	
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();

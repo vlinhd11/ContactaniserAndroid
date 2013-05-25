@@ -27,6 +27,10 @@ public class TestMemberInfoActivity extends ActivityInstrumentationTestCase2<Mem
         assertNotNull("Activity should be launched successfully", MemberInfoActivity.class);
     }
 	
+	public void testMemoryNotLow() {
+		solo.assertMemoryNotLow();
+	}
+	
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();

@@ -27,6 +27,10 @@ public class TestLoginActivity extends ActivityInstrumentationTestCase2<LoginAct
         assertNotNull("Activity should be launched successfully", LoginActivity.class);
     }
 	
+	public void testMemoryNotLow() {
+		solo.assertMemoryNotLow();
+	}
+	
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();

@@ -27,6 +27,10 @@ public class TestChangePassword extends ActivityInstrumentationTestCase2<ChangeP
         assertNotNull("Activity should be launched successfully", ChangePassword.class);
     }
 	
+	public void testMemoryNotLow() {
+		solo.assertMemoryNotLow();
+	}
+	
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();

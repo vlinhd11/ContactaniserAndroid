@@ -27,6 +27,10 @@ public class TestCreateTaskActivity extends ActivityInstrumentationTestCase2<Cre
         assertNotNull("Activity should be launched successfully", CreateTaskActivity.class);
     }
 	
+	public void testMemoryNotLow() {
+		solo.assertMemoryNotLow();
+	}
+	
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();

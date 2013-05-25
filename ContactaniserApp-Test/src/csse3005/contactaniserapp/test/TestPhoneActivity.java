@@ -27,6 +27,10 @@ public class TestPhoneActivity extends ActivityInstrumentationTestCase2<PhoneAct
         assertNotNull("Activity should be launched successfully", PhoneActivity.class);
     }
 	
+	public void testMemoryNotLow() {
+		solo.assertMemoryNotLow();
+	}
+	
 	@Override
 	public void tearDown() throws Exception {
 		solo.finishOpenedActivities();
