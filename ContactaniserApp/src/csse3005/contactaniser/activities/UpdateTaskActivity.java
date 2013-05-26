@@ -121,6 +121,7 @@ public class UpdateTaskActivity extends Activity {
 			while (!c.isAfterLast()) {
 				User user = cursorToUser(c);
 				Cursor usercursor = usertaskdatasource.fetchUserTaskByUserIdTaskId(taskidsaved, user.getUserid());
+				
 				if (usercursor.getInt(usercursor.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKSTATUS)) != 1){
 					user.setSelected(true);
 					}

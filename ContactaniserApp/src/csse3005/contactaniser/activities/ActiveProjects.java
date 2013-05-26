@@ -16,6 +16,9 @@ import csse3005.contactaniserapp.R;
 
 public class ActiveProjects extends ListFragment {
 
+	
+	/** Class to List all Project */
+	
 	private ProjectDataSource projectdatasource;
 	
 	@Override
@@ -29,10 +32,9 @@ public class ActiveProjects extends ListFragment {
 	}
 	
 	
+	/** populate Project List */
 	public void fillData() {
-		/** Creating array adapter to set data in listview */
         List<Project> values = projectdatasource.getAllProjects(0);  
-        /** Setting the array adapter to the listview using the custom xml layout */
         ArrayAdapter<Project> adapter = new ArrayAdapter<Project>(getActivity(),
                 R.layout.active_row, R.id.label, values);
         adapter.notifyDataSetChanged();
@@ -42,7 +44,6 @@ public class ActiveProjects extends ListFragment {
 	@Override
     public void onStart() {
         super.onStart();
-//        setEmptyText("No active projects");
 		fillData();
     }
 

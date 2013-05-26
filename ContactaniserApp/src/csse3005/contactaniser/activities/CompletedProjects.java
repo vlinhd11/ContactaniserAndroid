@@ -29,11 +29,9 @@ public class CompletedProjects extends ListFragment{
         return view;
 	}
 	
-	
+	/** populate Project List */
 	public void fillData() {
-		/** Creating array adapter to set data in listview */
         List<Project> values = projectdatasource.getAllProjects(1);  
-        /** Setting the array adapter to the listview */
         ArrayAdapter<Project> adapter = new ArrayAdapter<Project>(getActivity(), R.layout.active_row, R.id.label, values);
         adapter.notifyDataSetChanged();
         setListAdapter(adapter);

@@ -146,7 +146,6 @@ public class ProjectActivity extends FragmentActivity {
         	
         		}
         		
-        		System.out.println(jsonArray.toString());
 
         		HttpPost httpPost = new HttpPost("http://protivity.triple11.com/android/syncUpTask.php");
             	
@@ -160,9 +159,7 @@ public class ProjectActivity extends FragmentActivity {
             	
             	syncuptask.setHttpPost(httpPost);
             	syncuptask.execute();
-            	
-            	
-            	
+
             	//implement syncupusertask here
     			JSONParserSend syncupusertask = new JSONParserSend();
     			syncupusertask.setContext(ProjectActivity.this);
@@ -299,11 +296,7 @@ public class ProjectActivity extends FragmentActivity {
 					//JSONArray jsonArray = json.getJSONArray("userProjectList");
 					for (int g = 0; g < jsonArrayDSTask.length(); g++) {
 
-
-							// if the JSON object contains a staff update get the information
-							// about the staff that needs to be updated
 							JSONObject DwUserTaskObject = jsonArrayDSTask.getJSONObject(g);
-							//JSONObject userprojectObject = jsonArray.getJSONObject(i);
 							
 							String usertaskid = DwUserTaskObject.getString("userTaskId");
 							String user_taskstring = DwUserTaskObject.getString("UserId");
@@ -330,14 +323,9 @@ public class ProjectActivity extends FragmentActivity {
 					 */
 					
 					JSONArray jsonArrayDSUserTask = json.getJSONArray("taskList");
-					//JSONArray jsonArray = json.getJSONArray("userProjectList");
 					for (int f = 0; f < jsonArrayDSUserTask.length(); f++) {
 
-
-							// if the JSON object contains a staff update get the information
-							// about the staff that needs to be updated
 							JSONObject DwTaskObject = jsonArrayDSUserTask.getJSONObject(f);
-							//JSONObject userprojectObject = jsonArray.getJSONObject(i);
 							
 							String taskid = DwTaskObject.getString("TaskId");
 							String taskprojectidstring = DwTaskObject.getString("ProjectId");

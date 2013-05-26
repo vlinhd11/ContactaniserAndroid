@@ -81,7 +81,7 @@ public class ActiveTasks extends Fragment {
 		}
 	}
 	
-	// populates tiles
+	/** populates tiles */
 	public void fillTaskData() {
 		// retrieve tasks
 		ArrayList<Task> rawList = taskdatasource.getAllTasks(getActivity().getIntent().getLongExtra("projId", -1), 0);

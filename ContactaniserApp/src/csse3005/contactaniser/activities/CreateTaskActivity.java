@@ -76,6 +76,8 @@ public class CreateTaskActivity extends Activity {
 		setCurrentDateOnView();
 		addListenerOnButton();
 		
+		
+		//Open all database source
 		taskdatabase = new TaskDataSource(this);
 		taskdatabase.open();
 		
@@ -88,6 +90,7 @@ public class CreateTaskActivity extends Activity {
 		usertaskdatasource = new User_TaskDataSource(this);
 		usertaskdatasource.open();
 		
+		// Get all the layout value
 		projectid = getIntent().getExtras().getLong("projectid");
 		listviewmembercreate = (ListView) findViewById(R.id.listMemberCreate);
 		taskname = (EditText) findViewById(R.id.task_name);
@@ -97,6 +100,7 @@ public class CreateTaskActivity extends Activity {
 		taskcreatebutton = (Button) findViewById(R.id.create_task_button);
 		p1_button = (Button)findViewById(R.id.btnChangeDate);
 		
+		//Populate user list to the listview
 		ArrayList<User_Project> values = userprojectdatasource.getAllUserbyProjectId(projectid);
         ArrayList<User> userlistcreate = new ArrayList<User>();
         for (int i=0; i<values.size(); i++){
@@ -117,7 +121,7 @@ public class CreateTaskActivity extends Activity {
          }
 
 
-        
+        // Set the User list to MyCustomAdapter
         final MyCustomAdapter adapter = new MyCustomAdapter(this,
                 R.layout.member_checkbox,  userlistcreate);
         
@@ -129,9 +133,8 @@ public class CreateTaskActivity extends Activity {
             
             	setResult(RESULT_OK);
             	
-            	//Get Date set
+            	//Get DueDate Instance
         		datestring = p1_button.getText().toString();
-        		
         		String[] daymonthyear = datestring.split("/");
         		duedateday = Integer.parseInt(daymonthyear[0]);
         		duedatemonth = Integer.parseInt(daymonthyear[1]) - 1;
@@ -141,9 +144,11 @@ public class CreateTaskActivity extends Activity {
         		long duedateint = c1.getTimeInMillis();
         		Date dateSet = new Date(duedateint);
         		
+        		//Get Current Date
         		Calendar cal = Calendar.getInstance();
         		Date datenow = new Date(cal.getTimeInMillis());
             	
+        		//Call error if TaskName TextView is Empty
             	if (taskname.getText().toString().equals("")) {
         			taskname.setError(getString(R.string.error_field_required));
         			focusView = taskname;
@@ -151,6 +156,7 @@ public class CreateTaskActivity extends Activity {
         			 
         		} 
             	
+            	//Call error toast if DueDate is before current date
             	if(dateSet.before(datenow))
             	{
             		Toast.makeText(CreateTaskActivity.this, "Due Date Invalid", Toast.LENGTH_LONG).show();
@@ -159,13 +165,15 @@ public class CreateTaskActivity extends Activity {
             	
             	else {
         			
-        			//if the name is not null wh, get the values from the
-        			//layout attributes and saved values from existing edit
+            		//Set Task ID from time current time in millis
             		taskid = System.currentTimeMillis();
             		String taskidstring = String.valueOf(taskid);
             		
+            		//Get value from previous activity
             		projectid = getIntent().getExtras().getLong("projectid");
             		userid = getIntent().getExtras().getInt("userid");
+            		
+            		//Get all value from the Android widget
             		tasknamestring = taskname.getText().toString();
             		taskdescriptionstring = 
             				taskdescription.getText().toString();
@@ -173,20 +181,19 @@ public class CreateTaskActivity extends Activity {
             				taskcategory.getSelectedItemPosition();
             		taskimportanceindex = taskimportance.getProgress();
             		
-            		
-            		
-            		
-            	
-            		
+            		//Set the User Task value
             		ArrayList<User> userLists = adapter.userList;
             	    for(int i=0;i<userLists.size();i++){
             	     User user = userLists.get(i);
+            	     
+            	     //Save User Task if the User in ListView is selected
             	     if(user.isSelected()){
             	    	 long usertaskid = System.currentTimeMillis();
             	    	 String usertaskidstring = String.valueOf(usertaskid);
             	    	 usertaskdatasource.createUser_Task(usertaskidstring, user.getUserid(), taskid, datenow, 0);
 
             	     }
+            	     
             	     else
             	     {
             	    	 long usertaskid = System.currentTimeMillis();
@@ -195,10 +202,13 @@ public class CreateTaskActivity extends Activity {
             	     }
             	    }
             		
+            	    //Get another time in millis for the user who login to save in User Task
             	    long usertaskidself = System.currentTimeMillis();
             	    String usertaskidselfstring = String.valueOf(usertaskidself);
             	    usertaskdatasource.createUser_Task(usertaskidselfstring,userid , taskid, datenow, 0);
-            		taskdatabase.createTask(taskidstring, projectid,
+            		
+            	    //Save task value to database
+            	    taskdatabase.createTask(taskidstring, projectid,
             				tasknamestring, taskdescriptionstring,
             				taskimportanceindex, dateSet, 0, datenow,
             				taskcategoryindex);
@@ -220,7 +230,7 @@ public class CreateTaskActivity extends Activity {
 		return true;
 	}
 	
-	// display current date
+		// display current date
 		public void setCurrentDateOnView() {
 			
 			final Calendar c = Calendar.getInstance();
@@ -281,6 +291,7 @@ public class CreateTaskActivity extends Activity {
 			}
 		};
 		
+		//Cursor to pass User value
 		private User cursorToUser(Cursor cursor) {
 			User user = new User();
 			user.setUserid(cursor.getInt(0));
@@ -295,6 +306,7 @@ public class CreateTaskActivity extends Activity {
 			return user;
 		}
 		
+		// Custom Adapter to make ListView with checkbox
 		private class MyCustomAdapter extends ArrayAdapter<User> {
 			 
 			  private ArrayList<User> userList;
