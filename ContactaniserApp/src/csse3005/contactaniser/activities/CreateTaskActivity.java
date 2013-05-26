@@ -34,6 +34,10 @@ import csse3005.contactaniser.models.User;
 import csse3005.contactaniser.models.User_Project;
 import csse3005.contactaniserapp.R;
 
+/**
+ * Activity to create new Task
+ */
+
 public class CreateTaskActivity extends Activity {
 
 	private long projectid;
@@ -68,6 +72,7 @@ public class CreateTaskActivity extends Activity {
 	private User_TaskDataSource usertaskdatasource;
 	private ListView listviewmembercreate;
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -100,7 +105,7 @@ public class CreateTaskActivity extends Activity {
 		taskcreatebutton = (Button) findViewById(R.id.create_task_button);
 		p1_button = (Button)findViewById(R.id.btnChangeDate);
 		
-		//Populate user list to the listview
+		//Convert the User_Project value to User value by UserId from User_Project
 		ArrayList<User_Project> values = userprojectdatasource.getAllUserbyProjectId(projectid);
         ArrayList<User> userlistcreate = new ArrayList<User>();
         for (int i=0; i<values.size(); i++){
@@ -181,7 +186,7 @@ public class CreateTaskActivity extends Activity {
             				taskcategory.getSelectedItemPosition();
             		taskimportanceindex = taskimportance.getProgress();
             		
-            		//Set the User Task value
+            		//Get user value from adapter
             		ArrayList<User> userLists = adapter.userList;
             	    for(int i=0;i<userLists.size();i++){
             	     User user = userLists.get(i);
@@ -230,7 +235,7 @@ public class CreateTaskActivity extends Activity {
 		return true;
 	}
 	
-		// display current date
+		/** display current date */
 		public void setCurrentDateOnView() {
 			
 			final Calendar c = Calendar.getInstance();
@@ -243,7 +248,8 @@ public class CreateTaskActivity extends Activity {
 					Integer.toString(year));
 	 
 		}
-	 
+		
+		/** Add new Button Listener */
 		public void addListenerOnButton() {
 	 
 			btnChangeDate = (Button) findViewById(R.id.btnChangeDate);
@@ -291,7 +297,12 @@ public class CreateTaskActivity extends Activity {
 			}
 		};
 		
-		//Cursor to pass User value
+		/** Cursor to pass User value
+		 * @param cursor of User Database
+		 * 
+		 * @return User Object
+		 *  
+		 */
 		private User cursorToUser(Cursor cursor) {
 			User user = new User();
 			user.setUserid(cursor.getInt(0));
@@ -306,7 +317,9 @@ public class CreateTaskActivity extends Activity {
 			return user;
 		}
 		
-		// Custom Adapter to make ListView with checkbox
+		/**
+		 * Class to customize current ArrayAdapter to have CheckBox
+		 */
 		private class MyCustomAdapter extends ArrayAdapter<User> {
 			 
 			  private ArrayList<User> userList;

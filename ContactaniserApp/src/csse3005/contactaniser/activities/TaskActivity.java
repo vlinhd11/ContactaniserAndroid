@@ -27,6 +27,9 @@ import csse3005.contactaniser.models.User;
 import csse3005.contactaniser.models.User_Task;
 import csse3005.contactaniserapp.R;
 
+/**
+ * Activity to display Active Task Information
+ */
 public class TaskActivity extends Activity {
 
 	private static TextView tasknametextview;
@@ -57,6 +60,7 @@ public class TaskActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task);
 		
+		//Open database
 		taskdatasource = new TaskDataSource(this);
 		taskdatasource.open();
 		
@@ -66,9 +70,7 @@ public class TaskActivity extends Activity {
 		usertaskdatasource = new User_TaskDataSource(this);
 		usertaskdatasource.open();
 		
-		
-		
-		
+		//Initiate TextView
 		tasknametextview = (TextView) findViewById(R.id.tasktextViewName);
 		taskdescriptiontextview = (TextView) findViewById(R.id.tasktextViewDescription);
 		taskcategorytextview = (TextView) findViewById(R.id.tasktextCategory);
@@ -78,20 +80,23 @@ public class TaskActivity extends Activity {
 		UpdateButton = (Button) findViewById (R.id.buttonTaskUpdate);
 		CompleteButton = (Button) findViewById (R.id.buttonTaskComplete);
 		
+		//Get value from previous activity
 		final long mrowprojectid = getIntent().getExtras().getLong("projectid");
 		long mrowtaskid = getIntent().getExtras().getLong("taskid");
 		final String mrowtaskidString = String.valueOf(mrowtaskid);
 		long mrowuserid = getIntent().getIntExtra("userid", 0);
+		
+		//Set the cursor
 		Cursor task = taskdatasource.fetchTaskById(mrowtaskid);
 		
+		//Get the value from the database
 		taskname = task.getString(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKNAME));
 		taskdescription = task.getString(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKDESCRIPTION));
 		taskcategoryindex = task.getInt(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKCATEGORY));
 		taskimportanceindex = task.getInt(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKIMPORTANCELEVEL));
 		taskduedate = task.getString(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKDUEDATE));
 		
-		
-		
+		//Change the value of index to actual value in String
 		if (taskimportanceindex == 0)
 		{
 			taskimportance = "Low";
@@ -122,6 +127,7 @@ public class TaskActivity extends Activity {
 			taskcategory = "Other";
 		}
 		
+		//Set the value in TextView
 		tasknametextview.setText(taskname);
 		taskdescriptiontextview.setText(taskdescription);
 		taskcategorytextview.setText(taskcategory);
@@ -130,17 +136,22 @@ public class TaskActivity extends Activity {
 		
 		listviewmember = (ListView) findViewById(R.id.tasklistMember);
 		
+		//Get now date
 		Calendar CalNow = Calendar.getInstance();
     	final Date DateNow = new Date(CalNow.getTimeInMillis());
 		
     	final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
-		ArrayList<User_Task> values = usertaskdatasource.getAllUserbyTaskId(mrowtaskid);
 		
+    	//Get the User_Task value
+    	ArrayList<User_Task> values = usertaskdatasource.getAllUserbyTaskId(mrowtaskid);
+		
+    	//Set Member label gone if there are no other user
 		if (values.size()==1)
 		{
 			View b = findViewById(R.id.memberlabel);
         	b.setVisibility(View.GONE);
 		}
+		//Conver the User_Task value to User by UserId from User_Task
 		ArrayList<User> userlist = new ArrayList<User>();
 	        for (int i=0; i<values.size(); i++){
 	        	
@@ -214,6 +225,12 @@ public class TaskActivity extends Activity {
 		return true;
 	}
 	
+	/** Cursor to pass User value
+	 * @param cursor of User Database
+	 * 
+	 * @return User Object
+	 *  
+	 */
 	private User cursorToUser(Cursor cursor) {
 		User user = new User();
 		user.setUserid(cursor.getInt(0));
@@ -227,6 +244,8 @@ public class TaskActivity extends Activity {
 		return user;
 	}
 
+	/** Reload all data after update the task*/
+	 
 	@Override
 	protected void onResume() {
 		super.onResume();

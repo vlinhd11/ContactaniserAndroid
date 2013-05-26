@@ -10,7 +10,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-
+/**
+ * Class to manage Task Table
+ */
 public class TaskDataSource { 
 	// Database fields
 	private SQLiteDatabase database;
@@ -37,6 +39,19 @@ public class TaskDataSource {
 		dbHelper.close();
 	}
 	
+	/**
+	 * Create and Update Task
+	 * @param taskid ID
+	 * @param projectfid Foreign key to Project ID
+	 * @param name Name
+	 * @param description Description
+	 * @param importancelevel Importance Level Index
+	 * @param duedate Due Date
+	 * @param completion Completion Status
+	 * @param lastupdate Last Update
+	 * @param category Category Index
+	 * @return newTask
+	 */
 	public Task createTask(String taskid, long projectfid, String name, String description, int importancelevel, Date duedate, int completion, Date lastupdate , int category) {
 		ContentValues values = new ContentValues();
 		
@@ -78,17 +93,28 @@ public class TaskDataSource {
 		}
 	}
 
+	/**
+	 * Delete task
+	 * @param task
+	 */
 	public void deleteTask(Task task) {
 		long id = task.getTaskid();
 		database.delete(MySQLHelper.TABLE_TASKS, MySQLHelper.COLUMN_TASKID
 		    + " = " + id, null);
 	}
-	
+	/**
+	 * Delete all Task
+	 */
 	public void deleteAllTask() {
 		database.delete(MySQLHelper.TABLE_TASKS, null, null);
 	}
 
-
+	/**
+	 * Get all task depends on project ID and Completion Status
+	 * @param pid Project ID
+	 * @param completion Completion Status
+	 * @return task
+	 */
 	public ArrayList<Task> getAllTasks(long pid, int completion) {
 		ArrayList<Task> tasks = new ArrayList<Task>();
 
@@ -106,13 +132,17 @@ public class TaskDataSource {
 		cursor.close();
 		return tasks;
 	}
+	/**
+	 * Get all Task
+	 * @return Task
+	 */
 	public ArrayList<Task> getALLTasks() {
 		ArrayList<Task> tasks = new ArrayList<Task>();
 
 		//Retrieve all tasks with the pid given
 		Cursor cursor = database.query(MySQLHelper.TABLE_TASKS,
 		    allColumns, null, null, null, null , MySQLHelper.COLUMN_TASKDUEDATE + " ASC", null);
-		
+
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			Task task = cursorToTask(cursor);
@@ -124,6 +154,11 @@ public class TaskDataSource {
 		return tasks;
 	}
 
+	/**
+	 * Cursor to pass task value
+	 * @param cursor of Task Table
+	 * @return task
+	 */
 	private Task cursorToTask(Cursor cursor) {
 		Task task = new Task();
 		task.setTaskid(cursor.getLong(0));
@@ -141,6 +176,12 @@ public class TaskDataSource {
 		return task;
 	}
 	
+	/**
+	 * Cursor to pass Task value by Id
+	 * @param rowId Tasl Id
+	 * @return cursor of the task 
+	 * @throws SQLException throws if there are no task
+	 */
 	public Cursor fetchTaskById(long rowId) throws SQLException {
 
         Cursor mCursor =

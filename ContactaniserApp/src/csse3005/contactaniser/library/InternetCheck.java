@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 
+/** Class to check internet connectivity */
 public class InternetCheck {
 	
 	public boolean internetOn(Activity activity) {

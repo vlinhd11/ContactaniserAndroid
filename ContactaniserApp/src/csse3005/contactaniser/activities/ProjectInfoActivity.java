@@ -24,6 +24,10 @@ import csse3005.contactaniser.models.User;
 import csse3005.contactaniser.models.User_Project;
 import csse3005.contactaniserapp.R;
 
+/**
+ * Fragment to display Project Information
+ */
+
 public class ProjectInfoActivity extends Fragment {
 
 	private static TextView projectName;
@@ -44,8 +48,6 @@ public class ProjectInfoActivity extends Fragment {
 	private ListView listviewmember;
 	ArrayList<User> usertest;
 
-
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			   Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class ProjectInfoActivity extends Fragment {
 	@Override
 	public void onStart() {
 
+		//Open database
 		DatabaseHelper = new ProjectDataSource(getActivity());
 		DatabaseHelper.open();
 
@@ -67,22 +70,24 @@ public class ProjectInfoActivity extends Fragment {
 		userdatasource = new UserDataSource(getActivity());
 		userdatasource.open();
 
+		//Get the widget value
 		projectName = (TextView) getActivity().findViewById(R.id.textViewProjectName);
 		projectDescription = (TextView) getActivity().findViewById(R.id.textViewProjectBrief);
 		projectStartDate = (TextView) getActivity().findViewById(R.id.textViewProjectDateCreated);
 		projectDueDate = (TextView) getActivity().findViewById(R.id.textViewProjectDueDate);
 
-
+		//Get the value from previous activity
 		mRowId = getActivity().getIntent().getExtras().getLong("projId");
 		mrowuserid = getActivity().getIntent().getIntExtra("userid", 0);
 
-
+		//Get the cursor of current project that opened
         Cursor project = DatabaseHelper.fetchProjectById(mRowId);
         ProjectName = project.getString(project.getColumnIndexOrThrow(MySQLHelper.COLUMN_PROJECTNAME));
         ProjectDescription = project.getString(project.getColumnIndexOrThrow(MySQLHelper.COLUMN_PROJECTDESCRIPTION));
         ProjectStartDate = project.getString(project.getColumnIndexOrThrow(MySQLHelper.COLUMN_PROJECTSTARTDATE));
         ProjectDueDate = project.getString(project.getColumnIndexOrThrow(MySQLHelper.COLUMN_PROJECTDUEDATE));
         
+        //Set the value
         projectName.setText(ProjectName);
         projectDescription.setText(ProjectDescription);
         projectStartDate.setText(ProjectStartDate);
@@ -90,6 +95,7 @@ public class ProjectInfoActivity extends Fragment {
         
         listviewmember = (ListView) getActivity().findViewById(R.id.listMemberProject);
         
+        //Conver User_Project value to User
         ArrayList<User_Project> values = userprojectdatasource.getAllUserbyProjectId(mRowId);
         ArrayList<User> userlist = new ArrayList<User>();
         for (int i=0; i<values.size(); i++){
@@ -112,11 +118,10 @@ public class ProjectInfoActivity extends Fragment {
             
          }
         
+        //Set the User value in adapter
         final ArrayAdapter<User> adapter = new ArrayAdapter<User>(getActivity(),
                 R.layout.member_row, R.id.memberLable, userlist);
-        
-        //final ArrayAdapter<User_Project> adapter = new ArrayAdapter<User_Project>(getActivity(),
-          //      R.layout.member_row, R.id.memberLable, values);
+
         listviewmember.setAdapter(adapter);
         MeasureHeight.setListViewHeightBasedOnChildren(listviewmember);
         
@@ -133,7 +138,12 @@ public class ProjectInfoActivity extends Fragment {
         
         super.onStart();
 	}
-
+	/** Cursor to pass User value
+	 * @param cursor of User Database
+	 * 
+	 * @return User Object
+	 *  
+	 */
 	private User cursorToUser(Cursor cursor) {
 		User user = new User();
 		user.setUserid(cursor.getInt(0));

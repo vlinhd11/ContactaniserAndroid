@@ -5,8 +5,17 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+/**
+ * Class to measure height of the ListView
+ */
 
 public class MeasureHeight {
+	/** 
+	 * Method to change listView height depends of the item
+	 * @param listView the listview that want to be changed
+	 * 
+	 * @return listView that have changed
+	 * */
 	public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter(); 
         if (listAdapter == null) {

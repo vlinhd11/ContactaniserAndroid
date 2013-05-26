@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.Project;
 
-
+/** Class to manage Project Table */
 public class ProjectDataSource {
 	// Database fields
 	private SQLiteDatabase database;
@@ -37,7 +37,19 @@ public class ProjectDataSource {
 		dbHelper.close();
 	}
 
-	
+	/**
+	 * Create and Update Project
+	 * @param id ID
+	 * @param name Name
+	 * @param description Description 
+	 * @param startdate Start Date
+	 * @param duedate Due Date
+	 * @param completion Completion Status
+	 * @param lastupdate Last Update
+	 * @param status Status
+	 * 
+	 * @return newProject 
+	 */
 	public Project createProject(String id, String name, String description, Date startdate, Date duedate,String completion, Date lastupdate, String status) {
 		ContentValues values = new ContentValues();
 		
@@ -82,17 +94,23 @@ public class ProjectDataSource {
 				}
 	}
 	
+	/** Delete project */
 	public void deleteProject(Project project) {
 		long id = project.getProjectid();
 		database.delete(MySQLHelper.TABLE_PROJECTS, MySQLHelper.COLUMN_PROJECTID
 		    + " = " + id, null);
 	}
 	
+	/** Delete all project */
 	public void deleteAllProject() {
 		database.delete(MySQLHelper.TABLE_PROJECTS, null, null);
 	}
 
-
+	/**
+	 * Return all Project
+	 * @param completion
+	 * @return
+	 */
 	public ArrayList<Project> getAllProjects(int completion) {
 		ArrayList<Project> projects = new ArrayList<Project>();
 
@@ -112,6 +130,11 @@ public class ProjectDataSource {
 		return projects;
 	}
 
+	/**
+	 * Cursor to pass project value
+	 * @param cursor of Project Table
+	 * @return project
+	 */
 	private Project cursorToProject(Cursor cursor) {
 		Project project = new Project();
 		project.setProjectid(cursor.getLong(0));
@@ -128,6 +151,12 @@ public class ProjectDataSource {
 		return project;
 	}
 	
+	/** 
+	 * Cursor to pass Project value
+	 * @param rowId the ProjectId that the value want to pass
+	 * @return mCursor cursor of the Project
+	 *  @throws SQLException if cannot find Project
+	 */
 	public Cursor fetchProjectById(long rowId) throws SQLException {
 
         Cursor mCursor =

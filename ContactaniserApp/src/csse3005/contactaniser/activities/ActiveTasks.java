@@ -28,6 +28,10 @@ import csse3005.contactaniser.models.User;
 import csse3005.contactaniser.models.User_Task;
 import csse3005.contactaniserapp.R;
 
+/**
+ * Activity to list all Active Task
+ */
+
 public class ActiveTasks extends Fragment {
 	private boolean byDate = false;
 	private TaskDataSource taskdatasource;

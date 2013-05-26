@@ -13,17 +13,17 @@ import android.widget.ListView;
 import csse3005.contactaniser.datasource.ProjectDataSource;
 import csse3005.contactaniser.models.Project;
 import csse3005.contactaniserapp.R;
-
+/**
+ * Fragment Class to list all Active Project and put it to ListFragment
+ */
 public class ActiveProjects extends ListFragment {
 
-	
-	/** Class to List all Project */
-	
 	private ProjectDataSource projectdatasource;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
+		//Open database
 		projectdatasource = new ProjectDataSource(getActivity());
         projectdatasource.open();
         
@@ -34,10 +34,10 @@ public class ActiveProjects extends ListFragment {
 	
 	/** populate Project List */
 	public void fillData() {
+		
         List<Project> values = projectdatasource.getAllProjects(0);  
         ArrayAdapter<Project> adapter = new ArrayAdapter<Project>(getActivity(),
                 R.layout.active_row, R.id.label, values);
-        adapter.notifyDataSetChanged();
         setListAdapter(adapter);
     }
 	
@@ -47,6 +47,7 @@ public class ActiveProjects extends ListFragment {
 		fillData();
     }
 
+	/** Save the value of Project Name, Project Id, and User Id to next Activity */
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
@@ -61,16 +62,12 @@ public class ActiveProjects extends ListFragment {
 		
 	}
 
+	/** Fill all data when back to the activity */
 	@Override
 	public void onResume() {
 		super.onResume();
 		fillData();
 	}
-	
-	
-	
-	
-	
-	
+
 	
 }

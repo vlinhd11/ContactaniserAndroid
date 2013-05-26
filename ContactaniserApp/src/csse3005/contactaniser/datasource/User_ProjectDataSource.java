@@ -10,6 +10,9 @@ import android.database.sqlite.SQLiteDatabase;
 import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.User_Project;
 
+/**
+ * Class to manage User_Project table
+ */
 public class User_ProjectDataSource {
 	// Database fields
 				private SQLiteDatabase database;
@@ -30,6 +33,16 @@ public class User_ProjectDataSource {
 					dbHelper.close();
 				}
 				
+				/**
+				 * Create and Update User_Project
+				 * @param upid ID
+				 * @param upufid User ID Foreign Key 
+				 * @param uppfid Project ID Foreign Key
+				 * @param role Role
+				 * @param uplastupdate
+				 * @param status Status 
+				 * @return newProject
+				 */
 				public User_Project createUser_Project(String upid, int upufid, int uppfid, String role, Date uplastupdate, String status) {
 					ContentValues values = new ContentValues();
 					values.put(MySQLHelper.COLUMN_USERPROJECTUSERFID, upufid); 
@@ -70,17 +83,26 @@ public class User_ProjectDataSource {
 					}
 				}
 
+				/**
+				 * delete User_Project
+				 * @param user_project
+				 */
 				public void deleteUser_Project(User_Project user_project) {
 					long id = user_project.getUPUid();
 					database.delete(MySQLHelper.TABLE_USER_PROJECT, MySQLHelper.COLUMN_USERPROJECTUSERFID
 					    + " = " + id, null);
 				}
-				
+				/**
+				 * Delete all User_Project value
+				 */
 				public void deleteAllUserProject() {
 					database.delete(MySQLHelper.TABLE_USER_PROJECT, null, null);
 				}
 
-
+				/**
+				 * Get all User_Project
+				 * @return User_Project
+				 */
 				public ArrayList<User_Project> getAllUser_Project() {
 					ArrayList<User_Project> User_Projects = new ArrayList<User_Project>();
 
@@ -99,6 +121,11 @@ public class User_ProjectDataSource {
 					return User_Projects;
 				}
 				
+				/**
+				 * Get All User_Project by User Id
+				 * @param uid User Id
+				 * @return User_Project
+				 */
 				public ArrayList<User_Project> getAllProjectbyUserId(long uid) {
 					ArrayList<User_Project> User_Projects = new ArrayList<User_Project>();
 
@@ -118,6 +145,11 @@ public class User_ProjectDataSource {
 					return User_Projects;
 				}
 				
+				/**
+				 * Get all User_Project by Project Id
+				 * @param pid Project id
+				 * @return User_Project
+				 */
 				public ArrayList<User_Project> getAllUserbyProjectId(long pid) {
 					
 					ArrayList<User_Project> User_Projects = new ArrayList<User_Project>();
@@ -137,6 +169,11 @@ public class User_ProjectDataSource {
 					return User_Projects;
 				}
 
+				/**
+				 * Cursor to pass user_project value
+				 * @param cursor of User_Project Table
+				 * @return user_project
+				 */
 				private User_Project cursorToUser_Project(Cursor cursor) {
 					User_Project user_project = new User_Project();
 					user_project.setUPid(cursor.getLong(0));
@@ -150,6 +187,12 @@ public class User_ProjectDataSource {
 					return user_project;
 				}
 				
+				/**
+				 * Cursor to pass User_Project value by Id
+				 * @param rowId User_Project Id
+				 * @return cursor of the User_Project 
+				 * @throws SQLException throws if there are no User_Project
+				 */
 				public Cursor fetchUserProjectById(long upuid, long uppid) throws SQLException {
 
 			        Cursor mCursor =

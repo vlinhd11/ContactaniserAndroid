@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
@@ -36,6 +37,10 @@ import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.User;
 import csse3005.contactaniser.models.User_Project;
 import csse3005.contactaniserapp.R;
+
+/**
+ * Activity to Update Task
+ */
 
 public class UpdateTaskActivity extends Activity {
 
@@ -76,8 +81,7 @@ public class UpdateTaskActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_task);
 		
-		
-		
+		//Open Database
 		taskdatabase = new TaskDataSource(this);
 		taskdatabase.open();
 		
@@ -90,8 +94,11 @@ public class UpdateTaskActivity extends Activity {
 		usertaskdatasource = new User_TaskDataSource(this);
 		usertaskdatasource.open();
 		
+		//Get value from previous activity
 		projectid = getIntent().getExtras().getLong("projectid");
 		listviewmembercreate = (ListView) findViewById(R.id.listMemberCreate);
+		
+		//Initiate widget value
 		taskname = (EditText) findViewById(R.id.task_name);
 		taskdescription = (EditText) findViewById(R.id.task_description);
 		taskcategory = (Spinner) findViewById(R.id.spinner);
@@ -99,7 +106,7 @@ public class UpdateTaskActivity extends Activity {
 		taskcreatebutton = (Button) findViewById(R.id.create_task_button);
 		p1_button = (Button)findViewById(R.id.btnChangeDate);
 		
-		//Check the savedInstanceState for the mRowId or the row of the task is contain a saved state in Bundle or not
+		//Check if the there is a taskid
         taskidsaved = (savedInstanceState == null) ? null :
                   (Long) savedInstanceState.getSerializable("taskid");
              if (taskidsaved == null) {
@@ -107,9 +114,8 @@ public class UpdateTaskActivity extends Activity {
                   taskidsaved = extras != null ? extras.getLong("taskid")
                                           : null;
               }
-		
-		
-		
+
+           //Convert the User_Project value to User value by UserId from User_Project
 		ArrayList<User_Project> values = userprojectdatasource.getAllUserbyProjectId(projectid);
         ArrayList<User> userlistcreate = new ArrayList<User>();
         for (int i=0; i<values.size(); i++){
@@ -159,6 +165,7 @@ public class UpdateTaskActivity extends Activity {
             	//Get Date set
         		datestring = p1_button.getText().toString();
         		
+        		//Get DueDate Instance
         		String[] daymonthyear = datestring.split("/");
         		duedateday = Integer.parseInt(daymonthyear[0]);
         		duedatemonth = Integer.parseInt(daymonthyear[1]) - 1;
@@ -168,9 +175,11 @@ public class UpdateTaskActivity extends Activity {
         		long duedateint = c1.getTimeInMillis();
         		Date dateSet = new Date(duedateint);
         		
+        		//Get Current Date
         		Calendar cal = Calendar.getInstance();
         		Date datenow = new Date(cal.getTimeInMillis());
             	
+        		//Call error if TaskName TextView is Empty
             	if (taskname.getText().toString().equals("")) {
         			taskname.setError(getString(R.string.error_field_required));
         			focusView = taskname;
@@ -178,11 +187,19 @@ public class UpdateTaskActivity extends Activity {
         			 
         		} 
             	
+            	//Call error toast if DueDate is before current date
+            	if(dateSet.before(datenow))
+            	{
+            		Toast.makeText(UpdateTaskActivity.this, "Due Date Invalid", Toast.LENGTH_LONG).show();
+            	}
+            	
             	else {
         			
-            		
+            		//Get value from previous activity
             		projectid = getIntent().getExtras().getLong("projectid");
             		userid = getIntent().getExtras().getInt("userid");
+            		
+            		//Get all value from the Android widget
             		tasknamestring = taskname.getText().toString();
             		taskdescriptionstring = 
             				taskdescription.getText().toString();
@@ -190,10 +207,13 @@ public class UpdateTaskActivity extends Activity {
             				taskcategory.getSelectedItemPosition();
             		taskimportanceindex = taskimportance.getProgress();
             		
+            		//Get user value from adapter
             		ArrayList<User> userLists = adapter.userList;
-            	    for(int i=0;i<userLists.size();i++){
+            	    
+            		for(int i=0;i<userLists.size();i++){
             	     User user = userLists.get(i);
             	     Cursor c = usertaskdatasource.fetchUserTaskByUserIdTaskId(taskidsaved, user.getUserid() );
+            	   //Save User Task if the User in ListView is selected
             	     if(user.isSelected()){
             	    	 	
             	    		 usertaskdatasource.createUser_Task(c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)), user.getUserid(), taskidsaved, datenow, 0);
@@ -206,9 +226,9 @@ public class UpdateTaskActivity extends Activity {
             	     }
             	    }
             		
-            	    
+            	    //Get the User_task of the user who login
             	    Cursor c = usertaskdatasource.fetchUserTaskByUserIdTaskId(taskidsaved,userid);
-            	   
+            	    //Save the user who login to the User_Task to assign to the task
             	    usertaskdatasource.createUser_Task(c.getString(c.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERTASKID)),userid , taskidsaved, datenow, 0);
             	    String taskidsavedstring = String.valueOf(taskidsaved);
             		taskdatabase.createTask(taskidsavedstring, projectid,
@@ -225,6 +245,7 @@ public class UpdateTaskActivity extends Activity {
 		
 	}
 	
+	/** Set all value to the widget*/
 	private void populateFields() {
 	    if (taskidsaved != null) {
 	    	//Set the cursor to fetchTask from specified Row ID
@@ -234,10 +255,7 @@ public class UpdateTaskActivity extends Activity {
 	        taskdescription.setText(task.getString(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKDESCRIPTION)));
 	        taskcategory.setSelection(task.getInt(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKCATEGORY)));
 	        taskimportance.setProgress(task.getInt(task.getColumnIndexOrThrow(MySQLHelper.COLUMN_TASKIMPORTANCELEVEL)));
-	        
-	        
-	        
-	        
+
 	    }
 	}
 
@@ -320,6 +338,12 @@ public class UpdateTaskActivity extends Activity {
 			}
 		};
 		
+		/** Cursor to pass User value
+		 * @param cursor of User Database
+		 * 
+		 * @return User Object
+		 *  
+		 */
 		private User cursorToUser(Cursor cursor) {
 			User user = new User();
 			user.setUserid(cursor.getInt(0));
@@ -334,6 +358,10 @@ public class UpdateTaskActivity extends Activity {
 			return user;
 		}
 		
+
+		/**
+		 * Class to customize current ArrayAdapter to have CheckBox
+		 */
 		private class MyCustomAdapter extends ArrayAdapter<User> {
 			 
 			  private ArrayList<User> userList;

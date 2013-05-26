@@ -1,14 +1,8 @@
 package csse3005.contactaniser.activities;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -28,17 +22,23 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import csse3005.contactaniser.datasource.ProjectDataSource;
 import csse3005.contactaniser.datasource.TaskDataSource;
 import csse3005.contactaniser.datasource.UserDataSource;
 import csse3005.contactaniser.datasource.User_ProjectDataSource;
 import csse3005.contactaniser.datasource.User_TaskDataSource;
 import csse3005.contactaniser.library.InternetCheck;
-import csse3005.contactaniser.library.JSONParser;
 import csse3005.contactaniser.library.JSONParserSend;
 import csse3005.contactaniser.models.TabsAdapter;
 import csse3005.contactaniser.models.Task;
 import csse3005.contactaniser.models.User_Task;
 import csse3005.contactaniserapp.R;
+
+/** 
+ * Activity to manage 3 Fragment : ProjectInfoActivity, Active Tasks, and Completed Tasks
+ * It can navigate between this 3 Fragment
+ * There are 3 Menu to Sync Up all data, create new Task, and order the task.
+ */
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ProjectActivity extends FragmentActivity {
@@ -50,6 +50,7 @@ public class ProjectActivity extends FragmentActivity {
 	 private User_ProjectDataSource userprojectdatasource;
 	 private User_TaskDataSource usertaskdatasource;
 	 private TaskDataSource taskdatasource;
+	 private ProjectDataSource projectdatasource;
 	 private MenuItem menuItem;
 	 
 		@Override
@@ -67,6 +68,9 @@ public class ProjectActivity extends FragmentActivity {
 		    
 		    usertaskdatasource = new User_TaskDataSource(this);
 		    usertaskdatasource.open();
+		    
+		    projectdatasource = new ProjectDataSource(this);
+		    projectdatasource.open();
 	        
 	        //create a new ViewPager and set to the pager in Ids.xml
 	        ViewPager = new ViewPager(this);
@@ -109,6 +113,8 @@ public class ProjectActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
+	    
+	    
 	    case R.id.menu_syncup:
     		menuItem = item;
     	    menuItem.setActionView(R.layout.progressbar);
@@ -200,9 +206,9 @@ public class ProjectActivity extends FragmentActivity {
 	            	
 	            	syncupusertask.setHttpPost(httpPostUT);
 	            	syncupusertask.execute();
+	            	menuItem.collapseActionView();
+			    	menuItem.setActionView(null);
 
-	    			menuItem.collapseActionView();
-	    	    	menuItem.setActionView(null);
 			}
 			else {
 				
@@ -230,42 +236,7 @@ public class ProjectActivity extends FragmentActivity {
         	case R.id.add_task_bar: 
         		openNewTaskActivity();
         		return true;
-        		
-        	case R.id.menu_refresh:
-        		menuItem = item;
-        	    menuItem.setActionView(R.layout.progressbar);
 
-        	    
-    			InternetCheck internet2 = new InternetCheck();
-    			boolean internetOn2 = internet2.internetOn(this);
-    			if (internetOn2) {
-    				int userid = getIntent().getIntExtra("userID", 0);
-    			    String useridstring = String.valueOf(userid);
-    				
-    				DownSycnAll dsAll = new DownSycnAll();
-    			    dsAll.setContext(this);
-    			    
-    			    HttpPost httpPostAll= new HttpPost("http://triple11.com/BlueTeam/android/syncDown.php");
-    		    	List<NameValuePair> nvpAll = new ArrayList<NameValuePair>(1);
-    		    	nvpAll.add(new BasicNameValuePair("userID", useridstring));
-    		    	try {
-    					httpPostAll.setEntity(new UrlEncodedFormEntity(nvpAll));
-    				} catch (UnsupportedEncodingException e) {
-    					e.printStackTrace();
-    				}
-    		    	dsAll.setHttpPost(httpPostAll);
-
-    		    	dsAll.execute();
-    			}
-    			else {
-    				
-    				menuItem.collapseActionView();
-			    	menuItem.setActionView(null);
-			    	internet2.NetworkError(this);
-    				
-    			}
-        		return true;
-	        
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
@@ -278,95 +249,5 @@ public class ProjectActivity extends FragmentActivity {
 		startActivity(intent);
 	}
 	
-	private class DownSycnAll extends JSONParser {
-
-		@SuppressLint("NewApi")
-		@Override
-		public void processJSON(JSONObject json) {
-			try {
-				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
-					
-					/*
-					 * 
-					 * Sycn Down All UserTask
-					 * 
-					 */
-					
-					JSONArray jsonArrayDSTask = json.getJSONArray("taskUserList");
-					//JSONArray jsonArray = json.getJSONArray("userProjectList");
-					for (int g = 0; g < jsonArrayDSTask.length(); g++) {
-
-							JSONObject DwUserTaskObject = jsonArrayDSTask.getJSONObject(g);
-							
-							String usertaskid = DwUserTaskObject.getString("userTaskId");
-							String user_taskstring = DwUserTaskObject.getString("UserId");
-							long user_task = Long.parseLong(user_taskstring);
-							String task_taskstring = DwUserTaskObject.getString("TaskId");
-							long task_task = Long.parseLong(task_taskstring);
-							String statusstring = DwUserTaskObject.getString("Status");
-							int status = Integer.parseInt(statusstring);
-
-	             		    
-							Calendar CalNow = Calendar.getInstance();
-				        	Date DateNow = new Date(CalNow.getTimeInMillis());
-
-				        	usertaskdatasource.createUser_Task(usertaskid, user_task, task_task, DateNow, status);
-				        	
-
-						}
-					
-					
-					/*
-					 * 
-					 * Sycn Down All Task
-					 * 
-					 */
-					
-					JSONArray jsonArrayDSUserTask = json.getJSONArray("taskList");
-					for (int f = 0; f < jsonArrayDSUserTask.length(); f++) {
-
-							JSONObject DwTaskObject = jsonArrayDSUserTask.getJSONObject(f);
-							
-							String taskid = DwTaskObject.getString("TaskId");
-							String taskprojectidstring = DwTaskObject.getString("ProjectId");
-							long taskprojectid = Long.parseLong(taskprojectidstring);
-							String taskname = DwTaskObject.getString("TaskName");
-							String taskdescription = DwTaskObject.getString("TaskDescription");
-							String taskimportancelevelstring = DwTaskObject.getString("TaskILevel");
-							int taskimportance = Integer.parseInt(taskimportancelevelstring);
-							String DueDateString = DwTaskObject.getString("TaskDD");
-							java.util.Date DueDateUtil =  df.parse(DueDateString);
-							java.sql.Date taskduedate = new java.sql.Date(DueDateUtil.getTime());
-							
-							String taskcompletionstring = DwTaskObject.getString("TaskCompletion");
-							int taskcompletion = Integer.parseInt(taskcompletionstring);
-							String taskcategorystring = DwTaskObject.getString("Category");
-							int taskcategory = Integer.parseInt(taskcategorystring);
-							Calendar CalNow = Calendar.getInstance();
-				        	Date DateNow = new Date(CalNow.getTimeInMillis());
-
-				        	
-				        	taskdatasource.createTask(taskid, taskprojectid, taskname, taskdescription, taskimportance, taskduedate, taskcompletion, DateNow, taskcategory);
-				        	
-				        	
-
-						}
-	        	    
-
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			menuItem.collapseActionView();
-	    	menuItem.setActionView(null);
-
-		}
-
-    }
-
 	
 }

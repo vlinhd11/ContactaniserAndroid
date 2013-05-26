@@ -11,6 +11,10 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * The class to manage User Table
+ */
+
 public class UserDataSource {
 	// Database fields
 		private SQLiteDatabase database;
@@ -35,6 +39,16 @@ public class UserDataSource {
 			dbHelper.close();
 		}
 		
+		/** Create and Update user 
+		 * @param userid User ID
+		 * @param user_username User Name
+		 * @param username Name
+		 * @param phonenumber Phone Number
+		 * @param email Email
+		 * @param lastupdate Last Update
+		 * 
+		 * @return User object
+		 */
 		public User createUser(String userid, String user_username, String username, String phonenumber, String email, Date lastupdate) {
 			ContentValues values = new ContentValues();
 			values.put(MySQLHelper.COLUMN_USER_USERNAME, user_username);
@@ -73,17 +87,19 @@ public class UserDataSource {
 			}
 		}
 
+		/** Delete User*/
 		public void deleteUser(User user) {
 			long id = user.getUserid();
 			database.delete(MySQLHelper.TABLE_USER, MySQLHelper.COLUMN_USERID
 			    + " = " + id, null);
 		}
 		
+		/** Delete all user */
 		public void deleteAllUser() {
 			database.delete(MySQLHelper.TABLE_USER, null, null);
 		}
 
-
+		/** List all user */
 		public ArrayList<User> getAllUser() {
 			ArrayList<User> users = new ArrayList<User>();
 
@@ -102,6 +118,10 @@ public class UserDataSource {
 			return users;
 		}
 
+		/** Cursor to pass User value
+		 * @param cursor of User Table
+		 * @return User
+		 */
 		private User cursorToUser(Cursor cursor) {
 			User user = new User();
 			user.setUserid(cursor.getInt(0));
@@ -114,7 +134,15 @@ public class UserDataSource {
 			
 			return user;
 		}
-		
+		/** 
+		 * Cursor to pass User value
+		 * 
+		 * @param rowId the UserId that the value want to pass
+		 * 
+		 * @return mCursor cursor of the User
+		 *  
+		 *  @throws SQLException if cannot find User
+		 */
 		public Cursor fetchUserById(long rowId) throws SQLException {
 
 	        Cursor mCursor =

@@ -42,6 +42,12 @@ import csse3005.contactaniser.models.Task;
 import csse3005.contactaniser.models.User_Task;
 import csse3005.contactaniserapp.R;
 
+/**
+ * Activity to manage 2 tabs : ActiveProjects and Completed Projects
+ * There are 3 menu in this activity to sync all data, change password, and log off
+ *
+ */
+
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MainActivity extends FragmentActivity {
 
@@ -109,7 +115,7 @@ public class MainActivity extends FragmentActivity {
 	    int userid = getIntent().getIntExtra("userID", 0);
 	    String useridstring = String.valueOf(userid);
 	    
-	    //Sync all data
+	    //Sync down all data
 	    DownSycnAllAuto dsAllAuto = new DownSycnAllAuto();
 	    dsAllAuto.setContext(this);
 	    
@@ -608,6 +614,7 @@ public class MainActivity extends FragmentActivity {
 		startActivity(intent);
 	}
 
+	/** Exit confirmation*/
 	private void exitAppConfirmation() {
 		new AlertDialog.Builder(this)
 	    .setTitle(R.string.exit)
@@ -649,6 +656,8 @@ public class MainActivity extends FragmentActivity {
 		return this.userID;
 	}
 	
+	
+	/** Save data to the server*/
 	private void syncupalldata(){
 		InternetCheck internet = new InternetCheck();
 		boolean internetOn = internet.internetOn(MainActivity.this);

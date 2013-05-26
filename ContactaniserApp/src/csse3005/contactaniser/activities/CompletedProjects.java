@@ -14,6 +14,10 @@ import csse3005.contactaniser.datasource.ProjectDataSource;
 import csse3005.contactaniser.models.Project;
 import csse3005.contactaniserapp.R;
 
+/**
+ * Fragment Class to list all Complete Project and put it to ListFragment
+ */
+
 public class CompletedProjects extends ListFragment{
 	
 	private ProjectDataSource projectdatasource;

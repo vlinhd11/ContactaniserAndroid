@@ -41,15 +41,6 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_USEREMAIL ="useremail";
 	public static final String COLUMN_USERLASTUPDATE = "userlastupdate";
 	
-	//Logs
-	public static final String TABLE_LOGS = "logs";
-	public static final String COLUMN_LOGID ="logid";
-	public static final String COLUMN_LOGTASKFID ="logtaskfid";
-	public static final String COLUMN_LOGUSERFID ="loguserfid";
-	public static final String COLUMN_LOGDATETIME ="logdatetime";
-	public static final String COLUMN_LOGDESCRIPTION ="logdescription";
-	public static final String COLUMN_LOGLASTUPDATE = "loglastupdate";
-	
 	//User Project
 	public static final String TABLE_USER_PROJECT ="user_project";
 	public static final String COLUMN_USERPROJECTID = "userprojectid";
@@ -102,14 +93,6 @@ public class MySQLHelper extends SQLiteOpenHelper {
 			+ COLUMN_USEREMAIL + " text not null, " 
 			+ COLUMN_USERLASTUPDATE + " text not null);";
 	
-	private static final String DATABASE_CREATE_LOGS = "create table "
-			+ TABLE_LOGS + "(" + COLUMN_LOGID + " integer primary key autoincrement, "
-			+ COLUMN_LOGTASKFID + " integer not null, " 
-			+ COLUMN_LOGUSERFID + " integer not null, " 
-			+ COLUMN_LOGDATETIME + " text not null, "
-			+ COLUMN_LOGDESCRIPTION + " text not null, " 
-			+ COLUMN_LOGLASTUPDATE + "text not null);";
-	
 	private static final String DATABASE_CREATE_USER_PROJECT = "create table "
 			+ TABLE_USER_PROJECT + "("  + COLUMN_USERPROJECTID + " integer primary key autoincrement, "
 			+ COLUMN_USERPROJECTUSERFID + " integer, " 
@@ -136,7 +119,6 @@ public class MySQLHelper extends SQLiteOpenHelper {
 		database.execSQL(DATABASE_CREATE_PROJECTS);
 		database.execSQL(DATABASE_CREATE_TASKS);
 		database.execSQL(DATABASE_CREATE_USER);
-		database.execSQL(DATABASE_CREATE_LOGS);
 		database.execSQL(DATABASE_CREATE_USER_PROJECT);
 		database.execSQL(DATABASE_CREATE_USER_TASK);
 	}
@@ -149,7 +131,6 @@ public class MySQLHelper extends SQLiteOpenHelper {
 	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
 	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROJECTS);
 	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGS);
 	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER_PROJECT);
 	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER_TASK);
 	    onCreate(db);

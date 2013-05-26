@@ -19,7 +19,7 @@ import android.os.AsyncTask;
 
 /**
  * 
- * @author Jason
+ * @author Jason Weigel
  * 
  * JSON abstract class for going to the cloud to get JSON response
  *

@@ -27,6 +27,10 @@ import csse3005.contactaniser.models.User;
 import csse3005.contactaniser.models.User_Task;
 import csse3005.contactaniserapp.R;
 
+/**
+ * Fragment Class to list All Completed Tasks
+ */
+
 public class CompletedTasks extends Fragment {
 	private boolean byDate = false;
 	private TaskDataSource taskdatasource;

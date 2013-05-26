@@ -9,7 +9,9 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniser.models.User_Task;
-
+/**
+ * Class to manage User_Task table
+ */
 public class User_TaskDataSource {
 
 	// Database fields
@@ -32,6 +34,15 @@ public class User_TaskDataSource {
 				dbHelper.close();
 			}
 			
+			/**
+			 * Create and Update User_Task
+			 * @param usertaskid Id
+			 * @param user_task UserId
+			 * @param task_task TaskId
+			 * @param lastupdate
+			 * @param status Status
+			 * @return newUser_Task 
+			 */
 			public User_Task createUser_Task(String usertaskid, long user_task, long task_task, Date lastupdate, int status) {
 				ContentValues values = new ContentValues();
 				values.put(MySQLHelper.COLUMN_USERTASKUSERFID,user_task);
@@ -71,16 +82,28 @@ public class User_TaskDataSource {
 				}
 			}
 
+			/**
+			 * Delete User_Task
+			 * @param user_task
+			 */
 			public void deleteUser_Task(User_Task user_task) {
 				long id = user_task.getUTUid();
 				database.delete(MySQLHelper.TABLE_USER_TASK, MySQLHelper.COLUMN_USERTASKUSERFID
 				    + " = " + id, null);
 			}
 			
+			/**
+			 * Delete all User_Task
+			 */
 			public void deleteAllUserTask() {
 				database.delete(MySQLHelper.TABLE_USER_TASK, null, null);
 			}
 			
+			/**
+			 * Delete User_Task
+			 * @param uid UserId
+			 * @param tid TaskId
+			 */
 			public void deleteUserTaskbyUserIdTaskId(long uid, long tid)
 			{
 				database.delete(MySQLHelper.TABLE_USER_TASK, MySQLHelper.COLUMN_USERTASKUSERFID
@@ -125,6 +148,11 @@ public class User_TaskDataSource {
 				return User_Tasks;
 			}
 			
+			/**
+			 * Get all User_Task
+			 * @param uid User Id
+			 * @return User_Task
+			 */
 				public ArrayList<User_Task> getAllTaskbyUserId(long uid) {
 				
 				ArrayList<User_Task> User_Tasks = new ArrayList<User_Task>();
@@ -143,7 +171,12 @@ public class User_TaskDataSource {
 				cursor.close();
 				return User_Tasks;
 			}
-
+				
+				/**
+				 * Cursor to pass user_task value
+				 * @param cursor of User_Task Table
+				 * @return user_task
+				 */
 			private User_Task cursorToUser_Task(Cursor cursor) {
 				User_Task user_task = new User_Task();
 				user_task.setUTid(cursor.getLong(0));
@@ -155,6 +188,13 @@ public class User_TaskDataSource {
 				return user_task;
 			}
 			
+			/**
+			 * Cursor to pass User_Task value
+			 * @param taskid Task Id
+			 * @param userid User Id
+			 * @return mCursor cursor current User_Task
+			 * @throws SQLException throw if there are no User_Task selected
+			 */
 			public Cursor fetchUserTaskByUserIdTaskId(long taskid,long userid) throws SQLException {
 
 		        Cursor mCursor =
