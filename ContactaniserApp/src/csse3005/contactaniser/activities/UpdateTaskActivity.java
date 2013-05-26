@@ -14,20 +14,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -159,12 +155,29 @@ public class UpdateTaskActivity extends Activity {
             
             	setResult(RESULT_OK);
             	
+            	//Get Date set
+        		datestring = p1_button.getText().toString();
+        		
+        		String[] daymonthyear = datestring.split("/");
+        		duedateday = Integer.parseInt(daymonthyear[0]);
+        		duedatemonth = Integer.parseInt(daymonthyear[1]) - 1;
+        		duedateyear = Integer.parseInt(daymonthyear[2]);
+        		Calendar c1 = Calendar.getInstance();
+        		c1.set(duedateyear, duedatemonth, duedateday);
+        		long duedateint = c1.getTimeInMillis();
+        		Date dateSet = new Date(duedateint);
+        		
+        		Calendar cal = Calendar.getInstance();
+        		Date datenow = new Date(cal.getTimeInMillis());
+            	
             	if (taskname.getText().toString().equals("")) {
         			taskname.setError(getString(R.string.error_field_required));
         			focusView = taskname;
         			focusView.requestFocus();
         			 
-        		} else {
+        		} 
+            	
+            	else {
         			
             		
             		projectid = getIntent().getExtras().getLong("projectid");
@@ -175,23 +188,6 @@ public class UpdateTaskActivity extends Activity {
             		taskcategoryindex = 
             				taskcategory.getSelectedItemPosition();
             		taskimportanceindex = taskimportance.getProgress();
-            		
-            		Calendar cal = Calendar.getInstance();
-            		int calnow = (int) cal.getTimeInMillis();
-            		Date datenow = new Date(calnow);
-            		
-            		//Get Date set
-            		datestring = p1_button.getText().toString();
-            		
-            		String[] daymonthyear = datestring.split("/");
-            		duedateday = Integer.parseInt(daymonthyear[0]);
-            		duedatemonth = Integer.parseInt(daymonthyear[1]) - 1;
-            		duedateyear = Integer.parseInt(daymonthyear[2]);
-            		Calendar c1 = Calendar.getInstance();
-            		c1.set(duedateyear, duedatemonth, duedateday);
-            		long duedateint = c1.getTimeInMillis();
-            		Date dateSet = new Date(duedateint);
-            	
             		
             		ArrayList<User> userLists = adapter.userList;
             	    for(int i=0;i<userLists.size();i++){
