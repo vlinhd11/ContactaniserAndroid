@@ -32,19 +32,26 @@ import csse3005.contactaniser.library.PasswordValidator;
 import csse3005.contactaniserapp.R;
 
 public class ChangePassword extends Activity {
+	
 	private String username;
 	private int userID;
+	
+	// UI references.
 	private EditText txtOldPwd;
 	private EditText txtNewPwd;
 	private EditText txtConfPwd;
-	private ChangePasswordTask changePwdTask = null;
 	
+	private ChangePasswordTask changePwdTask = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// set layout
 		setContentView(R.layout.activity_change_password);
 		findViewById(R.id.txtOldPwd).requestFocus();
+		
+		// get user name and userID from Intent received
 		Intent receivedIntent = getIntent();
         username = receivedIntent.getStringExtra("username");
         userID = receivedIntent.getIntExtra("userID", 0);
@@ -70,13 +77,14 @@ public class ChangePassword extends Activity {
 		View focusView = null;
 		boolean cancel = false;
 		
-		// check for empty pwd
+		// check for empty password on confirm password field
 		if (txtConfPwd.getText().toString().equals("")) {
 			txtConfPwd.setError(getText(R.string.error_field_required));
 			cancel = true;
 			focusView = txtConfPwd;
 		}
 		
+		// validate password
 		PasswordValidator check = new PasswordValidator();
 		if (!check.validate(txtNewPwd.getText().toString())) {
 			txtNewPwd.setError(getText(R.string.string_requirement));
@@ -85,20 +93,21 @@ public class ChangePassword extends Activity {
 		}
 		
 		
-		// check for empty pwd
+		// check for empty password on new password field
 		if (txtNewPwd.getText().toString().equals("")) {
 			txtNewPwd.setError(getText(R.string.error_field_required));
 			cancel = true;
 			focusView = txtNewPwd;
 		}
 		
-		
+		// check for empty password on old password field
 		if (txtOldPwd.getText().toString().equals("")) {
 			txtOldPwd.setError(getText(R.string.error_field_required));
 			cancel = true;
 			focusView = txtOldPwd;
 		}
 		
+		// check if new password identical to current password 
 		if (!cancel) {
 			if (!txtNewPwd.getText().toString().equals(txtConfPwd.getText().toString())) {
 				txtConfPwd.setError(getText(R.string.password_no_match));
@@ -111,18 +120,23 @@ public class ChangePassword extends Activity {
 			}
 		}
 		
+		// start connection process if no validation error
 		if (cancel) {
 			focusView.requestFocus();
 			return;
 		}
 		else {
+			
+			// check for available Internet connection
 			InternetCheck internet = new InternetCheck();
 			boolean internetOn = internet.internetOn(this);
 			if (!internetOn) {
+				// display dialog to inform user about network error
 				internet.NetworkError(this);
 				return;
 			}
 			
+			// Start to change password
 			changePwdTask = new ChangePasswordTask();
 			changePwdTask.execute((Void) null);
 		}
@@ -130,14 +144,15 @@ public class ChangePassword extends Activity {
 		
 	private boolean changeNewPwd() {
 		
-		String eUsername = null;
-		String eOldPwd = null;
-		String eNewPwd = null;
-		String eID = null;
+		String eUsername = null; // encrypted user name
+		String eOldPwd = null; // encrypted old password
+		String eNewPwd = null; // encrypted new password
+		String eID = null; // encrypted user ID
 		
 		// attempt authentication against a network service.
 		HttpPost httpRequest = new HttpPost("http://protivity.triple11.com/android/changePassword_secure.php");
 		
+		// add encryption to user name, old password, new password
 		MCrypt mcrypt = new MCrypt();
 		try {
 			eID = MCrypt.bytesToHex( mcrypt.encrypt(Integer.toString(userID)));
@@ -148,6 +163,7 @@ public class ChangePassword extends Activity {
 			e.printStackTrace();
 		}
 		
+		// add the encrypted data to name value pair to be encoded in JSON
     	List<NameValuePair> nvp = new ArrayList<NameValuePair>(4);
     	nvp.add(new BasicNameValuePair("id", eID));
     	nvp.add(new BasicNameValuePair("username", eUsername));
@@ -164,7 +180,9 @@ public class ChangePassword extends Activity {
                 String strResult = EntityUtils.toString(httpResponse.getEntity());
                 JSONObject json;
                 try {
+                	// JSON object to store the connection result 
                 	json = new JSONObject(strResult);
+                	// remove any unnecessary data 
                 	String dResult = new String (mcrypt.decrypt(json.getString("Result"))).trim();
                 	
                 	if (dResult.equals("Success")) {
@@ -181,7 +199,6 @@ public class ChangePassword extends Activity {
         } catch (IOException e){
         	e.printStackTrace();
         }
-    
     	return false;
 	}
 	
@@ -214,11 +231,10 @@ public class ChangePassword extends Activity {
 			changePwdTask = null;
 			
 			if (success) {
+				// inform user about password been changed
 				showPwdChangeDialog();
-//				Toast.makeText(getApplicationContext(), "Success, Password changed", Toast.LENGTH_LONG).show();
 			} else {
-//				Toast.makeText(getApplicationContext(), "Failed, Incorrect Password", Toast.LENGTH_LONG).show();
-
+				// request for valid password
 				txtOldPwd.setError(getString(R.string.error_incorrect_password));
 				txtOldPwd.setText(null);
 				txtOldPwd.requestFocus();

@@ -24,28 +24,29 @@ import csse3005.contactaniserapp.R;
 
 public class MemberInfoActivity extends Activity {
 	
+	// UI references.
 	private static TextView userName;
 	private static TextView userRole;
 	private static TextView userPhone;
 	private static TextView userEmail;
 	private EditText quickMsgBox;
+	private ImageButton emailButton;
+	private ImageButton smsButton;
+	private ImageButton callButton;
+	
 	private String quickMsg;
-	String phonenumber;
-	String phoneemail;
+	private String phonenumber;
+	private String phoneemail;
 	
 	private UserDataSource userdatasource;
 	private User_ProjectDataSource userprojectdatasource;
 	long ProjectId;
 	long UserId;
 	
-	ImageButton emailButton;
-	ImageButton smsButton;
-	ImageButton callButton;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		// set layout
 		setContentView(R.layout.activity_member_info);
 		
 		userdatasource = new UserDataSource(this);
@@ -60,6 +61,7 @@ public class MemberInfoActivity extends Activity {
 		userPhone = (TextView) findViewById(R.id.phoneNumberTextView);
 		quickMsgBox = (EditText) findViewById(R.id.editTextMsg);
 		
+		// get project id and userID from Intent received
 		ProjectId = getIntent().getExtras().getLong("projectid"); 
 		UserId = getIntent().getExtras().getLong("userid"); 
 		Cursor user = userdatasource.fetchUserById(UserId);
@@ -80,7 +82,6 @@ public class MemberInfoActivity extends Activity {
 		emailButton = (ImageButton) findViewById(R.id.emailButton);
 		smsButton = (ImageButton) findViewById(R.id.smsButton);
 		callButton = (ImageButton) findViewById(R.id.callButton);
-		
 		
 		emailButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -155,45 +156,39 @@ public class MemberInfoActivity extends Activity {
 	}
 	
 	//monitor phone call activities
-		private class PhoneCallListener extends PhoneStateListener {
+	private class PhoneCallListener extends PhoneStateListener {
 	 
-			private boolean isPhoneCalling = false;
+	private boolean isPhoneCalling = false;
+	String LOG_TAG = "LOGGING 123";
 	 
-			String LOG_TAG = "LOGGING 123";
-	 
-			@Override
-			public void onCallStateChanged(int state, String incomingNumber) {
-	 
-				if (TelephonyManager.CALL_STATE_RINGING == state) {
-					// phone ringing
-					Log.i(LOG_TAG, "RINGING, number: " + incomingNumber);
-				}
-	 
-				if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
-					// active
-					Log.i(LOG_TAG, "OFFHOOK");
-	 
-					isPhoneCalling = true;
-				}
-	 
-				if (TelephonyManager.CALL_STATE_IDLE == state) {
-					// run when class initial and phone call ended, 
-					// need detect flag from CALL_STATE_OFFHOOK
-					Log.i(LOG_TAG, "IDLE");
-	 
-					if (isPhoneCalling) {
-						
-						Log.i(LOG_TAG, "restart app");
-						((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).listen(this, LISTEN_NONE);
-						Intent i = new Intent(MemberInfoActivity.this, MemberInfoActivity.class);
-						i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						i.putExtra("projectid", ProjectId);
-						i.putExtra("userid", UserId);
-						startActivity(i);
-						isPhoneCalling = false;
-					}
-	 
-				}
-			}
+	@Override
+	public void onCallStateChanged(int state, String incomingNumber) {
+		if (TelephonyManager.CALL_STATE_RINGING == state) {
+		// phone ringing
+		Log.i(LOG_TAG, "RINGING, number: " + incomingNumber);
 		}
+	 
+		if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
+		// active
+		Log.i(LOG_TAG, "OFFHOOK");
+	 	isPhoneCalling = true;
+		}
+	 
+		if (TelephonyManager.CALL_STATE_IDLE == state) {
+		// run when class initial and phone call ended, 
+		// need detect flag from CALL_STATE_OFFHOOK
+		Log.i(LOG_TAG, "IDLE");
+		if (isPhoneCalling) {
+			Log.i(LOG_TAG, "restart app");
+			((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).listen(this, LISTEN_NONE);
+			Intent i = new Intent(MemberInfoActivity.this, MemberInfoActivity.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			i.putExtra("projectid", ProjectId);
+			i.putExtra("userid", UserId);
+			startActivity(i);
+			isPhoneCalling = false;
+		}
+		}
+	}
+	}
 }

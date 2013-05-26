@@ -73,6 +73,7 @@ public class LoginActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// set layout
 		setContentView(R.layout.activity_login);
 		setupLogin();
 	}
@@ -118,13 +119,13 @@ public class LoginActivity extends Activity {
 			cancel = true;
 		}
 
-		// Check for a valid username.
+		// Check for a valid user name.
 		if (TextUtils.isEmpty(mUsername)) {
 			mUsernameView.setError(getString(R.string.error_field_required));
 			focusView = mUsernameView;
 			cancel = true;
 		} else {
-		// Check for a vaild email.
+		// Check for a valid email.
 		if (!validEmail(mUsername)) {
 			mUsernameView.setError(getString(R.string.invalid_email));
 			focusView = mUsernameView;
@@ -142,6 +143,7 @@ public class LoginActivity extends Activity {
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
 			
+			// check for available Internet connection
 			InternetCheck internet = new InternetCheck();
 			boolean internetOn = internet.internetOn(this);
 			if (internetOn) {
@@ -149,6 +151,7 @@ public class LoginActivity extends Activity {
 				mAuthTask.execute((Void) null);
 			}
 			else {
+				// display dialog to inform user about network error
 				internet.NetworkError(this);
 				showProgress(false);
 			}
@@ -217,6 +220,7 @@ public class LoginActivity extends Activity {
 				ContinueToProjects();
 				finish();
 			} else {
+				// display incorrect password entered
 				mPasswordView.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.setText(null);
 				mPasswordView.requestFocus();
@@ -264,12 +268,14 @@ public class LoginActivity extends Activity {
 	
 	private boolean authPass() {
 		
+		// encrypted user name and password
 		String eUsername = null;
 		String ePassword = null;
 		
 		// attempt authentication against a network service.
 		HttpPost httpRequest = new HttpPost("http://triple11.com/BlueTeam/android/login_secure.php");
 		
+		// add encryption to user name, password
 		MCrypt mcrypt = new MCrypt();
 		try {
 			eUsername = MCrypt.bytesToHex( mcrypt.encrypt(mUsername));
@@ -278,6 +284,7 @@ public class LoginActivity extends Activity {
 			e.printStackTrace();
 		}
 		
+		// add the encrypted data to name value pair to be encoded in JSON
     	List<NameValuePair> nvp = new ArrayList<NameValuePair>(2);
     	nvp.add(new BasicNameValuePair("username", eUsername));
     	nvp.add(new BasicNameValuePair("password", ePassword));
@@ -292,15 +299,19 @@ public class LoginActivity extends Activity {
                 String strResult = EntityUtils.toString(httpResponse.getEntity());
                 JSONObject json;
                 try {
+                	// JSON object to store the connection result
                 	json = new JSONObject(strResult);
+                	// remove any unnecessary data 
                 	String dResult = new String (mcrypt.decrypt(json.getString("Result"))).trim();
 
-                	if (dResult.equals("Success")) 
-                		{
-                			json.getString("UserID");
-                			String dUserID = new String (mcrypt.decrypt(json.getString("UserID"))).trim();
-                			setUserID(Integer.parseInt(dUserID));
-                			return true;
+                	if (dResult.equals("Success")) {
+                		// retrieve user id from JSON
+                		json.getString("UserID");
+                		// decrypt the user id
+                		String dUserID = new String (mcrypt.decrypt(json.getString("UserID"))).trim();
+                		// set user id
+                		setUserID(Integer.parseInt(dUserID));
+                		return true;
                 		}
                 } catch (JSONException e) {
         			e.printStackTrace();
@@ -317,7 +328,7 @@ public class LoginActivity extends Activity {
 	}
 	
 	private void ContinueToProjects() {
-		// if the login is successful go to the next activity
+		// if the login is successful go to the main activity with user name and id attached
 		Intent i = new Intent(this, MainActivity.class);
 		i.putExtra("username", mUsername);
 		i.putExtra("userID", userID);

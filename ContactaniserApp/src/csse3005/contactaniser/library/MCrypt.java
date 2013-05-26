@@ -9,12 +9,12 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class MCrypt {
 
-        private String iv = "fedcba9876543210";//Dummy iv (CHANGE IT!)
+        private String iv = "fedcba9876543210";  //Dummy iv (Can be changed)
         private IvParameterSpec ivspec;
         private SecretKeySpec keyspec;
         private Cipher cipher;
 
-        private String SecretKey = "0123456789abcdef";//Dummy secretKey (CHANGE IT!)
+        private String SecretKey = "0123456789abcdef";//Dummy secretKey (Can be changed)
 
         public MCrypt()
         {
@@ -25,10 +25,8 @@ public class MCrypt {
                 try {
                         cipher = Cipher.getInstance("AES/CBC/NoPadding");
                 } catch (NoSuchAlgorithmException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                 } catch (NoSuchPaddingException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                 }
         }
@@ -91,7 +89,6 @@ public class MCrypt {
                 }
                 return str;
         }
-
 
 
         public static byte[] hexToBytes(String str) {
