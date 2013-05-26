@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.widget.Toast;
 
+/** Activity to process the text message function*/
 public class PhoneActivity extends Activity {
  
 	@Override

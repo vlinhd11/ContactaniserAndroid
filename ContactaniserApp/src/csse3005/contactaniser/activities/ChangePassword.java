@@ -31,6 +31,7 @@ import csse3005.contactaniser.library.MCrypt;
 import csse3005.contactaniser.library.PasswordValidator;
 import csse3005.contactaniserapp.R;
 
+/** Class to change password */
 public class ChangePassword extends Activity {
 	
 	private String username;

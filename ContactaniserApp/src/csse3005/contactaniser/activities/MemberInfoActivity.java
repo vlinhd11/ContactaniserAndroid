@@ -22,6 +22,7 @@ import csse3005.contactaniser.datasource.User_ProjectDataSource;
 import csse3005.contactaniser.models.MySQLHelper;
 import csse3005.contactaniserapp.R;
 
+/** Member Information Display Activity */
 public class MemberInfoActivity extends Activity {
 	
 	// UI references.
@@ -64,13 +65,18 @@ public class MemberInfoActivity extends Activity {
 		// get project id and userID from Intent received
 		ProjectId = getIntent().getExtras().getLong("projectid"); 
 		UserId = getIntent().getExtras().getLong("userid"); 
+		
+		// get the cursor
 		Cursor user = userdatasource.fetchUserById(UserId);
 		Cursor role = userprojectdatasource.fetchUserProjectById(UserId, ProjectId);
+		
+		// Put the value to textview
 		userName.setText(user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERNAME)));
 		userRole.setText(role.getString(role.getColumnIndexOrThrow(MySQLHelper.COLUMN_ROLE)));
 		userEmail.setText(user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USEREMAIL)));
 		userPhone.setText(user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERPHONENUMBER)));
 	
+		// Save the value for next activity
 		phonenumber = user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERPHONENUMBER));
 		phoneemail = user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USEREMAIL));
 		setTitle("Member: " + user.getString(user.getColumnIndexOrThrow(MySQLHelper.COLUMN_USERNAME)));

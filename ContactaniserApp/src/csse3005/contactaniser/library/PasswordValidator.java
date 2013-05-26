@@ -3,6 +3,7 @@ package csse3005.contactaniser.library;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/** Class to validate password */
 public class PasswordValidator{
 	  private Pattern pattern;
 	  private Matcher matcher;

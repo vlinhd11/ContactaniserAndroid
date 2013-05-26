@@ -45,7 +45,6 @@ import csse3005.contactaniserapp.R;
 /**
  * Activity to manage 2 tabs : ActiveProjects and Completed Projects
  * There are 3 menu in this activity to sync all data, change password, and log off
- *
  */
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)

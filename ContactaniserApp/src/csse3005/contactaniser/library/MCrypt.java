@@ -7,6 +7,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+/** Class to encrypt password */
 public class MCrypt {
 
         private String iv = "fedcba9876543210";  //Dummy iv (Can be changed)

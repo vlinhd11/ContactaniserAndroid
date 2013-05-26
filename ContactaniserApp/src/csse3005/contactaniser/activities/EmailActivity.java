@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import csse3005.contactaniser.library.InternetCheck;
 
+/** Activity to process email action */
 public class EmailActivity extends Activity {
 	
 	private String useremail;
